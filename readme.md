@@ -1,4 +1,4 @@
-## Formally Solving Answer-Construction Problems in Lean (Repository for Artifact Evaluation)
+## [Formally Solving Answer-Construction Problems in Lean (LPAR-2026)](https://easychair.org/publications/paper/NnrB/open)
 
 
 ## Structure
@@ -319,6 +319,22 @@ python -m src.ecp.main \
 ```
 This will cost around 180 (putnam, pass@4) + 340 (matharena, pass@32) = 520 USD OpenAI API. Using putnam with pass@32 will cost around 180*(32/4)=1440 USD API.
 
+## Citation
+```
+@inproceedings{Sun2026AnswerConstruction,
+  author    = {Jialiang Sun and Yuzhi Tang and Ao Li and Chris Maddison and Kuldeep S. Meel},
+  title     = {Formally Solving Answer-Construction Problems in {Lean}},
+  booktitle = {Proceedings of the 26th Conference on Logic for Programming, Artificial Intelligence, and Reasoning},
+  editor    = {Erika {\'A}brah{\'a}m and Nikolaj Bj{\o}rner and Michael Rawson},
+  series    = {EPiC Series in Computing},
+  volume    = {112},
+  pages     = {1--21},
+  year      = {2026},
+  publisher = {EasyChair},
+  doi       = {10.29007/s4zb},
+  url       = {https://easychair.org/publications/paper/NnrB}
+}
+```
 ## Acknowledgement
 Part of the repository (`SandboxFusion` and `src/goedel`) is built upon existing works, including Sandbox Fusion [1] (https://github.com/bytedance/SandboxFusion.git) and Goedel-Prover-V2 [2] (https://github.com/Goedel-LM/Goedel-Prover-V2).
 
