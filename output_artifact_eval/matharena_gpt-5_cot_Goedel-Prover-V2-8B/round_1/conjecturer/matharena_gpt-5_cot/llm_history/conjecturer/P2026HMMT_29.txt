@@ -1,0 +1,74 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026HMMT_29 : ∃ (P2026HMMT_29_answer : ℝ), ∀ (A B C I E F O G : EuclideanSpace ℝ (Fin (2 : ℕ))), ∀ (r R : ℝ), (((0 : ℝ) < r) ∧ ((0 : ℝ) < R) ∧ (¬Collinear ℝ {A, B, C}) ∧ (∃ (u : ℝ) (v : ℝ) (w : ℝ), (0 : ℝ) < u ∧ (0 : ℝ) < v ∧ (0 : ℝ) < w ∧ u + v + w = (1 : ℝ) ∧ I = u • A + v • B + w • C) ∧ (Metric.infDist I (↑(affineSpan ℝ {A, B}) : Set (EuclideanSpace ℝ (Fin (2 : ℕ)))) = r ∧ Metric.infDist I (↑(affineSpan ℝ {A, C}) : Set (EuclideanSpace ℝ (Fin (2 : ℕ)))) = r ∧ Metric.infDist I (↑(affineSpan ℝ {B, C}) : Set (EuclideanSpace ℝ (Fin (2 : ℕ)))) = r) ∧ (E ≠ F) ∧ (Dist.dist O B = R ∧ Dist.dist O I = R ∧ Dist.dist O C = R ∧ ∀ (X : EuclideanSpace ℝ (Fin (2 : ℕ))), Dist.dist I X = r ∧ Dist.dist O X = R ↔ X = E ∨ X = F) ∧ (G ≠ I ∨ (2 : ℝ) * r ≠ r) ∧ (Dist.dist G E = (2 : ℝ) * r ∧ Dist.dist G F = (2 : ℝ) * r ∧ Metric.infDist G (↑(affineSpan ℝ {A, B}) : Set (EuclideanSpace ℝ (Fin (2 : ℕ)))) = (2 : ℝ) * r ∧ Metric.infDist G (↑(affineSpan ℝ {A, C}) : Set (EuclideanSpace ℝ (Fin (2 : ℕ)))) = (2 : ℝ) * r) ∧ (Dist.dist A B = (5 : ℝ)) ∧ (Dist.dist A C = (7 : ℝ))) → (Dist.dist B C = P2026HMMT_29_answer) := by sorry. Answer Type: ℝ. 
+Let \(a=BC\), and write \(\angle BAC=2\theta\).
+
+A convenient coordinate setup is
+- \(A=(0,0)\),
+- \(B=(5\cos\theta,5\sin\theta)\),
+- \(C=(7\cos\theta,-7\sin\theta)\).
+
+Since \(I\) is equidistant from the three sidelines, \(I\) is the incenter, so \(I\) lies on the angle bisector of \(\angle A\). Write \(I=(t,0)\).  
+Using the standard angle-bisector length formula,
+\[
+t=AI=\frac{2\cdot 5\cdot 7\cos\theta}{5+7}=\frac{35}{6}\cos\theta.
+\]
+
+Now \(G\) is equidistant from \(AB\) and \(AC\), so \(G\) also lies on the angle bisector.  
+Also \(GE=GF\), so \(G\) lies on the perpendicular bisector of \(EF\), i.e. on line \(OI\). Hence \(O,I,G\) all lie on the angle bisector.
+
+Let \(O=(s,0)\). From \(OB=OI\) and \(OC=OI\), subtracting the two resulting equations gives
+\[
+s\cos\theta=6.
+\]
+
+The condition that \(G\) is at distance \(2r\) from both lines \(AB,AC\) puts \(G\) on the \(x\)-axis at \(x=\pm 2t\).  
+Using the two-circle intersection condition defining \(E,F\), and then the condition \(GE=GF=2r\), one gets an equation for \(u=\cos^2\theta\):
+\[
+70u^2-143u+72=0.
+\]
+So
+\[
+u=\frac{143\pm 17}{140}=\frac{8}{7}\quad\text{or}\quad \frac{9}{10}.
+\]
+Since \(u=\cos^2\theta\le 1\), the only valid value is
+\[
+\cos^2\theta=\frac{9}{10}.
+\]
+
+Finally,
+\[
+BC^2=5^2+7^2-2\cdot 5\cdot 7\cos(2\theta)
+=74-70(2\cos^2\theta-1)
+=74-70\left(2\cdot \frac{9}{10}-1\right)
+=18.
+\]
+Thus
+\[
+BC=\sqrt{18}=3\sqrt2.
+\]
+
+So the Lean expression for the answer is:
+
+<<<Real.sqrt 18>>>

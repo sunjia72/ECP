@@ -1,0 +1,62 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_1991_a2 : ∃ (putnam_1991_a2_solution : Prop), ∀ (n : ℕ), (((1 : ℕ) ≤ n)) → (putnam_1991_a2_solution ↔ ∃ (A : Matrix (Fin n) (Fin n) ℝ) (B : Matrix (Fin n) (Fin n) ℝ), A ≠ B ∧ A ^ (3 : ℕ) = B ^ (3 : ℕ) ∧ A ^ (2 : ℕ) * B = B ^ (2 : ℕ) * A ∧ Nonempty (Invertible (A ^ (2 : ℕ) + B ^ (2 : ℕ)))) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_1csk3wmV4Qh46vwvZdLbEfe6):
+import sympy as sp
+
+# Search for 2x2 real matrices with small integer entries satisfying conditions.
+vals = [-2,-1,0,1,2]
+sol=[]
+for a,b,c,d,e,f,g,h in __import__('itertools').product(vals, repeat=8):
+    A=sp.Matrix([[a,b],[c,d]])
+    B=sp.Matrix([[e,f],[g,h]])
+    if A==B: continue
+    if A**3 != B**3: continue
+    if (A**2)*B != (B**2)*A: continue
+    if (A**2 + B**2).det()==0: continue
+    sol.append((A,B))
+    print('found',A,B)
+    break
+print('num found',len(sol))
+[TOOL OUTPUT]
+num found 0
+
+=== CONJECTURER ROUND ===
+Take the proposition to be `False`.
+
+Reason: if matrices \(A,B\) satisfy
+\[
+A^3=B^3,\qquad A^2B=B^2A,
+\]
+then
+\[
+(A^2+B^2)(A-B)=A^3-A^2B+B^2A-B^3=0.
+\]
+If \(A^2+B^2\) is invertible, this forces \(A-B=0\), so \(A=B\), contradicting \(A\ne B\). Hence such matrices do not exist for any \(n\ge1\).
+
+As a quick computational check, I also searched small \(2\times2\) integer matrices and found no examples.
+
+<<<False>>>

@@ -1,0 +1,49 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology Real Nat
+theorem putnam_1995_b3 : ∃ (putnam_1995_b3_solution : ℕ → ℤ), ∀ (n : ℕ), ∀ (digits_set : Set (ℕ → ℕ)), ∀ (digits_to_matrix : (ℕ → ℕ) → Matrix (Fin n) (Fin n) ℤ), ((n > (0 : ℕ)) ∧ (digits_set = {f : ℕ → ℕ | f (0 : ℕ) ≠ (0 : ℕ) ∧ (∀ (i : Fin (n ^ (2 : ℕ))), f (↑i : ℕ) ≤ (9 : ℕ)) ∧ ∀ i ≥ n ^ (2 : ℕ), f i = (0 : ℕ)}) ∧ (digits_to_matrix = fun (f : ℕ → ℕ) (i j : Fin n) => (↑(f ((↑i : ℕ) * n + (↑j : ℕ))) : ℤ))) → (∑' (f : (↑digits_set : Type)), (digits_to_matrix (↑f : ℕ → ℕ)).det = putnam_1995_b3_solution n) := by sorry. Answer Type: ℕ → ℤ. 
+Let \(S_n\) be the set of all \(n\times n\) matrices whose entries are digits \(0,\dots,9\), except the \((0,0)\)-entry is in \(1,\dots,9\).
+
+The key fact is that determinant is multilinear in the columns, so
+\[
+\sum_{A\in S_n}\det(A)
+\]
+equals the determinant of the columnwise sums.
+
+- For every column except the first, the sum of all possible columns is a constant multiple of the all-ones vector.
+- Hence for \(n\ge 3\), at least two summed columns are equal, so the determinant is \(0\).
+
+Small cases:
+- \(n=1\): sum of determinants is \(1+2+\cdots+9=45\).
+- \(n=2\): summing \(\det\begin{pmatrix}a&b\\ c&d\end{pmatrix}=ad-bc\),
+  \[
+  \sum ad = 45\cdot 45\cdot 10\cdot 10,\qquad
+  \sum bc = 45\cdot 45\cdot 9\cdot 10,
+  \]
+  so the total is
+  \[
+  45^2(100-90)=20250.
+  \]
+
+For \(n=0\), the theorem imposes no condition, so we may set the value arbitrarily, say \(0\).
+
+Thus the solution function is:
+<<<fun n : ℕ => match n with | 1 => (45 : ℤ) | 2 => (20250 : ℤ) | _ => 0>>>

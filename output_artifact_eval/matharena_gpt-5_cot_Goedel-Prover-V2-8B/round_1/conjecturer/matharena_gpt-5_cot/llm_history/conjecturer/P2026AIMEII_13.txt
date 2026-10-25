@@ -1,0 +1,87 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026AIMEII_13 : ∃ (P2026AIMEII_13_answer : Nat), (let possibleCousins := fun (S : Finset ℤ) => (S.biUnion fun (s : ℤ) => {s - (1 : ℤ), s + (1 : ℤ)}).powerset; let cousinsOf := fun (S : Finset ℤ) => {T ∈ possibleCousins S | #S = #T ∧ _root_.Disjoint S T ∧ ∃ (e : { x : ℤ // x ∈ S } ≃ { x : ℤ // x ∈ T }), ∀ (x : { x : ℤ // x ∈ S }), |(↑((e : { x : ℤ // x ∈ S } → { x : ℤ // x ∈ T }) x) : ℤ) - (↑x : ℤ)| = (1 : ℤ)}; IsLeast {n : ℕ | ∃ (S : Finset ℤ), #S = n ∧ #(cousinsOf S) = (4040 : ℕ)} P2026AIMEII_13_answer) := by sorry. Answer Type: Nat. 
+Let \(S=\{a_1<\cdots<a_n\}\subset \mathbb Z\).
+
+A cousin set \(T\) must satisfy:
+
+- \(|T|=|S|=n\),
+- \(S\cap T=\varnothing\),
+- each \(a_i\in S\) is matched to a distinct integer at distance \(1\).
+
+So:
+
+1. **No two elements of \(S\) can be consecutive.**  
+   If \(x,x+1\in S\), then \(x+1\) blocks \(x\)'s right neighbor and \(x-1\) may be the only possible target; similarly inside a longer consecutive block an interior point has both neighbors in \(S\), so no cousin set exists. Thus any \(S\) with 4040 cousins has gaps at least \(2\).
+
+2. **Elements separated by gap \(\ge 3\) are independent.**
+
+3. **A maximal chain with gap exactly \(2\)**  
+   \[
+   \{a,a+2,a+4,\dots,a+2(m-1)\}
+   \]
+   has exactly \(m+1\) cousin sets.  
+   Indeed its possible targets are
+   \[
+   a-1,\ a+1,\ a+3,\dots,\ a+2m-1,
+   \]
+   and a cousin set is obtained by omitting exactly one of these \(m+1\) targets.
+
+Hence if \(S\) decomposes into such chains of lengths \(m_1,\dots,m_k\), then
+\[
+\#(\text{cousinsOf }S)=\prod_{i=1}^k (m_i+1),\qquad |S|=\sum_{i=1}^k m_i.
+\]
+
+So we need the least \(n\) such that
+\[
+4040=\prod (m_i+1)
+\]
+and \(n=\sum m_i\) is minimized.
+
+Now
+\[
+4040=2^3\cdot 5\cdot 101.
+\]
+For fixed product, splitting a factor lowers \(\sum (m_i+1-1)=\sum m_i\), since
+\[
+(ab-1) > (a-1)+(b-1)\quad (a,b>1).
+\]
+So the minimum occurs at the prime factorization:
+\[
+4040=2\cdot 2\cdot 2\cdot 5\cdot 101.
+\]
+Thus
+\[
+(m_i)=(1,1,1,4,100),
+\]
+giving
+\[
+n=1+1+1+4+100=107.
+\]
+
+This is attainable by taking five step-2 chains of those lengths, placed far apart.
+
+Therefore the least possible value is **107**.
+
+<<<107>>>

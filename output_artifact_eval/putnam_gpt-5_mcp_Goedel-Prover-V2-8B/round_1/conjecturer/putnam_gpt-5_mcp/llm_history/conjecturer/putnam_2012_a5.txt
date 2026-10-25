@@ -1,0 +1,142 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Matrix Function
+theorem putnam_2012_a5 : ∃ (putnam_2012_a5_solution : Set (ℕ × ℕ)), ∀ (n p : ℕ), ∀ (F : Type u_1), ∀ (_x1 : Field F), ∀ (_x1 : Fintype F), ∀ (G : Matrix (Fin n) (Fin n) F → (Fin n → F) → (Fin n → F) → Fin n → F), ((n > (0 : ℕ)) ∧ (Nat.Prime p) ∧ (Fintype.card F = p) ∧ (∀ (M : Matrix (Fin n) (Fin n) F) (v x : Fin n → F), G M v x = v + M *ᵥ x)) → ((n, p) ∈ putnam_2012_a5_solution ↔ ∃ (M : Matrix (Fin n) (Fin n) F) (v : Fin n → F), ¬∃ (i : { x : ℕ // x ∈ Finset.range (p ^ n) }) (j : { x : ℕ // x ∈ Finset.range (p ^ n) }), i ≠ j ∧ (G M v)^[(↑i : ℕ) + (1 : ℕ)] (0 : Fin n → F) = (G M v)^[(↑j : ℕ) + (1 : ℕ)] (0 : Fin n → F)) := by sorry. Answer Type: Set (ℕ × ℕ). 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_b0uAU1Fovv6QZU2H1KWgow4P):
+import itertools, math
+
+def matmul(M,x,p):
+    n=len(x)
+    return [sum(M[i][j]*x[j] for j in range(n))%p for i in range(n)]
+
+def add(a,b,p): return [(x+y)%p for x,y in zip(a,b)]
+
+def orbit_len(M,v,p):
+    n=len(v)
+    x=[0]*n
+    seen={tuple(x):0}
+    for k in range(1,p**n+2):
+        x=add(matmul(M,x,p),v,p)
+        t=tuple(x)
+        if t in seen:
+            return k-seen[t], seen[t], k, len(seen)
+        seen[t]=k
+    return None
+
+def exists_full(n,p):
+    elems=list(itertools.product(range(p), repeat=n))
+    mats=list(itertools.product(range(p), repeat=n*n))
+    total=0
+    for mflat in mats:
+        M=[list(mflat[i*n:(i+1)*n]) for i in range(n)]
+        for v in elems:
+            total+=1
+            ol=orbit_len(M,list(v),p)
+            cyc, start, k, num = ol
+            if start==0 and cyc==p**n and num==p**n:
+                return M,v
+    return None
+
+for n,p in [(1,2),(1,3),(2,2),(2,3),(3,2)]:
+    ans=exists_full(n,p)
+    print('n,p',n,p,'ans',ans)
+[TOOL OUTPUT]
+n,p 1 2 ans ([[1]], (1,))
+n,p 1 3 ans ([[1]], (1,))
+n,p 2 2 ans ([[0, 1], [1, 0]], (0, 1))
+n,p 2 3 ans None
+n,p 3 2 ans None
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_4wU5Dk0pRMMSEyVYoV9UxpH9):
+def orbit_map():
+    pts=[(0,0)]
+    x=(0,0)
+    for _ in range(4):
+        x=(x[1],(x[0]+1)%2)
+        pts.append(x)
+    print(pts)
+print(orbit_map())
+[TOOL OUTPUT]
+[(0, 0), (0, 1), (1, 1), (1, 0), (0, 0)]
+None
+
+=== CONJECTURER ROUND ===
+Let \(T(x)=v+Mx\) on \(V=\mathbf F_p^n\).
+
+If the first \(p^n\) iterates of \(0\) are all distinct, then the orbit of \(0\) has size \(p^n\), hence it is all of \(V\). So \(T\) is a single \(p^n\)-cycle on \(V\), and therefore has order \(p^n\).
+
+Represent \(T\) by the \((n+1)\times(n+1)\) matrix
+\[
+A=\begin{pmatrix} M & v\\ 0 & 1\end{pmatrix}.
+\]
+Then \(A\) has the same order as \(T\), so \(\operatorname{ord}(A)=p^n\). Since this is a power of \(p\), over characteristic \(p\) the matrix \(A\) is unipotent: \(A=I+N\) with \(N^{n+1}=0\). Hence
+\[
+A^{p^m}=(I+N)^{p^m}=I+N^{p^m}=I
+\]
+for any \(m\) with \(p^m\ge n+1\). Thus
+\[
+p^n=\operatorname{ord}(A)\mid p^{\lceil \log_p(n+1)\rceil},
+\]
+so
+\[
+n\le \lceil \log_p(n+1)\rceil.
+\]
+This leaves only:
+- \(n=1\), any prime \(p\);
+- \(n=2\), only \(p=2\).
+
+Now show these occur:
+
+1. **\(n=1\), any prime \(p\):**  
+   Take \(T(x)=x+1\) on \(\mathbf F_p\). Starting from \(0\), the orbit is
+   \[
+   0,1,2,\dots,p-1,
+   \]
+   all distinct.
+
+2. **\((n,p)=(2,2)\):**  
+   On \(\mathbf F_2^2\), take
+   \[
+   T(x,y)=(y,x+1).
+   \]
+   Then
+   \[
+   (0,0)\mapsto(0,1)\mapsto(1,1)\mapsto(1,0)\mapsto(0,0),
+   \]
+   a 4-cycle.
+
+A quick brute-force check for small cases agrees:
+
+- \((1,2)\), \((1,3)\): yes
+- \((2,2)\): yes
+- \((2,3)\), \((3,2)\): no
+
+So the solution set is exactly
+\[
+\{(1,p): p \text{ prime}\}\cup\{(2,2)\}.
+\]
+
+<<<{np : ℕ × ℕ | (np.1 = 1 ∧ Nat.Prime np.2) ∨ np = (2, 2)}>>>

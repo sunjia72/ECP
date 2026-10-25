@@ -1,0 +1,76 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Matrix Function
+theorem putnam_2012_a3 : ∃ (putnam_2012_a3_solution : ℝ → ℝ), ∀ (S : Set ℝ), ∀ (fsat : (ℝ → ℝ) → Prop), ((S = Set.Icc (-1 : ℝ) (1 : ℝ)) ∧ (fsat = fun (f : ℝ → ℝ) => ContinuousOn f S ∧ (∀ x ∈ S, f x = ((2 : ℝ) - x ^ (2 : ℕ)) / (2 : ℝ) * f (x ^ (2 : ℕ) / ((2 : ℝ) - x ^ (2 : ℕ)))) ∧ f (0 : ℝ) = (1 : ℝ) ∧ ∃ (y : ℝ), leftLim (fun (x : ℝ) => f x / √((1 : ℝ) - x)) (1 : ℝ) = y)) → (fsat putnam_2012_a3_solution ∧ ∀ (f : ℝ → ℝ), fsat f → ∀ x ∈ S, f x = putnam_2012_a3_solution x) := by sorry. Answer Type: ℝ → ℝ. 
+Let  
+\[
+T(x)=\frac{x^2}{2-x^2}.
+\]
+The functional equation is
+\[
+f(x)=\frac{2-x^2}{2}\,f(T(x)).
+\]
+
+Key observations:
+
+1. Since the right-hand side depends only on \(x^2\), we get
+   \[
+   f(-x)=f(x)
+   \]
+   on \([-1,1]\). So the solution is even.
+
+2. A natural guess is \(f(x)=\sqrt{1-x^2}\). Check:
+   \[
+   1-T(x)^2
+   =1-\frac{x^4}{(2-x^2)^2}
+   =\frac{(2-x^2)^2-x^4}{(2-x^2)^2}
+   =\frac{4(1-x^2)}{(2-x^2)^2}.
+   \]
+   Hence for \(x\in[-1,1]\),
+   \[
+   \sqrt{1-T(x)^2}=\frac{2\sqrt{1-x^2}}{2-x^2},
+   \]
+   so
+   \[
+   \frac{2-x^2}{2}\sqrt{1-T(x)^2}=\sqrt{1-x^2}.
+   \]
+   Thus \(f(x)=\sqrt{1-x^2}\) satisfies the equation.
+
+3. Also \(f(0)=\sqrt{1}=1\), and
+   \[
+   \frac{f(x)}{\sqrt{1-x}}
+   =\frac{\sqrt{1-x^2}}{\sqrt{1-x}}
+   =\sqrt{1+x},
+   \]
+   whose left limit at \(1\) is \(\sqrt2\), so the limit condition holds.
+
+4. The standard hyperbolic substitution \(x=\operatorname{sech} u\) turns the recurrence into
+   \[
+   F(u)=\frac{\tanh u}{\tanh 2u}F(2u),
+   \]
+   so \(F(u)/\tanh u\) is invariant under doubling; continuity at \(0\) and \(f(0)=1\) force this invariant to be \(1\). Therefore the only possible solution on \([-1,1]\) is indeed
+   \[
+   f(x)=\sqrt{1-x^2}.
+   \]
+
+So the Lean expression should be:
+
+<<<fun x : ℝ => Real.sqrt (1 - x ^ (2 : ℕ))>>>

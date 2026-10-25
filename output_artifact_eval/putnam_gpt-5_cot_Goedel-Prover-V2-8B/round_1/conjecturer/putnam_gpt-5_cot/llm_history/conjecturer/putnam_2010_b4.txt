@@ -1,0 +1,55 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology Set
+theorem putnam_2010_b4 : ∃ (putnam_2010_b4_solution : Set (Polynomial ℝ × Polynomial ℝ)), ∀ (p q : Polynomial ℝ), ((∀ (x : ℝ), Polynomial.eval x p * Polynomial.eval (x + (1 : ℝ)) q - Polynomial.eval (x + (1 : ℝ)) p * Polynomial.eval x q = (1 : ℝ)) ↔ (p, q) ∈ putnam_2010_b4_solution) := by sorry. Answer Type: Set (Polynomial ℝ × Polynomial ℝ). 
+Let
+\[
+p(x)q(x+1)-p(x+1)q(x)=1 \qquad (\forall x\in \mathbb R).
+\]
+
+We classify all real polynomial pairs \((p,q)\).
+
+- If \(\deg p=m,\deg q=n\) and \(m\ne n\), then the top-degree term of the left side has degree \(m+n-1\). Since the result is constant, we need \(m+n-1=0\), so \(m+n=1\). Thus one polynomial is linear and the other is constant.
+- If \(m=n=d\), then the leading terms cancel. Let \(a,b\) be the leading coefficients of \(p,q\), and set \(s=bp-aq\). Then \(\deg s\le d-1\), and the same identity becomes
+  \[
+  s(x)q(x+1)-s(x+1)q(x)=b.
+  \]
+  Now \(\deg s<\deg q\). If \(d>1\), the left side has degree \(2d-2>0\), impossible since the right side is constant. Hence \(d=1\).
+
+So in every case both \(p,q\) are affine:
+\[
+p(x)=ax+b,\qquad q(x)=cx+d.
+\]
+
+Substituting gives
+\[
+(ax+b)(c(x+1)+d)-((a(x+1)+b)(cx+d)) = bc-ad.
+\]
+Therefore the condition is exactly
+\[
+bc-ad=1.
+\]
+
+So the solution set is all pairs of affine polynomials with determinant \(bc-ad=1\).
+
+Lean expression:
+
+<<<{pq : Polynomial ℝ × Polynomial ℝ | ∃ a b c d : ℝ, pq.1 = Polynomial.C a * Polynomial.X + Polynomial.C b ∧ pq.2 = Polynomial.C c * Polynomial.X + Polynomial.C d ∧ b * c - a * d = (1 : ℝ)}>>>

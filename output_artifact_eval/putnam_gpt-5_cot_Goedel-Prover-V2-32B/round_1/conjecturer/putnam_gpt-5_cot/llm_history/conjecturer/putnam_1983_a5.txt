@@ -1,0 +1,65 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat
+theorem putnam_1983_a5 : ∃ (putnam_1983_a5_solution : Prop), ((∃ α > (0 : ℝ), ∀ n > (0 : ℕ), Even (⌊α ^ n⌋ - (↑n : ℤ))) ↔ putnam_1983_a5_solution) := by sorry. Answer Type: Prop. 
+Take
+\[
+\alpha=\frac{3+\sqrt{17}}2,\qquad \beta=\frac{3-\sqrt{17}}2.
+\]
+Then \(-1<\beta<0\), \(\alpha>0\), and \(\alpha,\beta\) are the roots of \(x^2-3x-2=0\).
+
+Let
+\[
+u_n=\alpha^n+\beta^n.
+\]
+Because \(\alpha,\beta\) satisfy \(x^2=3x+2\), the sequence \(u_n\) satisfies
+\[
+u_{n+2}=3u_{n+1}+2u_n,
+\]
+with \(u_0=2,\ u_1=3\). Hence every \(u_n\) is an integer. Mod \(2\), this recurrence becomes
+\[
+u_{n+2}\equiv u_{n+1}\pmod 2,
+\]
+so since \(u_1=3\) is odd, all \(u_n\) for \(n\ge1\) are odd.
+
+Now \(|\beta|<1\), so:
+
+- if \(n\) is odd, then \(\beta^n\in(-1,0)\), hence
+  \[
+  \alpha^n=u_n-\beta^n\in(u_n,u_n+1),
+  \]
+  so \(\lfloor \alpha^n\rfloor=u_n\), which is odd;
+
+- if \(n\) is even, then \(\beta^n\in(0,1)\), hence
+  \[
+  \alpha^n=u_n-\beta^n\in(u_n-1,u_n),
+  \]
+  so \(\lfloor \alpha^n\rfloor=u_n-1\), which is even.
+
+Thus \(\lfloor \alpha^n\rfloor\) has the same parity as \(n\) for every \(n>0\), i.e.
+\[
+\lfloor \alpha^n\rfloor-n
+\]
+is always even. So the existential statement is **true**.
+
+Therefore the proposition to put in Lean can be `True`.
+
+<<<True>>>

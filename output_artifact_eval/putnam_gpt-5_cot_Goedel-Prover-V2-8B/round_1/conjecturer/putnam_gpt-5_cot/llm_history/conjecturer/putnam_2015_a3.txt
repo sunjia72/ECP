@@ -1,0 +1,65 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_2015_a3 : ∃ (putnam_2015_a3_solution : ℂ), (Complex.log (∏ a : Fin (2015 : ℕ), ∏ b : Fin (2015 : ℕ), ((1 : ℂ) + Complex.exp ((2 : ℂ) * (↑Real.pi : ℂ) * Complex.I * ((↑(↑a : ℕ) : ℂ) + (1 : ℂ)) * ((↑(↑b : ℕ) : ℂ) + (1 : ℂ)) / (2015 : ℂ)))) / Complex.log (2 : ℂ) = putnam_2015_a3_solution) := by sorry. Answer Type: ℂ. 
+Let  
+\[
+\zeta = e^{2\pi i/2015}.
+\]
+Then the product is
+\[
+P=\prod_{m=1}^{2015}\prod_{n=1}^{2015}(1+\zeta^{mn}),
+\]
+where \(m=a+1\) and \(n=b+1\).
+
+For fixed \(m\), let \(d=\gcd(m,2015)\). Then \(\zeta^m\) is a primitive \((2015/d)\)-th root of unity, and as \(n\) runs from \(1\) to \(2015\), the values \(\zeta^{mn}\) run through all \((2015/d)\)-th roots, each repeated \(d\) times. Since \(2015/d\) is odd,
+\[
+\prod_{k=0}^{(2015/d)-1}(1+\eta^k)=2
+\]
+for any primitive odd-order root \(\eta\). Hence
+\[
+\prod_{n=1}^{2015}(1+\zeta^{mn})=2^d=2^{\gcd(m,2015)}.
+\]
+Therefore
+\[
+P=2^{\sum_{m=1}^{2015}\gcd(m,2015)}.
+\]
+
+Now use the standard identity
+\[
+\sum_{m=1}^{N}\gcd(m,N)=\sum_{d\mid N} d\,\varphi(N/d),
+\]
+which is multiplicative. Since \(2015=5\cdot 13\cdot 31\) is squarefree,
+\[
+\sum_{m=1}^{2015}\gcd(m,2015)
+=(2\cdot 5-1)(2\cdot 13-1)(2\cdot 31-1)=9\cdot 25\cdot 61=13725.
+\]
+So \(P=2^{13725}\), a positive real number. Thus on the principal branch,
+\[
+\log(P)=13725\log 2,
+\]
+and therefore
+\[
+\frac{\log(P)}{\log 2}=13725.
+\]
+
+So the Lean expression for the solution is:
+
+<<<((13725 : ℕ) : ℂ)>>>

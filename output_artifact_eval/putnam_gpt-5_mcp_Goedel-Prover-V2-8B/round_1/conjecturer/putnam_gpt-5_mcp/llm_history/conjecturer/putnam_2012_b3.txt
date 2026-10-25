@@ -1,0 +1,256 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Matrix Function Real
+theorem putnam_2012_b3 : ∃ (putnam_2012_b3_solution : Prop), ∀ (nmatchupsgames nmatchupsall : (n : ℕ) → (Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Fin ((2 : ℕ) * n)) → Prop), ∀ (nmatchupswins nmatchupswinschoices : (n : ℕ) → (Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Fin ((2 : ℕ) * n)) → (Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Bool) → Prop), ((∀ (n : ℕ) (matchups : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Fin ((2 : ℕ) * n)), nmatchupsall n matchups ↔ ∀ (t1 t2 : Fin ((2 : ℕ) * n)), t1 ≠ t2 → ∃ (d : Fin ((2 : ℕ) * n - (1 : ℕ))), matchups d t1 = t2) ∧ (∀ (n : ℕ) (matchups : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Fin ((2 : ℕ) * n)), nmatchupsgames n matchups ↔ ∀ (d : Fin ((2 : ℕ) * n - (1 : ℕ))) (t : Fin ((2 : ℕ) * n)), matchups d t ≠ t ∧ matchups d (matchups d t) = t) ∧ (∀ (n : ℕ) (matchups : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Fin ((2 : ℕ) * n)) (wins : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Bool), nmatchupswins n matchups wins ↔ ∀ (d : Fin ((2 : ℕ) * n - (1 : ℕ))) (t : Fin ((2 : ℕ) * n)), wins d t = !wins d (matchups d t)) ∧ (∀ (n : ℕ) (matchups : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Fin ((2 : ℕ) * n)) (wins : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Bool), nmatchupswinschoices n matchups wins ↔ ∃ (choices : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n)), (∀ (d : Fin ((2 : ℕ) * n - (1 : ℕ))), wins d (choices d) = true) ∧ Injective choices)) → ((∀ n ≥ (1 : ℕ), ∀ (matchups : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Fin ((2 : ℕ) * n)) (wins : Fin ((2 : ℕ) * n - (1 : ℕ)) → Fin ((2 : ℕ) * n) → Bool), nmatchupsgames n matchups ∧ nmatchupsall n matchups ∧ nmatchupswins n matchups wins → nmatchupswinschoices n matchups wins) ↔ putnam_2012_b3_solution) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_ddhB4LvrD4s2aYa2luTmWxEp):
+from itertools import product, combinations
+
+def schedule_n2():
+    # matchings as list of pairs
+    return [ [(0,1),(2,3)], [(0,2),(1,3)], [(0,3),(1,2)] ]
+
+sched = schedule_n2()
+count=0
+bad=[]
+for outcome in product([0,1], repeat=6):
+    # 0 means first team in pair wins, 1 second team wins
+    winners=[]
+    idx=0
+    for day in sched:
+        ws=[]
+        for a,b in day:
+            ws.append((a,b)[outcome[idx]])
+            idx+=1
+        winners.append(set(ws))
+    # hall / SDR existence across 3 days
+    ok=False
+    for choice in product(*[list(w) for w in winners]):
+        if len(set(choice))==3:
+            ok=True; break
+    if not ok:
+        bad.append(winners)
+        count+=1
+print('bad count', count)
+if bad[:5]:
+    print(bad[:5])
+[TOOL OUTPUT]
+bad count 0
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_b3a7zuv4tplzbUIGpZHEFzhM):
+from itertools import product
+
+def round_robin_even(m):
+    # m even number of teams 0..m-1
+    teams=list(range(m))
+    fixed=teams[-1]
+    others=teams[:-1]
+    days=[]
+    arr=others[:]  # length m-1 odd
+    for _ in range(m-1):
+        # pair fixed with arr[0], then remaining pairs arr[i] with arr[-i]
+        day=[(fixed, arr[0])]
+        L=arr[1:]
+        for i in range((m-2)//2):
+            day.append((L[i], L[-1-i]))
+        days.append(day)
+        arr=[arr[-1]]+arr[:-1]
+    return days
+
+sched=round_robin_even(6)
+print(sched)
+# verify each pair once
+pairs=set()
+for day in sched:
+    for a,b in day:
+        p=tuple(sorted((a,b)))
+        assert p not in pairs
+        pairs.add(p)
+print('num pairs', len(pairs))
+
+bad=[]
+num_games=sum(len(day) for day in sched)
+for outcome in product([0,1], repeat=num_games):
+    winners=[]
+    idx=0
+    for day in sched:
+        ws=[]
+        for a,b in day:
+            ws.append((a,b)[outcome[idx]])
+            idx+=1
+        winners.append(set(ws))
+    # Hall quick check by brute force choices maybe 3^5=243, okay
+    ok=False
+    for choice in product(*[list(w) for w in winners]):
+        if len(set(choice))==len(winners):
+            ok=True; break
+    if not ok:
+        bad.append(winners)
+        break
+print('found bad?', bool(bad))
+if bad:
+    print(bad[0])
+[TOOL OUTPUT]
+[[(5, 0), (1, 4), (2, 3)], [(5, 4), (0, 3), (1, 2)], [(5, 3), (4, 2), (0, 1)], [(5, 2), (3, 1), (4, 0)], [(5, 1), (2, 0), (3, 4)]]
+num pairs 15
+found bad? False
+
+===== ENUMERATOR ROUND 3 =====
+[TOOL CALL] code_exec (call_id=call_TzkeMqZD4WeGrm6HqQtLxA2f):
+import random, itertools
+
+def round_robin_even(m):
+    teams=list(range(m))
+    fixed=teams[-1]
+    arr=teams[:-1]
+    days=[]
+    for _ in range(m-1):
+        day=[(fixed, arr[0])]
+        L=arr[1:]
+        for i in range((m-2)//2):
+            day.append((L[i], L[-1-i]))
+        days.append(day)
+        arr=[arr[-1]]+arr[:-1]
+    return days
+
+def winners_from_bits(sched,bits):
+    idx=0; wins=[]
+    for day in sched:
+        ws=set()
+        for a,b in day:
+            ws.add((a,b)[bits[idx]])
+            idx+=1
+        wins.append(ws)
+    return wins
+
+def hall_ok(wins, teams=None):
+    m=len(wins)
+    # check subsets
+    for mask in range(1,1<<m):
+        union=set()
+        k=0
+        for i in range(m):
+            if mask>>i &1:
+                k+=1
+                union |= wins[i]
+        if len(union)<k:
+            return False,mask,union
+    return True,None,None
+
+sched=round_robin_even(8)
+print(sched)
+num_games=sum(len(d) for d in sched)
+print('games', num_games)
+for t in range(20000):
+    bits=[random.randint(0,1) for _ in range(num_games)]
+    wins=winners_from_bits(sched,bits)
+    ok,mask,union=hall_ok(wins)
+    if not ok:
+        print('found bad at t',t, 'mask',mask, 'union',union, 'wins',wins)
+        break
+else:
+    print('no bad random found')
+[TOOL OUTPUT]
+[[(7, 0), (1, 6), (2, 5), (3, 4)], [(7, 6), (0, 5), (1, 4), (2, 3)], [(7, 5), (6, 4), (0, 3), (1, 2)], [(7, 4), (5, 3), (6, 2), (0, 1)], [(7, 3), (4, 2), (5, 1), (6, 0)], [(7, 2), (3, 1), (4, 0), (5, 6)], [(7, 1), (2, 0), (3, 6), (4, 5)]]
+games 28
+no bad random found
+
+===== ENUMERATOR ROUND 4 =====
+[TOOL CALL] code_exec (call_id=call_PPoIwMpQYEoQclzxmKfCa3zl):
+from itertools import combinations
+
+def round_robin_even(m):
+    teams=list(range(m))
+    fixed=teams[-1]
+    arr=teams[:-1]
+    days=[]
+    for _ in range(m-1):
+        day=[(fixed, arr[0])]
+        L=arr[1:]
+        for i in range((m-2)//2):
+            day.append((L[i], L[-1-i]))
+        days.append(day)
+        arr=[arr[-1]]+arr[:-1]
+    return days
+
+for m in [4,6,8,10]:
+    sched=round_robin_even(m)
+    teams=range(m)
+    ok=True
+    worst=None
+    for r in range(m+1):
+        for U in combinations(teams,r):
+            U=set(U)
+            covered=0
+            for day in sched:
+                if all((a in U) or (b in U) for a,b in day):
+                    covered+=1
+            if covered>r:
+                ok=False
+                worst=(m,U,covered)
+                break
+        if not ok: break
+    print('m',m,'property',ok,'worst',worst)
+[TOOL OUTPUT]
+m 4 property True worst None
+m 6 property True worst None
+m 8 property True worst None
+m 10 property True worst None
+
+=== CONJECTURER ROUND ===
+Let \(W_d\) be the set of winners on day \(d\).  
+We want one distinct winning team from each of the \(2n-1\) days, i.e. a system of distinct representatives for the family \(\{W_d\}\).
+
+By Hall’s theorem, it is enough to show:
+
+\[
+\left|\bigcup_{d\in S} W_d\right| \ge |S|
+\]
+
+for every set \(S\) of days.
+
+So fix \(S\), with \(|S|=s\), and let
+
+\[
+U=\bigcup_{d\in S} W_d,\qquad |U|=r.
+\]
+
+Every team outside \(U\) lost on every day in \(S\). Hence on each day in \(S\), each team outside \(U\) was matched against a team in \(U\).
+
+Now the schedule is a round-robin: each pair of teams plays at least once, and since each team has exactly \(2n-1\) days and \(2n-1\) possible opponents, each pair actually plays **exactly once**.
+
+Therefore, for any fixed team \(x\notin U\), its opponents on the \(s\) days of \(S\) are \(s\) distinct teams, all lying in \(U\). So \(U\) must contain at least \(s\) teams:
+
+\[
+r \ge s.
+\]
+
+Thus Hall’s condition holds for every \(S\), so there exists an injective choice of a winner, one from each day.
+
+So the statement is always true.
+
+Small Python checks for \(2n=4,6,8,10\) also found no counterexample.
+
+<<<True>>>

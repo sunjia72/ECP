@@ -1,0 +1,54 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Nat
+theorem putnam_2014_a6 : ∃ (putnam_2014_a6_solution : ℕ → ℕ), ∀ (n : ℕ), ∀ (kex : ℕ → Prop), ((n > (0 : ℕ)) ∧ (∀ k ≥ (1 : ℕ), kex k = ∃ (M : Fin k → Matrix (Fin n) (Fin n) ℝ) (N : Fin k → Matrix (Fin n) (Fin n) ℝ), ∀ (i j : Fin k), (∃ (p : Fin n), (M i * N j) p p = (0 : ℝ)) ↔ i ≠ j)) → ((putnam_2014_a6_solution n ≥ (1 : ℕ) ∧ kex (putnam_2014_a6_solution n)) ∧ ∀ k ≥ (1 : ℕ), kex k → k ≤ putnam_2014_a6_solution n) := by sorry. Answer Type: ℕ → ℕ. 
+Let \(r_{i,p}\) be the \(p\)-th row of \(M_i\) and \(c_{j,p}\) the \(p\)-th column of \(N_j\). Then
+\[
+(M_iN_j)_{pp}=r_{i,p}\cdot c_{j,p}.
+\]
+So the condition says:
+
+- if \(i=j\), then every \(r_{i,p}\cdot c_{i,p}\neq 0\);
+- if \(i\neq j\), then for some \(p\), \(r_{i,p}\cdot c_{j,p}=0\).
+
+Now form tensors
+\[
+u_i=r_{i,1}\otimes \cdots \otimes r_{i,n},\qquad
+v_j=c_{j,1}\otimes \cdots \otimes c_{j,n}.
+\]
+Their natural pairing is
+\[
+\langle u_i,v_j\rangle=\prod_{p=1}^n (M_iN_j)_{pp}.
+\]
+Hence \(\langle u_i,v_j\rangle=0\) for \(i\neq j\), and \(\langle u_i,v_i\rangle\neq 0\). Therefore the \(u_i\) are linearly independent, so
+\[
+k\le \dim((\mathbb R^n)^{\otimes n})=n^n.
+\]
+
+This bound is attained: index the family by all functions \(f:\mathrm{Fin}\,n\to \mathrm{Fin}\,n\), of which there are \(n^n\). Define \(M_f\) so that row \(p\) is the basis vector \(e_{f(p)}^T\), and \(N_g\) so that column \(p\) is \(e_{g(p)}\). Then
+\[
+(M_fN_g)_{pp}=1 \iff f(p)=g(p),
+\]
+so all diagonal entries are nonzero iff \(f=g\), and if \(f\neq g\) then some diagonal entry is \(0\). Thus the maximum is exactly \(n^n\).
+
+So the Lean expression should be:
+
+<<<fun n : ℕ => n ^ n>>>

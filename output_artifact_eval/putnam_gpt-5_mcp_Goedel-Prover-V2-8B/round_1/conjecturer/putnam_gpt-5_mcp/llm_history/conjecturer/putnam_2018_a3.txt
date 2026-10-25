@@ -1,0 +1,176 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_2018_a3 : ∃ (putnam_2018_a3_solution : ℝ), (IsGreatest {x : ℝ | ∃ (x_1 : Fin (10 : ℕ) → ℝ) (_ : ∑ i : Fin (10 : ℕ), Real.cos (x_1 i) = (0 : ℝ)), ∑ i : Fin (10 : ℕ), Real.cos ((3 : ℝ) * x_1 i) = x} putnam_2018_a3_solution) := by sorry. Answer Type: ℝ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_lGHc2N5VqQYz4ozIgbbL7PDM):
+import math
+best=[]
+for q in range(1,10):
+    for p in range(1,11-q):
+        # total positive sum S must satisfy S<=p and S<=q
+        # objective with positives concentrated among at most p vars, negatives equal among q vars
+        def f(S):
+            m=int(math.floor(S+1e-12))
+            r=S-m
+            pos=m + r**3
+            neg=S**3/q**2
+            return pos-neg
+        # search S over [0,min(p,q)]
+        M=min(p,q)
+        vals=[]
+        for k in range(10001):
+            S=M*k/10000
+            vals.append((f(S),S))
+        mx=max(vals)
+        best.append((mx[0],mx[1],p,q))
+print(max(best))
+# print top few
+for item in sorted(best, reverse=True)[:20]:
+    print(item)
+[TOOL OUTPUT]
+(2.4489795918367347, 3.0, 3, 7)
+(2.4489795918367347, 3.0, 3, 7)
+(2.25, 3.0, 4, 6)
+(2.25, 3.0, 3, 6)
+(1.92, 3.0, 5, 5)
+(1.92, 3.0, 4, 5)
+(1.92, 3.0, 3, 5)
+(1.875, 2.0, 2, 8)
+(1.836734693877551, 2.0, 2, 7)
+(1.7777777777777777, 2.0, 2, 6)
+(1.68, 2.0, 2, 5)
+(1.5, 2.0, 6, 4)
+(1.5, 2.0, 5, 4)
+(1.5, 2.0, 4, 4)
+(1.5, 2.0, 2, 4)
+(1.4999249962509373, 2.0001, 3, 4)
+(1.1111111111111112, 2.0, 2, 3)
+(1.1109777711119997, 2.0001, 7, 3)
+(1.1109777711119997, 2.0001, 6, 3)
+(1.1109777711119997, 2.0001, 5, 3)
+(1.1109777711119997, 2.0001, 4, 3)
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_4MjtDQmhrGmsXc5DYOyuQuyh):
+from fractions import Fraction
+for k in range(0,5):
+    q=9-k
+    # interval [k,k+1]
+    def f(S):
+        return Fraction(k,1) + (S-Fraction(k,1))**3 - S**3/Fraction(q*q,1)
+    a,b=Fraction(k,1),Fraction(k+1,1)
+    print('interval',k,k+1,'q',q,'f(a)=',f(a),'f(b)=',f(b))
+[TOOL OUTPUT]
+interval 0 1 q 9 f(a)= 0 f(b)= 80/81
+interval 1 2 q 8 f(a)= 63/64 f(b)= 15/8
+interval 2 3 q 7 f(a)= 90/49 f(b)= 120/49
+interval 3 4 q 6 f(a)= 9/4 f(b)= 20/9
+interval 4 5 q 5 f(a)= 36/25 f(b)= 0
+
+===== ENUMERATOR ROUND 3 =====
+[TOOL CALL] code_exec (call_id=call_EZDLAu0V79aWpNJu0pHXRNom):
+from fractions import Fraction
+cand = 4*(3 - Fraction(27,49))
+print(cand)
+print(float(cand))
+[TOOL OUTPUT]
+480/49
+9.795918367346939
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+y_i=\cos(x_1 i)\in[-1,1].
+\]
+Then the condition is
+\[
+\sum_{i=1}^{10} y_i=0,
+\]
+and using
+\[
+\cos(3t)=4\cos^3 t-3\cos t,
+\]
+the quantity to maximize is
+\[
+\sum_{i=1}^{10}\cos(3x_1 i)
+= \sum_{i=1}^{10}(4y_i^3-3y_i)
+=4\sum_{i=1}^{10} y_i^3,
+\]
+since \(\sum y_i=0\).
+
+So we maximize \(\sum y_i^3\) subject to \(y_i\in[-1,1]\) and \(\sum y_i=0\).
+
+Write the positive \(y_i\)'s as \(a_1,\dots,a_m\ge 0\) and the negative ones as \(-b_1,\dots,-b_n\) with \(b_j\ge0\). Then
+\[
+\sum a_i = \sum b_j = S.
+\]
+Hence
+\[
+\sum y_i^3=\sum a_i^3-\sum b_j^3.
+\]
+
+For fixed \(S\):
+
+- \(\sum a_i^3\) is maximized by making the positive terms as concentrated as possible, so it is
+  \[
+  \lfloor S\rfloor + (S-\lfloor S\rfloor)^3.
+  \]
+- \(\sum b_j^3\) is minimized by making the negative magnitudes equal, and using as many negative slots as possible. If \(S\in[k,k+1]\), then at least \(k+1\) positive slots are needed, so at most \(9-k\) negative slots remain. Thus
+  \[
+  \sum b_j^3 \ge \frac{S^3}{(9-k)^2}.
+  \]
+
+So for \(S\in[k,k+1]\) (\(k=0,1,2,3,4\)),
+\[
+\sum y_i^3 \le f_k(S):=k+(S-k)^3-\frac{S^3}{(9-k)^2}.
+\]
+Each \(f_k\) has at most one interior critical point, and it is a minimum, so the maximum on each interval is at an endpoint. Evaluating endpoints gives:
+
+- \([0,1]\): max \(=80/81\)
+- \([1,2]\): max \(=15/8\)
+- \([2,3]\): max \(=120/49\)
+- \([3,4]\): max \(=9/4\)
+- \([4,5]\): max \(=36/25\)
+
+Hence
+\[
+\max \sum y_i^3 = \frac{120}{49},
+\]
+so
+\[
+\max \sum \cos(3x_1 i)=4\cdot \frac{120}{49}=\frac{480}{49}.
+\]
+
+This is attained by taking
+\[
+y_1=y_2=y_3=1,\qquad y_4=\cdots=y_{10}=-\frac37.
+\]
+Indeed, choose
+\[
+x_1=x_2=x_3=0,\qquad x_4=\cdots=x_{10}=\arccos\!\left(-\frac37\right).
+\]
+
+Therefore the greatest value is \(\boxed{\frac{480}{49}}\).
+
+<<<(480 : ℝ) / 49>>>

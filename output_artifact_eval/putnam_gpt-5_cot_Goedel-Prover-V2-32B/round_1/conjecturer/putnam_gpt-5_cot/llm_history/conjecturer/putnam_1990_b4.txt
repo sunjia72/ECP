@@ -1,0 +1,37 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology Nat
+theorem putnam_1990_b4 : ∃ (putnam_1990_b4_solution : Prop), (∀ (G : Type u_1) (x : Fintype G) (x_1 : Group G) (n : ℕ) (a b : G), (n = Fintype.card G ∧ G = ↥(Subgroup.closure {a, b}) ∧ G ≠ ↥(Subgroup.closure {a}) ∧ G ≠ ↥(Subgroup.closure {b}) → ∃ (g : ℕ → G), (∀ (x : G), {i : Fin ((2 : ℕ) * n) | g (↑i : ℕ) = x}.encard = (2 : ℕ∞)) ∧ ∀ (i : Fin ((2 : ℕ) * n)), g (((↑i : ℕ) + (1 : ℕ)) % ((2 : ℕ) * n)) = g (↑i : ℕ) * a ∨ g (((↑i : ℕ) + (1 : ℕ)) % ((2 : ℕ) * n)) = g (↑i : ℕ) * b) ↔ putnam_1990_b4_solution) := by sorry. Answer Type: Prop. 
+Consider the directed Cayley graph of \(G\) with generators \(a,b\): from each \(x\in G\), draw edges
+\[
+x \to xa,\qquad x \to xb.
+\]
+Because \(G = \langle a,b\rangle\), this digraph is strongly connected. Every vertex has outdegree \(2\), and also indegree \(2\) (since the incoming edges are from \(xa^{-1}\) and \(xb^{-1}\)).
+
+A finite strongly connected directed graph with equal indegree and outdegree at every vertex has an Eulerian circuit. This circuit uses each directed edge exactly once, so in particular there are \(2|G|=2n\) steps total. Recording the tail of each edge in order gives a function
+\[
+g : \mathbb N \to G
+\]
+whose values on \(0,\dots,2n-1\) hit each group element exactly twice (because each vertex has exactly two outgoing edges), and each successive term is obtained by multiplying by either \(a\) or \(b\).
+
+So the stated property always holds. Therefore the required proposition is simply `True`.
+
+<<<True>>>

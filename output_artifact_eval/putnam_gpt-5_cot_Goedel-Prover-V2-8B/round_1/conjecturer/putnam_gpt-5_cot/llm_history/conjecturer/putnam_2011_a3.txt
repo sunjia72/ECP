@@ -1,0 +1,59 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter
+theorem putnam_2011_a3 : ∃ (putnam_2011_a3_solution : ℝ × ℝ), (putnam_2011_a3_solution.2 > (0 : ℝ) ∧ Tendsto (fun (r : ℝ) => (r ^ putnam_2011_a3_solution.1 * ∫ (x : ℝ) in Set.Ioo (0 : ℝ) (Real.pi / (2 : ℝ)), x ^ r * Real.sin x) / ∫ (x : ℝ) in Set.Ioo (0 : ℝ) (Real.pi / (2 : ℝ)), x ^ r * Real.cos x) atTop (𝓝 putnam_2011_a3_solution.2)) := by sorry. Answer Type: ℝ × ℝ. 
+Let  
+\[
+A=\frac{\pi}{2},\quad 
+N_r=\int_0^A x^r\sin x\,dx,\quad
+D_r=\int_0^A x^r\cos x\,dx.
+\]
+
+For large \(r\), both integrals are dominated by values of \(x\) near the endpoint \(A\). Write \(x=A-y\) with \(y\downarrow 0\). Then
+
+- \(x^r=(A-y)^r \sim A^r e^{-ry/A}\),
+- \(\sin(A-y)=\cos y\sim 1\),
+- \(\cos(A-y)=\sin y\sim y\).
+
+So
+\[
+N_r \sim A^r\int_0^\infty e^{-ry/A}\,dy=\frac{A^{r+1}}{r},
+\]
+while
+\[
+D_r \sim A^r\int_0^\infty y\,e^{-ry/A}\,dy=\frac{A^{r+2}}{r^2}.
+\]
+
+Hence
+\[
+\frac{N_r}{D_r}\sim \frac{A^{r+1}/r}{A^{r+2}/r^2}=\frac{r}{A}.
+\]
+Therefore
+\[
+r^{-1}\frac{N_r}{D_r}\to \frac1A=\frac{2}{\pi}.
+\]
+
+So the required pair is
+\[
+(a,b)=\left(-1,\frac{2}{\pi}\right).
+\]
+
+<<<((-1 : ℝ), 2 / Real.pi)>>>

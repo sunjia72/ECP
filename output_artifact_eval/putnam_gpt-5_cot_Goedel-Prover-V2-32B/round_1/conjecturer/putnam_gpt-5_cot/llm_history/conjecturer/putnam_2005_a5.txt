@@ -1,0 +1,66 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Set
+theorem putnam_2005_a5 : ∃ (putnam_2005_a5_solution : ℝ), (∫ (x : ℝ) in (0 : ℝ)..(1 : ℝ), Real.log (x + (1 : ℝ)) / (x ^ (2 : ℕ) + (1 : ℝ)) = putnam_2005_a5_solution) := by sorry. Answer Type: ℝ. 
+Let
+\[
+I=\int_0^1 \frac{\log(1+x)}{x^2+1}\,dx.
+\]
+
+A standard substitution is \(x=\tan t\). Then \(dx=(1+\tan^2 t)\,dt=(1+x^2)\,dt\), so
+\[
+I=\int_0^{\pi/4} \log(1+\tan t)\,dt.
+\]
+
+Now use
+\[
+1+\tan t=\frac{\sin t+\cos t}{\cos t}
+=\frac{\sqrt2\cos(t-\pi/4)}{\cos t}.
+\]
+Hence
+\[
+\log(1+\tan t)=\frac12\log 2+\log(\cos(t-\pi/4))-\log(\cos t).
+\]
+Therefore
+\[
+I=\int_0^{\pi/4}\frac12\log 2\,dt
++\int_0^{\pi/4}\log(\cos(t-\pi/4))\,dt
+-\int_0^{\pi/4}\log(\cos t)\,dt.
+\]
+
+For the middle term, let \(u=t-\pi/4\). Then
+\[
+\int_0^{\pi/4}\log(\cos(t-\pi/4))\,dt
+=\int_{-\pi/4}^0 \log(\cos u)\,du.
+\]
+Since \(\cos\) is even, \(\log(\cos u)\) is also even on this interval, so this equals
+\[
+\int_0^{\pi/4}\log(\cos u)\,du.
+\]
+Thus the two cosine-log integrals cancel, leaving
+\[
+I=\frac12\log 2 \cdot \frac{\pi}{4}
+=\frac{\pi\log 2}{8}.
+\]
+
+So the Lean expression for the solution is:
+
+<<<(Real.pi * Real.log 2) / 8>>>

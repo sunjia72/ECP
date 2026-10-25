@@ -1,0 +1,92 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Set
+theorem putnam_2019_b2 : ∃ (putnam_2019_b2_solution : ℝ), ∀ (a : ℕ → ℝ), ((a = fun (n : ℕ) => ∑ k : (↑(Icc (1 : ℤ) ((↑n : ℤ) - (1 : ℤ))) : Type), Real.sin (((2 : ℝ) * (↑(↑k : ℤ) : ℝ) - (1 : ℝ)) * Real.pi / ((2 : ℝ) * (↑n : ℝ))) / (Real.cos (((↑(↑k : ℤ) : ℝ) - (1 : ℝ)) * Real.pi / ((2 : ℝ) * (↑n : ℝ))) ^ (2 : ℕ) * Real.cos ((↑(↑k : ℤ) : ℝ) * Real.pi / ((2 : ℝ) * (↑n : ℝ))) ^ (2 : ℕ)))) → (Tendsto (fun (n : ℕ) => a n / (↑n : ℝ) ^ (3 : ℕ)) atTop (𝓝 putnam_2019_b2_solution)) := by sorry. Answer Type: ℝ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_WURLyv3xFGKwaEMxS973F69F):
+import math
+for n in range(2,11):
+    h=math.pi/(2*n)
+    s=sum(math.sin((2*k-1)*h)/(math.cos((k-1)*h)**2 * math.cos(k*h)**2) for k in range(1,n))
+    formula=(math.cos(h)**2)/(math.sin(h)**3)
+    print(n, s, formula, s-formula, s/n**3)
+print('limit const approx', 8/math.pi**3)
+[TOOL OUTPUT]
+2 1.4142135623730947 1.4142135623730958 -1.1102230246251565e-15 0.17677669529663684
+3 5.9999999999999964 6.000000000000003 -6.217248937900877e-15 0.2222222222222221
+4 15.230414049348546 15.230414049348552 -5.329070518200751e-15 0.23797521952107104
+5 30.65247584249853 30.652475842498532 -3.552713678800501e-15 0.24521980673998822
+6 53.81444485570368 53.81444485570378 -1.0658141036401503e-13 0.24914094840603554
+7 86.26455505466164 86.26455505466171 -7.105427357601002e-14 0.25150016050921764
+8 129.5509798123083 129.55097981230844 -1.4210854715202004e-13 0.25302925744591465
+9 185.22185438201427 185.22185438201458 -3.126388037344441e-13 0.2540766178079757
+10 254.82529172078245 254.82529172078262 -1.7053025658242404e-13 0.25482529172078244
+limit const approx 0.25801227546559596
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+h=\frac{\pi}{2n}.
+\]
+Then for \(1\le k\le n-1\), with \(x=(k-1)h,\ y=kh\), the summand is
+\[
+\frac{\sin(x+y)}{\cos^2 x\,\cos^2 y}.
+\]
+Use
+\[
+\frac{\sin(x+y)}{\cos x\cos y}=\tan x+\tan y,\qquad
+\tan y-\tan x=\frac{\sin(y-x)}{\cos x\cos y}=\frac{\sin h}{\cos x\cos y}.
+\]
+Multiplying,
+\[
+\frac{\sin(x+y)}{\cos^2x\cos^2y}
+=\frac{(\tan x+\tan y)(\tan y-\tan x)}{\sin h}
+=\frac{\tan^2 y-\tan^2 x}{\sin h}.
+\]
+So
+\[
+a_n=\sum_{k=1}^{n-1}\frac{\tan^2(kh)-\tan^2((k-1)h)}{\sin h}
+=\frac{\tan^2((n-1)h)-\tan^2 0}{\sin h}.
+\]
+Since \((n-1)h=\frac{\pi}{2}-h\), we get
+\[
+a_n=\frac{\cot^2 h}{\sin h}=\frac{\cos^2 h}{\sin^3 h}.
+\]
+Hence
+\[
+\frac{a_n}{n^3}
+=\frac{\cos^2 h}{n^3\sin^3 h}.
+\]
+As \(n\to\infty\), \(h\to 0\), \(\cos h\to 1\), and \(\sin h\sim h=\frac{\pi}{2n}\). Therefore
+\[
+n^3\sin^3 h \to \left(\frac{\pi}{2}\right)^3,
+\]
+so
+\[
+\lim_{n\to\infty}\frac{a_n}{n^3}=\frac{1}{(\pi/2)^3}=\frac{8}{\pi^3}.
+\]
+
+Python numerics matched the closed form \(a_n=\cos^2h/\sin^3h\) and the limit constant.
+
+<<<((8 : ℝ) / Real.pi ^ (3 : ℕ))>>>

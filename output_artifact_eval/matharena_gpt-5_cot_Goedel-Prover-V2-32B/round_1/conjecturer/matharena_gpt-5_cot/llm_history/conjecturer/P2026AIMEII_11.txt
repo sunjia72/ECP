@@ -1,0 +1,99 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026AIMEII_11 : ∃ (P2026AIMEII_11_answer : Nat), (IsGreatest {n : ℤ | ∃ (sums : Finset ℂ), #sums = (7 : ℕ) ∧ ∀ (s : ℂ), s ∈ sums ↔ ∃ (α : ℂ) (β : ℂ) (γ : ℂ), s = α + β + γ ∧ ∀ (x : ℂ), x ^ (3 : ℕ) - (↑n : ℂ) / (6 : ℂ) * x ^ (2 : ℕ) + ((↑n : ℂ) - (11 : ℂ)) * x - (400 : ℂ) = (x - α ^ (2 : ℕ)) * (x - β ^ (2 : ℕ)) * (x - γ ^ (2 : ℕ))} (↑P2026AIMEII_11_answer : ℤ)) := by sorry. Answer Type: Nat. 
+Let the three roots of  
+\[
+x^3-\frac n6x^2+(n-11)x-400
+\]
+be \(a^2,b^2,c^2\), where \(a,b,c\in\mathbb C\). Then the set in the statement is exactly the set of values of
+\[
+\pm a \pm b \pm c,
+\]
+so there are at most \(8\) possible sums.
+
+If there are exactly \(7\) distinct sums, then among the \(8\) sign choices there is exactly one collision. Subtracting two equal sign-sums gives a nontrivial relation among \(a,b,c\) with coefficients in \(\{-1,0,1\}\). A 2-term relation like \(a=\pm b\) would force more than one collision, so the only way to get exactly \(7\) is (after changing signs if needed)
+\[
+a+b+c=0.
+\]
+
+Now let
+\[
+t=ab+bc+ca.
+\]
+Since \(a+b+c=0\),
+\[
+a^2+b^2+c^2=-2t,\qquad
+a^2b^2+b^2c^2+c^2a^2=t^2.
+\]
+By Vieta,
+\[
+a^2+b^2+c^2=\frac n6,\qquad
+a^2b^2+b^2c^2+c^2a^2=n-11.
+\]
+So
+\[
+\frac n6=-2t,\qquad n-11=t^2.
+\]
+Eliminating \(t\):
+\[
+n-11=\left(\frac n{12}\right)^2
+\]
+so
+\[
+n^2-144n+1584=0.
+\]
+Thus
+\[
+n=12\quad\text{or}\quad n=132.
+\]
+Hence the greatest possible value is \(132\).
+
+It remains to check existence for \(n=132\). Take
+\[
+a=4,\quad b=-2+i,\quad c=-2-i.
+\]
+Then \(a+b+c=0\), \(abc=20\), and
+\[
+a^2=16,\quad b^2=3-4i,\quad c^2=3+4i.
+\]
+So
+\[
+(x-16)(x-(3-4i))(x-(3+4i))
+= x^3-22x^2+121x-400,
+\]
+which matches \(n=132\) since \(22=132/6\) and \(121=132-11\).
+
+The possible sums are
+\[
+0,\ \pm 2a,\ \pm 2b,\ \pm 2c,
+\]
+i.e.
+\[
+0,\ \pm 8,\ -4\pm 2i,\ 4\pm 2i,
+\]
+which are exactly \(7\) distinct values.
+
+Therefore the answer is:
+
+<<<132>>>

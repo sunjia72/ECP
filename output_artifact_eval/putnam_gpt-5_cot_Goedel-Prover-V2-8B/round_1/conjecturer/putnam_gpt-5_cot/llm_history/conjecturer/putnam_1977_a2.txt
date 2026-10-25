@@ -1,0 +1,61 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1977_a2 : ∃ (putnam_1977_a2_solution : ℝ → ℝ → ℝ → ℝ → Prop), (∀ (a b c d : ℝ), a ≠ (0 : ℝ) → b ≠ (0 : ℝ) → c ≠ (0 : ℝ) → d ≠ (0 : ℝ) → (putnam_1977_a2_solution a b c d ↔ a + b + c = d ∧ (1 : ℝ) / a + (1 : ℝ) / b + (1 : ℝ) / c = (1 : ℝ) / d)) := by sorry. Answer Type: ℝ → ℝ → ℝ → ℝ → Prop. 
+Let
+\[
+d=a+b+c,\qquad \frac1a+\frac1b+\frac1c=\frac1d
+\]
+with \(a,b,c,d\neq 0\).
+
+From the reciprocal equation,
+\[
+\frac{ab+ac+bc}{abc}=\frac1d,
+\]
+so
+\[
+d(ab+ac+bc)=abc.
+\]
+Using \(d=a+b+c\), this becomes
+\[
+(a+b+c)(ab+ac+bc)-abc=0.
+\]
+But
+\[
+(a+b+c)(ab+ac+bc)-abc=(a+b)(b+c)(c+a),
+\]
+so
+\[
+(a+b)(b+c)(c+a)=0.
+\]
+Over \(\mathbb R\), this means
+\[
+a+b=0 \quad\text{or}\quad b+c=0 \quad\text{or}\quad c+a=0.
+\]
+
+Conversely, if \(a+b+c=d\) and one of those pairwise sums is \(0\), then \(d\) equals the remaining variable, and the reciprocal equation is immediate.
+
+So the solution set is exactly:
+- \(a+b+c=d\), and
+- one of \(a+b,\ b+c,\ c+a\) is \(0\).
+
+Thus a correct Lean expression is
+
+<<<fun a b c d : ℝ => a + b + c = d ∧ (a + b = 0 ∨ b + c = 0 ∨ c + a = 0)>>>

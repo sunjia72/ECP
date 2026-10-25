@@ -1,0 +1,62 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MvPolynomial Real Nat Filter Topology
+theorem putnam_1987_b4 : ∃ (putnam_1987_b4_solution : Prop × ℝ × Prop × ℝ), ∀ (x y : ℕ → ℝ), (((x (1 : ℕ), y (1 : ℕ)) = (0.8, 0.6)) ∧ (∀ n ≥ (1 : ℕ), x (n + (1 : ℕ)) = x n * cos (y n) - y n * sin (y n)) ∧ (∀ n ≥ (1 : ℕ), y (n + (1 : ℕ)) = x n * sin (y n) + y n * cos (y n))) → (match putnam_1987_b4_solution with | (existsx, limx, existsy, limy) => ((∃ (c : ℝ), Tendsto x atTop (𝓝 c)) → existsx) ∧ (existsx → Tendsto x atTop (𝓝 limx)) ∧ ((∃ (c : ℝ), Tendsto y atTop (𝓝 c)) → existsy) ∧ (existsy → Tendsto y atTop (𝓝 limy))) := by sorry. Answer Type: Prop × ℝ × Prop × ℝ. 
+Let  
+\[
+z_n = x(n) + i\,y(n).
+\]
+Then the recurrence is exactly
+\[
+z_{n+1}=z_n(\cos(y_n)+i\sin(y_n))=z_n e^{i y_n}.
+\]
+So \(|z_{n+1}|=|z_n|\), hence \(|z_n|=1\) for all \(n\) because
+\[
+|z_1|=\sqrt{0.8^2+0.6^2}=1.
+\]
+
+Therefore we can write
+\[
+x_n=\cos \theta_n,\qquad y_n=\sin \theta_n
+\]
+for some real \(\theta_n\), with \(\theta_1=\arcsin(0.6)\in(0,\pi)\). The recurrence becomes
+\[
+\theta_{n+1}=\theta_n+\sin\theta_n.
+\]
+
+Since \(\theta_1\in(0,\pi)\), and for \(t\in[0,\pi]\) we have \(\sin t\le \pi-t\), it follows that
+\[
+\theta_n<\pi \implies \theta_{n+1}=\theta_n+\sin\theta_n\le \pi.
+\]
+Also \(\sin\theta_n>0\) while \(\theta_n\in(0,\pi)\), so \((\theta_n)\) is increasing and bounded above by \(\pi\). Hence \(\theta_n\to L\) for some \(L\le \pi\). Passing to the limit in
+\[
+\theta_{n+1}-\theta_n=\sin\theta_n
+\]
+gives \(0=\sin L\), so \(L\in\{0,\pi\}\). Since \(\theta_n\ge \theta_1>0\) and increasing, \(L\neq 0\), thus \(L=\pi\).
+
+Therefore
+\[
+x_n=\cos\theta_n\to \cos\pi=-1,\qquad y_n=\sin\theta_n\to \sin\pi=0.
+\]
+
+So both limits exist, with limits \(-1\) and \(0\).
+
+<<<(True, (-1 : ℝ), True, (0 : ℝ))>>>

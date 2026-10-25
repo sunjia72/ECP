@@ -1,0 +1,41 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open ProbabilityTheory Set
+theorem putnam_2023_b3 : ∃ (putnam_2023_b3_solution : ℕ → ℝ), ∀ (IsZigZag : {k : ℕ} → (Fin k → ℝ) → Prop), ∀ (n : ℕ), ∀ (a : (Fin n → (↑(Icc (0 : ℝ) (1 : ℝ)) : Type)) → ℕ), ((∀ (k : ℕ) [inst : NeZero k] (y : Fin k → ℝ), IsZigZag y ↔ k = (1 : ℕ) ∨ (∀ (i : Fin k), (↑i : ℕ) + (1 : ℕ) < k → y (i + (1 : Fin k)) ≠ y i) ∧ ∀ (i : Fin k), (↑i : ℕ) + (2 : ℕ) < k → (y (i + (2 : Fin k)) < y (i + (1 : Fin k)) ↔ y i < y (i + (1 : Fin k)))) ∧ ((2 : ℕ) ≤ n) ∧ (∀ (x : Fin n → (↑(Icc (0 : ℝ) (1 : ℝ)) : Type)), IsGreatest {k : ℕ | ∃ (i : Fin k ↪o Fin n), IsZigZag (Subtype.val ∘ x ∘ (⇑i : Fin k → Fin n))} (a x))) → (∫ (a_1 : Fin n → (↑(Icc (0 : ℝ) (1 : ℝ)) : Type)), (Nat.cast ∘ a) a_1 = putnam_2023_b3_solution n) := by sorry. Answer Type: ℕ → ℝ. 
+For a random sequence of \(n\) independent continuous values in \([0,1]\), ties occur with probability \(0\), so only the relative order matters; this is the same as a uniformly random permutation.
+
+A standard greedy fact is that the longest zigzag subsequence has length equal to the number of local extrema, counting both endpoints. Thus for \(n\ge 2\),
+
+\[
+L_n = 2 + \sum_{i=1}^{n-2} I_i
+\]
+
+where \(I_i\) indicates that the interior position is a local max or local min. For any fixed interior position, among the three adjacent values, the middle one is either the largest or the smallest with probability \(2/3\). Hence
+
+\[
+\mathbb E[L_n]
+= 2 + (n-2)\cdot \frac23
+= \frac{2(n+1)}{3}.
+\]
+
+Since the theorem only constrains the function for \(n\ge 2\), we can use this closed form for all \(n\).
+
+<<<fun n => (2 : ℝ) * (n + 1) / 3>>>

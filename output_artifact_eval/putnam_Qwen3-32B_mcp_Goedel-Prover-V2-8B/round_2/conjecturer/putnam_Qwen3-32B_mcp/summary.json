@@ -1,0 +1,17 @@
+[
+  {
+    "name": "putnam_2025_a5",
+    "round": 2,
+    "actual_answer": "fun n => {s | (∀ i : Fin n, s i = (-1) ^ (i.val + 1)) ∨ (∀ i : Fin n, s i = (-1) ^ i.val)}",
+    "proposed_answer": "Error",
+    "answer_ok": "False",
+    "answer_error": "APITimeoutError('Request timed out.')",
+    "is_equivalent": "False",
+    "explanation": "Exception during answer construction",
+    "answer_construction_runtime_sec": 0.0,
+    "answer_construction_output_tokens": 0,
+    "answer_construction_tool_calls": 0,
+    "answer_construction_api_calls": 0,
+    "answer_construction_llm_calls": 0
+  }
+]

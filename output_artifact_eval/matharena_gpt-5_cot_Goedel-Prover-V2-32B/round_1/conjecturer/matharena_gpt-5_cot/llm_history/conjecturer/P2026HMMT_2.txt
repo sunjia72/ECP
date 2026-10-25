@@ -1,0 +1,56 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026HMMT_2 : ∃ (P2026HMMT_2_answer : ℕ), (let good := {n : ℕ | (0 : ℕ) < n ∧ (101 : ℕ) ∣ n ∧ [(2 : ℕ), (0 : ℕ), (2 : ℕ), (6 : ℕ)] <:+: (Nat.digits (10 : ℕ) n).reverse}; P2026HMMT_2_answer ∈ good ∧ ∃ m ∈ good, m < P2026HMMT_2_answer ∧ ∀ n ∈ good, n < P2026HMMT_2_answer → n = m) := by sorry. Answer Type: ℕ. 
+Let the decimal digits of \(n\) be read in the usual order; the condition
+`[(2 : ℕ), 0, 2, 6] <:+: (Nat.digits 10 n).reverse`
+means the digits \(2,0,2,6\) occur in order as a subsequence.
+
+We want the **second smallest** positive multiple of \(101\) with this property.
+
+Key divisibility fact:
+for a 6-digit number \(abcdef\),
+\[
+abcdef \equiv (10a+b) - (10c+d) + (10e+f) \pmod{101},
+\]
+since \(100 \equiv -1 \pmod{101}\).
+
+- There is no 4-digit solution, since \(2026\) itself is not divisible by \(101\).
+- Checking the 5-digit possibilities obtained by inserting one digit into \(2026\) gives no multiple of \(101\).
+- For 6 digits, any solution starting with \(1\) also fails by the same block test.
+
+So the smallest solutions must start with `20`. Write them as `20 c d e f`.
+Then divisibility by \(101\) forces
+\[
+20 - cd + ef \equiv 0 \pmod{101},
+\]
+so for \(cd \ge 20\), necessarily \(ef = cd - 20\).
+
+Now search increasing `cd` so that the full digit string `20 cd ef` contains `2,0,2,6` as a subsequence:
+
+- `cd = 26` gives `ef = 06`, hence `202606`, which works and is the smallest.
+- Continuing upward, the next working one is `cd = 46`, giving `ef = 26`, hence `204626`.
+
+Thus the second smallest good number is `204626`.
+
+<<<204626>>>

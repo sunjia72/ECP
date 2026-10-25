@@ -1,0 +1,69 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Nat
+theorem putnam_2014_a2 : ∃ (putnam_2014_a2_solution : ℕ → ℝ), ∀ (n : ℕ), ∀ (A : Matrix (Fin n) (Fin n) ℝ), ((n > (0 : ℕ)) ∧ (∀ (i j : Fin n), A i j = (1 : ℝ) / (↑(min ((↑(↑i : ℕ) : ℚ) + (1 : ℚ)) ((↑(↑j : ℕ) : ℚ) + (1 : ℚ))) : ℝ))) → (A.det = putnam_2014_a2_solution n) := by sorry. Answer Type: ℕ → ℝ. 
+Let  
+\[
+A_{ij}=\frac1{\min(i,j)} \qquad (1\le i,j\le n),
+\]
+where this is the same matrix as in the theorem after shifting `Fin n` indices by 1.
+
+A useful factorization is
+\[
+A = D X D,
+\]
+where \(D=\operatorname{diag}(1,1/2,\dots,1/n)\) and
+\[
+X_{ij}=\max(i,j).
+\]
+Indeed,
+\[
+(DXD)_{ij}=\frac1i\,\max(i,j)\,\frac1j=\frac{\max(i,j)}{ij}=\frac1{\min(i,j)}.
+\]
+
+So
+\[
+\det(A)=\det(D)^2\det(X).
+\]
+
+Now compute \(\det(X)\).  
+For \(i=1,\dots,n-1\), replace row \(i\) by row \(i}-\text{row}_{i+1}\). This preserves determinant and gives a lower-triangular matrix whose diagonal entries are
+\[
+-1,-1,\dots,-1,n.
+\]
+Hence
+\[
+\det(X)=(-1)^{n-1}n.
+\]
+
+Also,
+\[
+\det(D)=\frac1{n!}.
+\]
+Therefore
+\[
+\det(A)=\frac{(-1)^{n-1}n}{(n!)^2}
+=\frac{(-1)^{n-1}}{n!(n-1)!}.
+\]
+
+So a correct Lean expression for the solution function is:
+
+<<<fun n : ℕ => ((-1 : ℝ) ^ (n - 1)) / ((Nat.factorial n : ℝ) * (Nat.factorial (n - 1) : ℝ))>>>

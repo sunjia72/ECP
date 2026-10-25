@@ -1,0 +1,90 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026HMMT_28 : ∃ (P2026HMMT_28_answer : ℝ), ∀ (A B C H P Q M : EuclideanSpace ℝ (Fin (2 : ℕ))), ((¬Collinear ℝ {A, B, C}) ∧ (¬Collinear ℝ {A, B, H}) ∧ (¬Collinear ℝ {A, C, H}) ∧ (inner ℝ (H - B) (C - A) = (0 : ℝ) ∧ inner ℝ (H - C) (B - A) = (0 : ℝ) ∧ inner ℝ (H - A) (B - C) = (0 : ℝ)) ∧ (Cospherical {A, B, H, P}) ∧ (Cospherical {A, C, H, Q}) ∧ (Cospherical {A, B, C, M}) ∧ (∠ B A P = ∠ P A C ∧ ∠ B A P + ∠ P A C = ∠ B A C) ∧ (∠ B A Q = ∠ Q A C ∧ ∠ B A Q + ∠ Q A C = ∠ B A C) ∧ (∠ B A M = ∠ M A C ∧ ∠ B A M + ∠ M A C = ∠ B A C) ∧ (A ≠ P ∧ A ≠ Q ∧ A ≠ M ∧ P ≠ Q ∧ P ≠ M ∧ Q ≠ M) ∧ (Sbtw ℝ A P Q ∧ Sbtw ℝ P Q M) ∧ (Dist.dist A P = (4 : ℝ) ∧ Dist.dist A Q = (5 : ℝ) ∧ Dist.dist B C = (7 : ℝ))) → (Dist.dist A M = P2026HMMT_28_answer) := by sorry. Answer Type: ℝ. 
+Let \( \angle BAC = 2\theta\), and place coordinates so that
+
+- \(A=(0,0)\),
+- the angle bisector of \(\angle BAC\) is the \(x\)-axis,
+- \(P=(4,0),\ Q=(5,0),\ M=(m,0)\).
+
+Write
+\[
+B=(c\cos\theta,c\sin\theta),\qquad C=(b\cos\theta,-b\sin\theta),
+\]
+where \(c=AB,\ b=AC\).
+
+Key geometric fact: since \(H\) is the orthocenter, \(\angle AHB = 180^\circ-\angle BAC\), so \(AC\) is tangent at \(A\) to the circumcircle of \(A,B,H,P\). Because \(AP\) is the angle bisector, the tangent-chord theorem gives
+\[
+\angle ABP=\angle CAP=\theta=\angle BAP.
+\]
+Hence \(AP=BP=4\).
+
+Similarly, \(AB\) is tangent at \(A\) to the circumcircle of \(A,C,H,Q\), so
+\[
+\angle ACQ=\angle BAQ=\theta=\angle QAC,
+\]
+hence \(AQ=CQ=5\).
+
+Now use coordinates:
+
+From \(BP=4\),
+\[
+(c\cos\theta-4)^2+(c\sin\theta)^2=16
+\]
+so
+\[
+c^2-8c\cos\theta=0 \implies c=8\cos\theta.
+\]
+
+From \(CQ=5\),
+\[
+(b\cos\theta-5)^2+(b\sin\theta)^2=25
+\]
+so
+\[
+b^2-10b\cos\theta=0 \implies b=10\cos\theta.
+\]
+
+Since \(M\) lies on the angle bisector and on the circumcircle of \(ABC\), it is the midpoint of arc \(BC\) not containing \(A\), so \(MB=MC\). In coordinates:
+\[
+(m- c\cos\theta)^2+(c\sin\theta)^2=(m-b\cos\theta)^2+(b\sin\theta)^2.
+\]
+Substitute \(c=8\cos\theta,\ b=10\cos\theta\):
+\[
+m^2-16m\cos^2\theta+64\cos^2\theta
+=
+m^2-20m\cos^2\theta+100\cos^2\theta.
+\]
+Thus
+\[
+4m\cos^2\theta=36\cos^2\theta,
+\]
+and since \(\cos\theta\neq 0\),
+\[
+m=9.
+\]
+
+Therefore \(AM=9\), so the constant answer is:
+
+<<<(9 : ℝ)>>>

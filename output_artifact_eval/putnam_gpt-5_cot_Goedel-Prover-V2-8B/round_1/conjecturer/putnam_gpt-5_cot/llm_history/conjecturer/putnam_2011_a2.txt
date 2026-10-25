@@ -1,0 +1,80 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter
+theorem putnam_2011_a2 : ∃ (putnam_2011_a2_solution : ℝ), ∀ (a b : ℕ → ℝ), ((∀ (n : ℕ), a n > (0 : ℝ) ∧ b n > (0 : ℝ)) ∧ (a (0 : ℕ) = (1 : ℝ) ∧ b (0 : ℕ) = (1 : ℝ)) ∧ (∀ n ≥ (1 : ℕ), b n = b (n - (1 : ℕ)) * a n - (2 : ℝ)) ∧ (∃ (B : ℝ), ∀ (n : ℕ), |b n| ≤ B)) → (Tendsto (fun (n : ℕ) => ∑ i : Fin n, (1 : ℝ) / ∏ j : Fin ((↑i : ℕ) + (1 : ℕ)), a (↑j : ℕ)) atTop (𝓝 putnam_2011_a2_solution)) := by sorry. Answer Type: ℝ. 
+Let  
+\[
+P_i=\prod_{j=0}^i a_j.
+\]
+Then the partial sums in the theorem are
+\[
+S_n=\sum_{i=0}^{n-1}\frac1{P_i}.
+\]
+
+From the recurrence
+\[
+b_n=b_{n-1}a_n-2 \qquad (n\ge 1),
+\]
+divide by \(P_n=P_{n-1}a_n\) to get
+\[
+\frac{b_n}{P_n}=\frac{b_{n-1}}{P_{n-1}}-\frac{2}{P_n}.
+\]
+So
+\[
+\frac{2}{P_n}=\frac{b_{n-1}}{P_{n-1}}-\frac{b_n}{P_n},
+\]
+which telescopes. Summing from \(1\) to \(N-1\),
+\[
+2\sum_{i=1}^{N-1}\frac1{P_i}
+= \frac{b_0}{P_0}-\frac{b_{N-1}}{P_{N-1}}
+=1-\frac{b_{N-1}}{P_{N-1}},
+\]
+since \(a_0=b_0=1\), hence \(P_0=1\). Therefore
+\[
+S_N=1+\frac12\left(1-\frac{b_{N-1}}{P_{N-1}}\right)
+=\frac32-\frac12\frac{b_{N-1}}{P_{N-1}}.
+\]
+
+Now use the recurrence rewritten as
+\[
+a_n=\frac{b_n+2}{b_{n-1}}.
+\]
+Then
+\[
+P_n=\prod_{k=1}^n \frac{b_k+2}{b_{k-1}},
+\]
+so
+\[
+\frac{b_n}{P_n}
+= \prod_{k=1}^n \frac{b_k}{b_k+2}.
+\]
+Since each \(b_k>0\) and \(|b_k|\le B\), we have \(0<b_k\le B\), hence
+\[
+0\le \frac{b_k}{b_k+2}\le \frac{B}{B+2}<1.
+\]
+Thus \(\frac{b_n}{P_n}\to 0\). Therefore
+\[
+S_N\to \frac32.
+\]
+
+So the unique constant is:
+
+<<<(3 : ℝ) / 2>>>

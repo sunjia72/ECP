@@ -1,0 +1,164 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MeasureTheory Set
+theorem putnam_1962_a2 : ∃ (putnam_1962_a2_solution : Set (ℝ → ℝ)), ∀ (P : Set ℝ → (ℝ → ℝ) → Prop), ((∀ (s : Set ℝ) (f : ℝ → ℝ), P s f ↔ (0 : ℝ → ℝ) ≤ f ∧ ∀ x ∈ s, ⨍ (t : ℝ) in Ico (0 : ℝ) x, f t = √(f (0 : ℝ) * f x))) → ((∀ (f : ℝ → ℝ), (P (Ioi (0 : ℝ)) f → ∃ g ∈ putnam_1962_a2_solution, EqOn f g (Ici (0 : ℝ))) ∧ ∀ e > (0 : ℝ), P (Ioo (0 : ℝ) e) f → ∃ g ∈ putnam_1962_a2_solution, EqOn f g (Ico (0 : ℝ) e)) ∧ ∀ f ∈ putnam_1962_a2_solution, P (Ioi (0 : ℝ)) f ∨ ∃ e > (0 : ℝ), P (Ioo (0 : ℝ) e) f) := by sorry. Answer Type: Set (ℝ → ℝ). 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_JBeN7br4u6IHoSrDC6D03rUv):
+import sympy as sp
+x,c,d,t=sp.symbols('x c d t', positive=True)
+expr = c/(1+d*t)**2
+avg = sp.simplify((1/x)*sp.integrate(expr, (t,0,x)))
+rhs = sp.simplify(sp.sqrt((c)*(c/(1+d*x)**2)))
+print('avg=', avg)
+print('rhs=', rhs)
+print(sp.simplify(avg-rhs))
+[TOOL OUTPUT]
+avg= c/(d*x + 1)
+rhs= c/(d*x + 1)
+0
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_TYkuB1hhvCllMkw4kAYSNose):
+import math
+for c in [0,1,2.5]:
+    for d in [-0.4,0,0.3]:
+        e=2 if d>=0 else min(2, -1/d - 0.1)
+        xs=[0.2,0.5,1.0] if e>=1.0 else [0.2,0.5]
+        print('c,d',c,d)
+        for x in xs:
+            if 1+d*x<=0: 
+                continue
+            # numerical average
+            n=100000
+            s=0.0
+            for i in range(n):
+                t=(i+0.5)*x/n
+                s += c/(1+d*t)**2
+            avg = s/n
+            rhs = math.sqrt((c)*(c/(1+d*x)**2))
+            print(x, avg, rhs, avg-rhs)
+        print()
+[TOOL OUTPUT]
+c,d 0 -0.4
+0.2 0.0 0.0 0.0
+0.5 0.0 0.0 0.0
+1.0 0.0 0.0 0.0
+
+c,d 0 0
+0.2 0.0 0.0 0.0
+0.5 0.0 0.0 0.0
+1.0 0.0 0.0 0.0
+
+c,d 0 0.3
+0.2 0.0 0.0 0.0
+0.5 0.0 0.0 0.0
+1.0 0.0 0.0 0.0
+
+c,d 1 -0.4
+0.2 1.0869565217389359 1.0869565217391306 -1.9473311851925246e-13
+0.5 1.2499999999983853 1.25 -1.6147083670148277e-12
+1.0 1.6666666666545769 1.6666666666666667 -1.2089884648958105e-11
+
+c,d 1 0
+0.2 1.0 1.0 0.0
+0.5 1.0 1.0 0.0
+1.0 1.0 1.0 0.0
+
+c,d 1 0.3
+0.2 0.9433962264150247 0.9433962264150942 -6.94999613415348e-14
+0.5 0.8695652173908767 0.8695652173913044 -4.277689313880728e-13
+1.0 0.7692307692293958 0.7692307692307692 -1.3733458814613186e-12
+
+c,d 2.5 -0.4
+0.2 2.7173913043473794 2.7173913043478266 -4.4719783431901305e-13
+0.5 3.1249999999960547 3.1249999999999996 -3.944844451098106e-12
+1.0 4.166666666636439 4.166666666666667 -3.022826433607406e-11
+
+c,d 2.5 0
+0.2 2.5 2.5 0.0
+0.5 2.5 2.5 0.0
+1.0 2.5 2.5 0.0
+
+c,d 2.5 0.3
+0.2 2.3584905660375433 2.3584905660377355 -1.9229062786507711e-13
+0.5 2.173913043477182 2.173913043478261 -1.0791367799356522e-12
+1.0 1.9230769230735272 1.923076923076923 -3.3957281431185038e-12
+
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+\frac1x\int_0^x f(t)\,dt=\sqrt{f(0)f(x)} \qquad (x>0)
+\]
+be the intended equation (this is what the `⨍ ... in Ico 0 x` notation represents here).
+
+Set \(a=f(0)\ge 0\).
+
+- If \(a=0\), the representative solution is the zero function, which is included below.
+- If \(a>0\), write
+  \[
+  u(x)=\sqrt{\frac{f(x)}a}.
+  \]
+  Then
+  \[
+  \int_0^x u(t)^2\,dt=xu(x).
+  \]
+  Let \(y(x)=xu(x)\). Then \(y\) is absolutely continuous and
+  \[
+  y'(x)=u(x)^2=\frac{y(x)^2}{x^2}
+  \]
+  a.e., so
+  \[
+  \left(\frac1{y(x)}\right)'=-\frac1{x^2}.
+  \]
+  Integrating gives
+  \[
+  \frac1{y(x)}=\frac1x+C
+  \]
+  for some constant \(C\), hence
+  \[
+  y(x)=\frac{x}{1+Cx},\qquad
+  u(x)=\frac1{1+Cx}.
+  \]
+  Therefore
+  \[
+  f(x)=a\,u(x)^2=\frac{a}{(1+Cx)^2}.
+  \]
+
+Conversely,
+\[
+f(x)=\frac{a}{(1+Cx)^2}\qquad (a\ge 0)
+\]
+indeed satisfies
+\[
+\frac1x\int_0^x f(t)\,dt=\frac{a}{1+Cx}
+=\sqrt{a\cdot \frac{a}{(1+Cx)^2}}
+\]
+whenever \(1+Cx>0\). So for \(C\ge 0\) it is a global solution on \((0,\infty)\), and for arbitrary \(C\in\mathbb R\) it is at least a local solution on some \((0,e)\).
+
+I also checked the formula symbolically/numerically in Python.
+
+Thus the intended solution set is all functions of the form \(x\mapsto a/(1+Cx)^2\) with \(a\ge 0\).
+
+<<<{f | ∃ a c : ℝ, 0 ≤ a ∧ f = (fun x : ℝ => a / (1 + c * x)^2)}>>>

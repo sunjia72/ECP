@@ -1,0 +1,119 @@
+{
+  "seed": 0,
+  "field": "complete",
+  "max_round": 2,
+  "num_origins": 346,
+  "automation_solved_num_instances": 0,
+  "pass@1_with_correction_simulated": 0.008670520231213872,
+  "pass@1_with_correction_simulated_num_solved_instances": 3,
+  "pass@k_with_correction": 0.02023121387283237,
+  "pass@k_with_correction_num_solved_instances": 7,
+  "per_round": {
+    "round_0": {
+      "pass@k": 0.02023121387283237,
+      "pass@k_num_solved_instances": 7,
+      "pass@1_simulated": 0.008670520231213872,
+      "pass@1_simulated_num_solved_instances": 3
+    },
+    "round_1": {
+      "pass@k": 0.02023121387283237,
+      "pass@k_num_solved_instances": 7,
+      "pass@1_simulated": 0.008670520231213872,
+      "pass@1_simulated_num_solved_instances": 3
+    },
+    "round_2": {
+      "pass@k": 0.02023121387283237,
+      "pass@k_num_solved_instances": 7,
+      "pass@1_simulated": 0.008670520231213872,
+      "pass@1_simulated_num_solved_instances": 3
+    }
+  },
+  "final_round_sampled_pass_curve": {
+    "max_k_over_origins": 32,
+    "pass_curve": {
+      "1": {
+        "accuracy": 0.011560693641618497,
+        "num_solved_instances": 4
+      },
+      "2": {
+        "accuracy": 0.014450867052023121,
+        "num_solved_instances": 5
+      },
+      "4": {
+        "accuracy": 0.017341040462427744,
+        "num_solved_instances": 6
+      },
+      "8": {
+        "accuracy": 0.014450867052023121,
+        "num_solved_instances": 5
+      },
+      "16": {
+        "accuracy": 0.014450867052023121,
+        "num_solved_instances": 5
+      },
+      "32": {
+        "accuracy": 0.02023121387283237,
+        "num_solved_instances": 7
+      }
+    }
+  },
+  "category_metrics": {
+    "putnam": {
+      "num_origins": 346,
+      "automation_solved_num_instances": 0,
+      "pass@1_with_correction_simulated": 0.008670520231213872,
+      "pass@1_with_correction_simulated_num_solved_instances": 3,
+      "pass@k_with_correction": 0.02023121387283237,
+      "pass@k_with_correction_num_solved_instances": 7,
+      "per_round": {
+        "round_0": {
+          "pass@k": 0.02023121387283237,
+          "pass@k_num_solved_instances": 7,
+          "pass@1_simulated": 0.008670520231213872,
+          "pass@1_simulated_num_solved_instances": 3
+        },
+        "round_1": {
+          "pass@k": 0.02023121387283237,
+          "pass@k_num_solved_instances": 7,
+          "pass@1_simulated": 0.008670520231213872,
+          "pass@1_simulated_num_solved_instances": 3
+        },
+        "round_2": {
+          "pass@k": 0.02023121387283237,
+          "pass@k_num_solved_instances": 7,
+          "pass@1_simulated": 0.008670520231213872,
+          "pass@1_simulated_num_solved_instances": 3
+        }
+      },
+      "final_round_sampled_pass_curve": {
+        "max_k_over_origins": 32,
+        "pass_curve": {
+          "1": {
+            "accuracy": 0.011560693641618497,
+            "num_solved_instances": 4
+          },
+          "2": {
+            "accuracy": 0.014450867052023121,
+            "num_solved_instances": 5
+          },
+          "4": {
+            "accuracy": 0.017341040462427744,
+            "num_solved_instances": 6
+          },
+          "8": {
+            "accuracy": 0.014450867052023121,
+            "num_solved_instances": 5
+          },
+          "16": {
+            "accuracy": 0.014450867052023121,
+            "num_solved_instances": 5
+          },
+          "32": {
+            "accuracy": 0.02023121387283237,
+            "num_solved_instances": 7
+          }
+        }
+      }
+    }
+  }
+}

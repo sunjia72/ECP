@@ -1,0 +1,37 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_1997_a5 : ∃ (putnam_1997_a5_solution : Prop), ∀ (N : (n : ℕ+) → Set (Fin (↑n : ℕ) → ℕ+)), ((N = fun (n : ℕ+) => {t : Fin (↑n : ℕ) → ℕ+ | ∑ i : Fin (↑n : ℕ), (1 : ℝ) / (↑(↑(t i) : ℕ) : ℝ) = (1 : ℝ)})) → (Odd (N (10 : ℕ+)).ncard ↔ putnam_1997_a5_solution) := by sorry. Answer Type: Prop. 
+
+=== CONJECTURER ROUND ===
+
+
+The problem requires determining the parity (odd or even) of the number of functions $ t: \text{Fin}(10) \to \mathbb{N}^+ $ such that the sum of their reciprocals equals 1. Here's the reasoning:
+
+1. **Constraint on Reciprocals**: For $ \sum_{i=1}^{10} \frac{1}{t(i)} = 1 $, all $ t(i) \geq 2 $ because if any $ t(i) = 1 $, the sum would exceed 1. 
+2. **Symmetric Solutions**: Consider symmetric sequences where $ t(i) = t(11-i) $. This reduces the problem to solving $ \sum_{i=1}^{5} \frac{1}{x_i} = \frac{1}{2} $ with $ x_i \geq 3 $. However, the minimum sum for five terms $ \geq \frac{1}{3} $ is $ \frac{5}{3} > \frac{1}{2} $, making such solutions impossible.
+3. **Non-Symmetric Solutions**: Any non-symmetric solution would have a unique reverse, pairing solutions into even counts. Since no symmetric solutions exist, the total number of solutions is even.
+4. **Conclusion**: With no valid solutions to the equation, the count is 0, which is even.
+
+**Final Answer**:  
+<<<False>>>

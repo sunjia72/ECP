@@ -1,0 +1,65 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Matrix Function Real Topology Filter
+theorem putnam_2012_b4 : ∃ (putnam_2012_b4_solution : Prop), ∀ (a : ℕ → ℝ), ((a (0 : ℕ) = (1 : ℝ)) ∧ (∀ (n : ℕ), a (n + (1 : ℕ)) = a n + rexp (-a n))) → ((∃ (L : ℝ), Tendsto (fun (n : ℕ) => a n - log (↑n : ℝ)) atTop (𝓝 L)) ↔ putnam_2012_b4_solution) := by sorry. Answer Type: Prop. 
+Let  
+\[
+b_n := e^{a_n}.
+\]
+Then the recurrence becomes
+\[
+b_{n+1}=e^{a_{n+1}}=e^{a_n+e^{-a_n}}=b_n\,e^{1/b_n}.
+\]
+
+Since \(a_0=1\) and \(a_{n+1}-a_n=e^{-a_n}>0\), the sequence \(a_n\) is increasing, so \(a_n\ge 1\) and thus \(b_n\ge e\). Hence \(1/b_n\le 1\).
+
+For \(0\le x\le 1\), we have
+\[
+1+x \le e^x \le 1+x+x^2.
+\]
+Applying this with \(x=1/b_n\),
+\[
+b_n+1 \le b_{n+1} \le b_n+1+\frac1{b_n}.
+\]
+So \(b_n\ge e+n\), and therefore
+\[
+b_n \le e+n+\sum_{k<n}\frac1{b_k}
+\le e+n+\sum_{k<n}\frac1{k+e}
+= n+O(\log n).
+\]
+Thus
+\[
+b_n=n+O(\log n),
+\]
+so in particular
+\[
+\frac{b_n}{n}\to 1.
+\]
+
+Now for \(n\ge 1\),
+\[
+a_n-\log n=\log b_n-\log n=\log\!\left(\frac{b_n}{n}\right)\to \log 1=0.
+\]
+Therefore the required limit exists (indeed with \(L=0\)) for every sequence satisfying the recurrence.
+
+So the proposition is simply `True`.
+
+<<<True>>>

@@ -1,0 +1,56 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_1991_a5 : ∃ (putnam_1991_a5_solution : ℝ), ∀ (f : (↑(Set.Icc (0 : ℝ) (1 : ℝ)) : Type) → ℝ), ((∀ (y : (↑(Set.Icc (0 : ℝ) (1 : ℝ)) : Type)), f y = ∫ (x : (↑(Set.Icc (0 : ℝ) (1 : ℝ)) : Type)) in Set.Ioo (0 : (↑(Set.Icc (0 : ℝ) (1 : ℝ)) : Type)) y, √((↑x : ℝ) ^ (4 : ℕ) + ((↑y : ℝ) - (↑y : ℝ) ^ (2 : ℕ)) ^ (2 : ℕ)))) → (IsGreatest (f '' Set.Icc (0 : (↑(Set.Icc (0 : ℝ) (1 : ℝ)) : Type)) (1 : (↑(Set.Icc (0 : ℝ) (1 : ℝ)) : Type))) putnam_1991_a5_solution) := by sorry. Answer Type: ℝ. 
+Let
+\[
+F(y)=\int_0^y \sqrt{x^4+(y-y^2)^2}\,dx,\qquad y\in[0,1].
+\]
+Set \(c=y-y^2\ge 0\). Then for \(0\le x\le y\),
+\[
+\sqrt{x^4+c^2}\le x^2+c
+\]
+since \(\sqrt{a^2+b^2}\le a+b\) for \(a,b\ge 0\).
+
+So
+\[
+F(y)\le \int_0^y (x^2+c)\,dx
+= \frac{y^3}{3}+yc
+= \frac{y^3}{3}+y(y-y^2)
+= y^2-\frac{2}{3}y^3.
+\]
+Now on \(y\in[0,1]\),
+\[
+\frac{d}{dy}\left(y^2-\frac{2}{3}y^3\right)=2y(1-y)\ge 0,
+\]
+so this upper bound is increasing and hence at most its value at \(y=1\), namely
+\[
+1-\frac23=\frac13.
+\]
+Thus \(F(y)\le \frac13\) for all \(y\in[0,1]\).
+
+At \(y=1\), we have \(y-y^2=0\), so
+\[
+F(1)=\int_0^1 \sqrt{x^4}\,dx=\int_0^1 x^2\,dx=\frac13.
+\]
+Therefore the greatest value is \(\frac13\).
+
+<<<(1 : ℝ) / 3>>>

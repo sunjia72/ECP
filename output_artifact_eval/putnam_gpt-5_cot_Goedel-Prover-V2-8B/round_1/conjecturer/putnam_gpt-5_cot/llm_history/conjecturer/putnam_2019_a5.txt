@@ -1,0 +1,51 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter
+theorem putnam_2019_a5 : ∃ (putnam_2019_a5_solution : ℕ → ℕ), ∀ (p : ℕ), ∀ (q : Polynomial (ZMod p)), ∀ (a : ℕ → ZMod p), ∀ (npoly : ℕ → Polynomial (ZMod p)), ((Odd p) ∧ (Nat.Prime p) ∧ (∀ (k : ℕ), q.coeff k = a k) ∧ (a (0 : ℕ) = (0 : ZMod p) ∧ ∀ k > p - (1 : ℕ), a k = (0 : ZMod p)) ∧ (∀ (k : (↑(Set.Icc (1 : ℕ) (p - (1 : ℕ))) : Type)), a (↑k : ℕ) = (↑((↑k : ℕ) ^ ((p - (1 : ℕ)) / (2 : ℕ)) % p) : ZMod p)) ∧ (∀ (n : ℕ), npoly n = (Polynomial.X - (1 : Polynomial (ZMod p))) ^ n)) → (IsGreatest {n : ℕ | npoly n ∣ q} (putnam_2019_a5_solution p)) := by sorry. Answer Type: ℕ → ℕ. 
+For
+\[
+q(X)=\sum_{k=1}^{p-1} k^{(p-1)/2}X^k \in (\mathbb Z/p\mathbb Z)[X],
+\]
+the coefficient \(k^{(p-1)/2}\) is the quadratic character \(\chi(k)\) on \(\mathbb F_p^\times\).
+
+Now \((X-1)^n\mid q\) iff the first \(n\) coefficients of \(q(1+T)\) vanish, i.e. iff
+\[
+\sum_{k=1}^{p-1}\chi(k)\binom{k}{j}=0 \quad \text{for } j=0,1,\dots,n-1.
+\]
+Since \(\binom{k}{j}\) is a degree-\(j\) polynomial in \(k\), this reduces to vanishing of the moments
+\[
+\sum_{k=1}^{p-1}\chi(k)k^r
+= \sum_{k=1}^{p-1}k^{r+(p-1)/2}.
+\]
+For \(r<\frac{p-1}{2}\), the exponent \(r+\frac{p-1}{2}\) is not divisible by \(p-1\), so the sum over \(\mathbb F_p^\times\) is \(0\). Thus \((X-1)^{(p-1)/2}\mid q\).
+
+But for \(r=\frac{p-1}{2}\),
+\[
+\sum_{k=1}^{p-1}k^{p-1}=p-1=-1 \neq 0 \pmod p,
+\]
+so the next coefficient does not vanish. Hence the multiplicity of the root \(X=1\) is exactly
+\[
+\frac{p-1}{2}.
+\]
+
+So the solution function is:
+
+<<<fun p : ℕ => (p - 1) / 2>>>

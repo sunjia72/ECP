@@ -1,0 +1,290 @@
+{
+  "seed": 0,
+  "field": "complete",
+  "max_round": 2,
+  "num_origins": 75,
+  "automation_solved_num_instances": 7,
+  "pass@1_with_correction": 0.10666666666666667,
+  "pass@1_with_correction_num_solved_instances": 8,
+  "pass@k_with_correction": 0.22666666666666666,
+  "pass@k_with_correction_num_solved_instances": 17,
+  "per_round": {
+    "round_0": {
+      "pass@k": 0.21333333333333335,
+      "pass@k_num_solved_instances": 16,
+      "pass@1": 0.10666666666666667,
+      "pass@1_num_solved_instances": 8
+    },
+    "round_1": {
+      "pass@k": 0.21333333333333335,
+      "pass@k_num_solved_instances": 16,
+      "pass@1": 0.10666666666666667,
+      "pass@1_num_solved_instances": 8
+    },
+    "round_2": {
+      "pass@k": 0.22666666666666666,
+      "pass@k_num_solved_instances": 17,
+      "pass@1": 0.10666666666666667,
+      "pass@1_num_solved_instances": 8
+    }
+  },
+  "final_round_sampled_pass_curve": {
+    "max_k_over_origins": 32,
+    "pass_curve": {
+      "1": {
+        "accuracy": 0.12,
+        "num_solved_instances": 9
+      },
+      "2": {
+        "accuracy": 0.16,
+        "num_solved_instances": 12
+      },
+      "4": {
+        "accuracy": 0.21333333333333335,
+        "num_solved_instances": 16
+      },
+      "8": {
+        "accuracy": 0.21333333333333335,
+        "num_solved_instances": 16
+      },
+      "16": {
+        "accuracy": 0.21333333333333335,
+        "num_solved_instances": 16
+      },
+      "32": {
+        "accuracy": 0.22666666666666666,
+        "num_solved_instances": 17
+      }
+    }
+  },
+  "category_metrics": {
+    "AIMEI": {
+      "num_origins": 15,
+      "automation_solved_num_instances": 2,
+      "pass@1_with_correction": 0.2,
+      "pass@1_with_correction_num_solved_instances": 3,
+      "pass@k_with_correction": 0.4,
+      "pass@k_with_correction_num_solved_instances": 6,
+      "per_round": {
+        "round_0": {
+          "pass@k": 0.4,
+          "pass@k_num_solved_instances": 6,
+          "pass@1": 0.2,
+          "pass@1_num_solved_instances": 3
+        },
+        "round_1": {
+          "pass@k": 0.4,
+          "pass@k_num_solved_instances": 6,
+          "pass@1": 0.2,
+          "pass@1_num_solved_instances": 3
+        },
+        "round_2": {
+          "pass@k": 0.4,
+          "pass@k_num_solved_instances": 6,
+          "pass@1": 0.2,
+          "pass@1_num_solved_instances": 3
+        }
+      },
+      "final_round_sampled_pass_curve": {
+        "max_k_over_origins": 32,
+        "pass_curve": {
+          "1": {
+            "accuracy": 0.26666666666666666,
+            "num_solved_instances": 4
+          },
+          "2": {
+            "accuracy": 0.26666666666666666,
+            "num_solved_instances": 4
+          },
+          "4": {
+            "accuracy": 0.4,
+            "num_solved_instances": 6
+          },
+          "8": {
+            "accuracy": 0.4,
+            "num_solved_instances": 6
+          },
+          "16": {
+            "accuracy": 0.4,
+            "num_solved_instances": 6
+          },
+          "32": {
+            "accuracy": 0.4,
+            "num_solved_instances": 6
+          }
+        }
+      }
+    },
+    "AIMEII": {
+      "num_origins": 15,
+      "automation_solved_num_instances": 2,
+      "pass@1_with_correction": 0.13333333333333333,
+      "pass@1_with_correction_num_solved_instances": 2,
+      "pass@k_with_correction": 0.26666666666666666,
+      "pass@k_with_correction_num_solved_instances": 4,
+      "per_round": {
+        "round_0": {
+          "pass@k": 0.2,
+          "pass@k_num_solved_instances": 3,
+          "pass@1": 0.13333333333333333,
+          "pass@1_num_solved_instances": 2
+        },
+        "round_1": {
+          "pass@k": 0.2,
+          "pass@k_num_solved_instances": 3,
+          "pass@1": 0.13333333333333333,
+          "pass@1_num_solved_instances": 2
+        },
+        "round_2": {
+          "pass@k": 0.26666666666666666,
+          "pass@k_num_solved_instances": 4,
+          "pass@1": 0.13333333333333333,
+          "pass@1_num_solved_instances": 2
+        }
+      },
+      "final_round_sampled_pass_curve": {
+        "max_k_over_origins": 32,
+        "pass_curve": {
+          "1": {
+            "accuracy": 0.13333333333333333,
+            "num_solved_instances": 2
+          },
+          "2": {
+            "accuracy": 0.2,
+            "num_solved_instances": 3
+          },
+          "4": {
+            "accuracy": 0.26666666666666666,
+            "num_solved_instances": 4
+          },
+          "8": {
+            "accuracy": 0.2,
+            "num_solved_instances": 3
+          },
+          "16": {
+            "accuracy": 0.2,
+            "num_solved_instances": 3
+          },
+          "32": {
+            "accuracy": 0.26666666666666666,
+            "num_solved_instances": 4
+          }
+        }
+      }
+    },
+    "HMMT": {
+      "num_origins": 33,
+      "automation_solved_num_instances": 3,
+      "pass@1_with_correction": 0.09090909090909091,
+      "pass@1_with_correction_num_solved_instances": 3,
+      "pass@k_with_correction": 0.21212121212121213,
+      "pass@k_with_correction_num_solved_instances": 7,
+      "per_round": {
+        "round_0": {
+          "pass@k": 0.21212121212121213,
+          "pass@k_num_solved_instances": 7,
+          "pass@1": 0.09090909090909091,
+          "pass@1_num_solved_instances": 3
+        },
+        "round_1": {
+          "pass@k": 0.21212121212121213,
+          "pass@k_num_solved_instances": 7,
+          "pass@1": 0.09090909090909091,
+          "pass@1_num_solved_instances": 3
+        },
+        "round_2": {
+          "pass@k": 0.21212121212121213,
+          "pass@k_num_solved_instances": 7,
+          "pass@1": 0.09090909090909091,
+          "pass@1_num_solved_instances": 3
+        }
+      },
+      "final_round_sampled_pass_curve": {
+        "max_k_over_origins": 32,
+        "pass_curve": {
+          "1": {
+            "accuracy": 0.09090909090909091,
+            "num_solved_instances": 3
+          },
+          "2": {
+            "accuracy": 0.15151515151515152,
+            "num_solved_instances": 5
+          },
+          "4": {
+            "accuracy": 0.18181818181818182,
+            "num_solved_instances": 6
+          },
+          "8": {
+            "accuracy": 0.21212121212121213,
+            "num_solved_instances": 7
+          },
+          "16": {
+            "accuracy": 0.21212121212121213,
+            "num_solved_instances": 7
+          },
+          "32": {
+            "accuracy": 0.21212121212121213,
+            "num_solved_instances": 7
+          }
+        }
+      }
+    },
+    "APEX": {
+      "num_origins": 12,
+      "automation_solved_num_instances": 0,
+      "pass@1_with_correction": 0.0,
+      "pass@1_with_correction_num_solved_instances": 0,
+      "pass@k_with_correction": 0.0,
+      "pass@k_with_correction_num_solved_instances": 0,
+      "per_round": {
+        "round_0": {
+          "pass@k": 0.0,
+          "pass@k_num_solved_instances": 0,
+          "pass@1": 0.0,
+          "pass@1_num_solved_instances": 0
+        },
+        "round_1": {
+          "pass@k": 0.0,
+          "pass@k_num_solved_instances": 0,
+          "pass@1": 0.0,
+          "pass@1_num_solved_instances": 0
+        },
+        "round_2": {
+          "pass@k": 0.0,
+          "pass@k_num_solved_instances": 0,
+          "pass@1": 0.0,
+          "pass@1_num_solved_instances": 0
+        }
+      },
+      "final_round_sampled_pass_curve": {
+        "max_k_over_origins": 32,
+        "pass_curve": {
+          "1": {
+            "accuracy": 0.0,
+            "num_solved_instances": 0
+          },
+          "2": {
+            "accuracy": 0.0,
+            "num_solved_instances": 0
+          },
+          "4": {
+            "accuracy": 0.0,
+            "num_solved_instances": 0
+          },
+          "8": {
+            "accuracy": 0.0,
+            "num_solved_instances": 0
+          },
+          "16": {
+            "accuracy": 0.0,
+            "num_solved_instances": 0
+          },
+          "32": {
+            "accuracy": 0.0,
+            "num_solved_instances": 0
+          }
+        }
+      }
+    }
+  }
+}

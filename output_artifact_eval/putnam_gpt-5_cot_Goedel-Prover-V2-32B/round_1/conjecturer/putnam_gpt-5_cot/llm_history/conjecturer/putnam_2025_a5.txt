@@ -1,0 +1,47 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Finset
+def f (n : ℕ) (s : Fin n → ℤˣ) : ℕ :=
+  Finset.card {σ : Equiv.Perm (Fin (n + 1)) |
+    ∀ i : Fin n, 0 < (s i : ℤ) * ((σ i.succ : ℤ) - (σ i.castSucc : ℤ))}
+theorem putnam_2025_a5 : ∃ (putnam_2025_a5_solution : (n : ℕ) → Set (Fin n → ℤˣ)), ∀ (n : ℕ), ∀ (s : Fin n → ℤˣ), (((1 : ℕ) ≤ n)) → ((∀ (t : Fin n → ℤˣ), f n t ≤ f n s) ↔ s ∈ putnam_2025_a5_solution n) := by sorry. Answer Type: (n : ℕ) → Set (Fin n → ℤˣ). 
+Here `s : Fin n → ℤˣ` is just a length-`n` sign pattern, since the only units in `ℤ` are `±1`.
+
+For a permutation `σ` of `Fin (n+1)`, the condition
+\[
+0 < (s i : \mathbb Z)\,((\sigma(i+1):\mathbb Z)-(\sigma(i):\mathbb Z))
+\]
+means exactly:
+
+- `s i = 1`  iff `σ(i+1) > σ(i)`,
+- `s i = -1` iff `σ(i+1) < σ(i)`.
+
+So `f n s` counts permutations of `0,1,\dots,n` with prescribed up/down pattern `s`.
+
+A classical extremal result for descent patterns is that this count is maximized precisely by the **alternating** patterns. In sign language, that means the maximizing `s` are exactly the two sequences
+\[
+s_i=\varepsilon(-1)^i \qquad (\varepsilon=\pm1).
+\]
+Equivalently, consecutive signs always alternate.
+
+So the solution set is the set of all alternating sign patterns.
+
+<<<fun n => {s | ∃ ε : ℤˣ, ∀ i : Fin n, s i = ε * (-1 : ℤˣ) ^ (i : ℕ)}>>>

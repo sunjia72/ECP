@@ -1,0 +1,38 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1983_a1 : ∃ (putnam_1983_a1_solution : ℕ), ({n : ℤ | n > (0 : ℤ) ∧ (n ∣ (10 : ℤ) ^ (40 : ℕ) ∨ n ∣ (20 : ℤ) ^ (30 : ℕ))}.encard = (↑putnam_1983_a1_solution : ℕ∞)) := by sorry. Answer Type: ℕ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (id=chatcmpl-tool-ca949d09862341489934641f4ee43960):
+result1 = (40 + 1) * (40 + 1)
+result2 = (60 + 1) * (30 + 1)
+intersection = (40 + 1) * (30 + 1)
+total = result1 + result2 - intersection
+print(result1, result2, intersection, total)
+[TOOL OUTPUT]
+1681 1891 1271 2301
+
+=== CONJECTURER ROUND ===
+
+
+<<<2301>>>

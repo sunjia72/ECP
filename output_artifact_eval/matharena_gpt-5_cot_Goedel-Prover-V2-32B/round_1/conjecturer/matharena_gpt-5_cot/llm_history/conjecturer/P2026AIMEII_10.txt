@@ -1,0 +1,87 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026AIMEII_10 : ∃ (P2026AIMEII_10_answer : Nat), (let Point := ℝ × ℝ; let vsub := fun (P Q : Point) => (P.1 - Q.1, P.2 - Q.2); let dist := fun (P Q : Point) => √((P.1 - Q.1) ^ (2 : ℕ) + (P.2 - Q.2) ^ (2 : ℕ)); let dot := fun (u v : Point) => u.1 * v.1 + u.2 * v.2; let cross := fun (u v : Point) => u.1 * v.2 - u.2 * v.1; let onSegment := fun (P X Y : Point) => ∃ (t : ℝ), (0 : ℝ) ≤ t ∧ t ≤ (1 : ℝ) ∧ P = (((1 : ℝ) - t) * X.1 + t * Y.1, ((1 : ℝ) - t) * X.2 + t * Y.2); let IsPossibleBC := fun (n : ℕ) => ∃ (A : Point) (B : Point) (C : Point) (D : Point) (E : Point) (F : Point) (O : Point) (r : ℝ) (ae : ℕ) (af : ℕ) (bd : ℕ) (cd : ℕ), (0 : ℝ) < r ∧ cross (vsub B A) (vsub C A) ≠ (0 : ℝ) ∧ dist A B = (200 : ℝ) ∧ dist A C = (225 : ℝ) ∧ dist B C = (↑n : ℝ) ∧ onSegment D B C ∧ dist B D = (↑bd : ℝ) ∧ dist D C = (↑cd : ℝ) ∧ (0 : ℕ) < bd ∧ (0 : ℕ) < cd ∧ (0 : ℝ) < dist A D ∧ dot (vsub B A) (vsub D A) / (dist A B * dist A D) = dot (vsub D A) (vsub C A) / (dist A D * dist A C) ∧ dist O A = r ∧ dist O D = r ∧ dot (vsub O D) (vsub C B) = (0 : ℝ) ∧ onSegment E A B ∧ E ≠ A ∧ dist O E = r ∧ dist A E = (↑ae : ℝ) ∧ (0 : ℕ) < ae ∧ onSegment F A C ∧ F ≠ A ∧ dist O F = r ∧ dist A F = (↑af : ℝ) ∧ (0 : ℕ) < af; ∃ (possibleBC : Finset ℕ), (∀ (n : ℕ), n ∈ possibleBC ↔ IsPossibleBC n) ∧ ∑ n ∈ possibleBC, n = P2026AIMEII_10_answer) := by sorry. Answer Type: Nat. 
+Let \(D\) be the point on \(\overline{BC}\) with the given cosine condition. Since \(D\) lies on \(BC\), that condition means
+\[
+\angle BAD=\angle DAC,
+\]
+so \(AD\) is the angle bisector of \(\angle A\).
+
+Thus by the Angle Bisector Theorem,
+\[
+\frac{BD}{DC}=\frac{AB}{AC}=\frac{200}{225}=\frac89.
+\]
+Since \(BD,DC\) are positive integers, write
+\[
+BD=8k,\quad DC=9k,
+\]
+so
+\[
+BC=17k.
+\]
+
+Now the circle centered at \(O\) passes through \(A,D,E,F\), and \(OD\perp BC\), so \(BC\) is tangent to the circle at \(D\). Applying the tangent-secant theorem from \(B\) and \(C\):
+
+From \(B\):
+\[
+BD^2 = BA\cdot BE = 200(200-AE).
+\]
+So
+\[
+(8k)^2=200(200-AE).
+\]
+
+From \(C\):
+\[
+CD^2 = CA\cdot CF = 225(225-AF),
+\]
+so
+\[
+(9k)^2=225(225-AF).
+\]
+
+For \(AE,AF\) to be integers, both imply \(k\) is divisible by \(5\). Let \(k=5m\). Then
+\[
+BD=40m,\quad DC=45m,\quad BC=85m,
+\]
+and
+\[
+AE=200-8m^2,\qquad AF=225-9m^2.
+\]
+Since \(AE,AF>0\),
+\[
+200-8m^2>0,\quad 225-9m^2>0,
+\]
+which gives \(m=1,2,3,4\).
+
+Hence the possible values of \(BC\) are
+\[
+85,170,255,340.
+\]
+Their sum is
+\[
+85+170+255+340=850.
+\]
+
+<<<850>>>

@@ -1,0 +1,119 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open EuclideanGeometry Filter Topology Set
+theorem putnam_1972_a3 : ∃ (putnam_1972_a3_solution : Set (ℝ → ℝ)), ∀ (climit_exists : (ℕ → ℝ) → Prop), ∀ (supercontinuous : (ℝ → ℝ) → Prop), ((∀ (x : ℕ → ℝ), climit_exists x ↔ ∃ (C : ℝ), Tendsto (fun (n : ℕ) => (∑ i ∈ Finset.range n, x i) / (↑n : ℝ)) atTop (𝓝 C)) ∧ (∀ (f : ℝ → ℝ), supercontinuous f ↔ ∀ (x : ℕ → ℝ), (∀ (i : ℕ), x i ∈ Icc (0 : ℝ) (1 : ℝ)) → climit_exists x → climit_exists fun (i : ℕ) => f (x i))) → ({f : ℝ → ℝ | supercontinuous f} = putnam_1972_a3_solution) := by sorry. Answer Type: Set (ℝ → ℝ). 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_IauEbKkrmAFNgSFSjt5BM8F9):
+from itertools import cycle
+
+def build_seq(levels=8):
+    xs=[]
+    # alternate A: all 0.5, B: equal numbers 0 and 1
+    for k in range(levels):
+        L=10**k
+        if k%2==0:
+            xs += [0.5]*L
+        else:
+            xs += [0,1]*(L//2)
+            if L%2: xs += [0.5]
+    return xs
+
+xs=build_seq(8)
+for N in [10,100,1000,10000,100000,1000000, len(xs)]:
+    pref=xs[:N]
+    avg=sum(pref)/len(pref)
+    avg2=sum(x*x for x in pref)/len(pref)
+    print(N, round(avg,6), round(avg2,6))
+print('total length', len(xs))
+[TOOL OUTPUT]
+10 0.45 0.425
+100 0.5 0.275
+1000 0.4995 0.47425
+10000 0.5 0.27525
+100000 0.499995 0.474743
+1000000 0.5 0.275253
+11111111 0.5 0.477273
+total length 11111111
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_ialQO6F5nFpqojdHLAYRuTJG):
+def block_end_averages(levels=8):
+    xs=[]
+    ends=[]
+    total=0
+    for k in range(levels):
+        L=10**k
+        if k%2==0:
+            block=[0.5]*L
+        else:
+            block=[0,1]*(L//2)
+            if L%2: block.append(0.5)
+        xs += block
+        total += len(block)
+        avg=sum(xs)/total
+        avg2=sum(x*x for x in xs)/total
+        ends.append((k+1,total,avg,avg2))
+    return ends
+
+for row in block_end_averages(8):
+    print(row[0], row[1], round(row[2],6), round(row[3],6))
+[TOOL OUTPUT]
+1 1 0.5 0.25
+2 11 0.5 0.477273
+3 111 0.5 0.272523
+4 1111 0.5 0.477273
+5 11111 0.5 0.272725
+6 111111 0.5 0.477273
+7 1111111 0.5 0.272727
+8 11111111 0.5 0.477273
+
+=== CONJECTURER ROUND ===
+The supercontinuous functions are exactly those that are **affine on** \([0,1]\); outside \([0,1]\) they are unrestricted.
+
+Python check idea: for a non-affine example \(f(x)=x^2\), alternate huge blocks of all \(1/2\) with huge blocks containing equal numbers of \(0\) and \(1\).  
+Each block has average \(1/2\), so the original sequence is Cesàro-convergent to \(1/2\). But the \(f\)-block averages are \(1/4\) and \(1/2\), so the transformed sequence is not Cesàro-convergent. The printed experiment above matches this.
+
+Informal proof:
+- If \(f(x)=ax+b\) on \([0,1]\), then
+  \[
+  \frac1n\sum_{i<n} f(x_i)=a\frac1n\sum_{i<n}x_i+b,
+  \]
+  so Cesàro convergence is preserved.
+- Conversely, assume \(f\) is supercontinuous.  
+  For any \(u,v\in[0,1]\) and rational \(\lambda\in[0,1]\), let \(y=\lambda u+(1-\lambda)v\).  
+  If \(f(y)\neq \lambda f(u)+(1-\lambda)f(v)\), alternate very long blocks of:
+  1. all entries equal to \(y\),
+  2. entries consisting of the correct rational proportions of \(u\) and \(v\),
+  
+  so every block has average \(y\). Then the original sequence has Cesàro limit \(y\), but the transformed block averages alternate between two different values, contradiction. Hence
+  \[
+  f(\lambda u+(1-\lambda)v)=\lambda f(u)+(1-\lambda)f(v)
+  \]
+  for all rational \(\lambda\).
+- Taking \(u=1,v=0\), we get \(f(q)=aq+b\) for every rational \(q\in[0,1]\), where \(a=f(1)-f(0)\), \(b=f(0)\).
+- For irrational \(x\in[0,1]\), choose rationals \(q_n\to x\). Alternate huge blocks of all \(x\)'s with huge blocks of all \(q_n\)'s. The original sequence still has Cesàro limit \(x\). If \(f(x)\neq ax+b\), then the transformed Cesàro averages oscillate between \(f(x)\) and \(aq_n+b\to ax+b\), contradiction. So \(f(x)=ax+b\) too.
+
+Thus the solution set is exactly all functions affine on \([0,1]\).
+
+<<<{f : ℝ → ℝ | ∃ a b : ℝ, ∀ x ∈ Icc (0 : ℝ) (1 : ℝ), f x = a * x + b}>>>

@@ -1,0 +1,124 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Filter Topology Real Polynomial Function
+theorem putnam_1985_b5 : ∃ (putnam_1985_b5_solution : ℝ), ((∫ (x : ℝ) in univ, rexp (-x ^ (2 : ℕ)) = √π)) → (∫ (t : ℝ) in Ioi (0 : ℝ), t ^ (-1 / 2 : ℝ) * rexp ((-1985 : ℝ) * (t + t ^ (-1 : ℝ))) = putnam_1985_b5_solution) := by sorry. Answer Type: ℝ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_w52nFru6zYNFsQWFIjpgV37k):
+import mpmath as mp
+mp.mp.dps = 50
+a = mp.mpf(1985)
+f = lambda t: t**(-mp.mpf(1)/2) * mp.e**(-a*(t + 1/t))
+val = mp.quad(f, [0,1, mp.inf])
+closed = mp.sqrt(mp.pi/a) * mp.e**(-2*a)
+print(val)
+print(closed)
+print(val-closed)
+[TOOL OUTPUT]
+2.8910970597084345569588416597821479450494154261624e-1726
+2.8222892716770458632096189058909492365589163442994e-1726
+6.8807788031388693749222753891198708490499081862982e-1728
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_nE0hZO1ikWxb9H3X39Z2FNKR):
+import mpmath as mp
+mp.mp.dps = 80
+a = mp.mpf(1985)
+# rescaled integral I*e^{2a}
+# use substitution t=u*u
+f = lambda u: 2* mp.e**(-a*(u*u + 1/(u*u)) + 2*a)
+val = mp.quad(f, [0,1, mp.inf])
+closed = mp.sqrt(mp.pi/a)
+print(val)
+print(closed)
+print(val-closed)
+# compare with besselk formula
+bess = 2*mp.besselk(mp.mpf('0.5'),2*a)
+print('2K_{1/2}(2a)=',bess)
+[TOOL OUTPUT]
+0.039782739023684582016143412973948326510122244743894087813096184522987426739773643
+0.039782739023684582016143412973948326510122244743894087813096184522987426739773643
+0.0
+2K_{1/2}(2a)= 2.8222892716770458632096189058909492365589163442916174639812290605423997235177583e-1726
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+I(a)=\int_0^\infty t^{-1/2}e^{-a(t+t^{-1})}\,dt \qquad (a>0).
+\]
+
+We need \(I(1985)\).
+
+Substitute \(t=u^2\). Then \(dt=2u\,du\), so
+\[
+I(a)=2\int_0^\infty e^{-a(u^2+u^{-2})}\,du.
+\]
+Now
+\[
+u^2+u^{-2}=(u-u^{-1})^2+2.
+\]
+Set
+\[
+x=u-u^{-1}.
+\]
+This is a bijection \((0,\infty)\to \mathbb R\), and
+\[
+dx=\left(1+u^{-2}\right)du=\frac{u^2+1}{u^2}\,du
+\quad\Rightarrow\quad
+du=\frac{u^2}{u^2+1}\,dx.
+\]
+Also
+\[
+u+u^{-1}=\sqrt{x^2+4},
+\]
+so
+\[
+\frac{u^2}{u^2+1}=\frac{u}{u+u^{-1}}
+=\frac12\left(1+\frac{x}{\sqrt{x^2+4}}\right).
+\]
+Hence
+\[
+I(a)=2e^{-2a}\int_{-\infty}^{\infty} e^{-ax^2}\cdot \frac12\left(1+\frac{x}{\sqrt{x^2+4}}\right)\,dx.
+\]
+The second term is odd, so its integral over \(\mathbb R\) is \(0\). Thus
+\[
+I(a)=e^{-2a}\int_{-\infty}^{\infty} e^{-ax^2}\,dx.
+\]
+Using the given Gaussian integral,
+\[
+\int_{-\infty}^{\infty} e^{-ax^2}\,dx
+=\frac1{\sqrt a}\int_{-\infty}^{\infty} e^{-y^2}\,dy
+=\sqrt{\frac{\pi}{a}}.
+\]
+Therefore
+\[
+I(a)=\sqrt{\frac{\pi}{a}}\,e^{-2a}.
+\]
+With \(a=1985\),
+\[
+I=\sqrt{\frac{\pi}{1985}}\,e^{-3970}.
+\]
+
+Python check (after rescaling by \(e^{3970}\)) matched \(\sqrt{\pi/1985}\) numerically.
+
+<<<Real.sqrt (Real.pi / (1985 : ℝ)) * Real.exp (-(3970 : ℝ))>>>

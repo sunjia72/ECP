@@ -1,0 +1,43 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MvPolynomial Real Nat
+theorem putnam_1987_b1 : ∃ (putnam_1987_b1_solution : ℝ), (∫ (x : ℝ) in (2 : ℝ)..(4 : ℝ), √(Real.log ((9 : ℝ) - x)) / (√(Real.log ((9 : ℝ) - x)) + √(Real.log (x + (3 : ℝ)))) = putnam_1987_b1_solution) := by sorry. Answer Type: ℝ. 
+Let  
+\[
+f(x)=\frac{\sqrt{\log(9-x)}}{\sqrt{\log(9-x)}+\sqrt{\log(x+3)}}.
+\]
+On the interval \(x\in[2,4]\), the substitution \(x\mapsto 6-x\) preserves the interval and swaps the two logarithm terms:
+\[
+9-(6-x)=x+3,\qquad (6-x)+3=9-x.
+\]
+So
+\[
+f(6-x)=\frac{\sqrt{\log(x+3)}}{\sqrt{\log(x+3)}+\sqrt{\log(9-x)}}=1-f(x).
+\]
+Hence
+\[
+\int_2^4 f(x)\,dx = \int_2^4 f(6-x)\,dx = \int_2^4 (1-f(x))\,dx = 2-\int_2^4 f(x)\,dx.
+\]
+Therefore \(2I=2\), so \(I=1\).
+
+Thus the Lean expression for the answer is
+
+<<<(1 : ℝ)>>>

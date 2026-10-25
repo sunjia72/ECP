@@ -1,0 +1,95 @@
+{
+  "seed": 0,
+  "field": "complete",
+  "max_round": 2,
+  "num_origins": 135,
+  "automation_solved_num_instances": 0,
+  "pass@1_with_correction": 0.007407407407407408,
+  "pass@1_with_correction_num_solved_instances": 1,
+  "pass@k_with_correction": 0.044444444444444446,
+  "pass@k_with_correction_num_solved_instances": 6,
+  "per_round": {
+    "round_0": {
+      "pass@k": 0.022222222222222223,
+      "pass@k_num_solved_instances": 3,
+      "pass@1": 0.0,
+      "pass@1_num_solved_instances": 0
+    },
+    "round_1": {
+      "pass@k": 0.02962962962962963,
+      "pass@k_num_solved_instances": 4,
+      "pass@1": 0.0,
+      "pass@1_num_solved_instances": 0
+    },
+    "round_2": {
+      "pass@k": 0.044444444444444446,
+      "pass@k_num_solved_instances": 6,
+      "pass@1": 0.007407407407407408,
+      "pass@1_num_solved_instances": 1
+    }
+  },
+  "final_round_sampled_pass_curve": {
+    "max_k_over_origins": 4,
+    "pass_curve": {
+      "1": {
+        "accuracy": 0.022222222222222223,
+        "num_solved_instances": 3
+      },
+      "2": {
+        "accuracy": 0.014814814814814815,
+        "num_solved_instances": 2
+      },
+      "4": {
+        "accuracy": 0.044444444444444446,
+        "num_solved_instances": 6
+      }
+    }
+  },
+  "category_metrics": {
+    "putnam": {
+      "num_origins": 135,
+      "automation_solved_num_instances": 0,
+      "pass@1_with_correction": 0.007407407407407408,
+      "pass@1_with_correction_num_solved_instances": 1,
+      "pass@k_with_correction": 0.044444444444444446,
+      "pass@k_with_correction_num_solved_instances": 6,
+      "per_round": {
+        "round_0": {
+          "pass@k": 0.022222222222222223,
+          "pass@k_num_solved_instances": 3,
+          "pass@1": 0.0,
+          "pass@1_num_solved_instances": 0
+        },
+        "round_1": {
+          "pass@k": 0.02962962962962963,
+          "pass@k_num_solved_instances": 4,
+          "pass@1": 0.0,
+          "pass@1_num_solved_instances": 0
+        },
+        "round_2": {
+          "pass@k": 0.044444444444444446,
+          "pass@k_num_solved_instances": 6,
+          "pass@1": 0.007407407407407408,
+          "pass@1_num_solved_instances": 1
+        }
+      },
+      "final_round_sampled_pass_curve": {
+        "max_k_over_origins": 4,
+        "pass_curve": {
+          "1": {
+            "accuracy": 0.022222222222222223,
+            "num_solved_instances": 3
+          },
+          "2": {
+            "accuracy": 0.014814814814814815,
+            "num_solved_instances": 2
+          },
+          "4": {
+            "accuracy": 0.044444444444444446,
+            "num_solved_instances": 6
+          }
+        }
+      }
+    }
+  }
+}

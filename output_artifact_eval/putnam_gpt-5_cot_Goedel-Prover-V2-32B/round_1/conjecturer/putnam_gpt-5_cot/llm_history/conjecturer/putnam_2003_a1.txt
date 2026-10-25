@@ -1,0 +1,48 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MvPolynomial
+theorem putnam_2003_a1 : ∃ (putnam_2003_a1_solution : ℕ → ℕ), ∀ (n : ℕ), ((n > (0 : ℕ))) → ({a : ℕ → ℤ | ∃ k > (0 : ℕ), ∑ i : Fin k, a (↑i : ℕ) = (↑n : ℤ) ∧ (∀ (i : Fin k), a (↑i : ℕ) > (0 : ℤ)) ∧ (∀ (i : Fin (k - (1 : ℕ))), a (↑i : ℕ) ≤ a ((↑i : ℕ) + (1 : ℕ))) ∧ a (k - (1 : ℕ)) ≤ a (0 : ℕ) + (1 : ℤ) ∧ ∀ i ≥ k, a i = (0 : ℤ)}.encard = (↑(putnam_2003_a1_solution n) : ℕ∞)) := by sorry. Answer Type: ℕ → ℕ. 
+For any valid sequence, let \(k\) be its support length. The conditions say:
+
+- \(a(0),\dots,a(k-1)\) are positive integers,
+- they are nondecreasing,
+- and the last term satisfies \(a(k-1)\le a(0)+1\).
+
+Since the sequence is nondecreasing and all terms lie between \(a(0)\) and \(a(0)+1\), every term must be either \(m:=a(0)\) or \(m+1\). Thus the sequence has the form
+\[
+\underbrace{m,\dots,m}_{k-r\text{ terms}},\underbrace{m+1,\dots,m+1}_{r\text{ terms}}
+\]
+for some \(0\le r<k\), and its sum is
+\[
+km+r=n.
+\]
+
+But for each fixed \(k\in\{1,\dots,n\}\), the division algorithm gives a unique
+\[
+n = k\left\lfloor \frac nk\right\rfloor + (n\bmod k),
+\]
+with \(0\le n\bmod k<k\), and since \(k\le n\), we have \(\lfloor n/k\rfloor\ge 1\). So for each \(k=1,\dots,n\), there is exactly one valid sequence. For \(k>n\), no such sequence exists because the sum of \(k\) positive integers is at least \(k>n\).
+
+Hence the total number of such sequences is exactly \(n\).
+
+Therefore the solution function is:
+
+<<<fun n : ℕ => n>>>

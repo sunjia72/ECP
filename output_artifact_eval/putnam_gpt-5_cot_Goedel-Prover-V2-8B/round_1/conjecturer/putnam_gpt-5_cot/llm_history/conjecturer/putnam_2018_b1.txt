@@ -1,0 +1,58 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_2018_b1 : ∃ (putnam_2018_b1_solution : Set (Fin 2 → ℤ)), ∀ (P Pvdiff : Finset (Fin (2 : ℕ) → ℤ)), ∀ (v : Fin (2 : ℕ) → ℤ), (((↑P : Set (Fin (2 : ℕ) → ℤ)) = {v' : Fin (2 : ℕ) → ℤ | (0 : ℤ) ≤ v' (0 : Fin (2 : ℕ)) ∧ v' (0 : Fin (2 : ℕ)) ≤ (2 : ℤ) ∧ (0 : ℤ) ≤ v' (1 : Fin (2 : ℕ)) ∧ v' (1 : Fin (2 : ℕ)) ≤ (100 : ℤ)}) ∧ (Pvdiff = P \ {v})) → ((v ∈ P ∧ ∃ (Q : Finset (Fin (2 : ℕ) → ℤ)) (R : Finset (Fin (2 : ℕ) → ℤ)), Q ∪ R = Pvdiff ∧ Q ∩ R = ∅ ∧ Q.card = R.card ∧ ∑ q ∈ Q, q (0 : Fin (2 : ℕ)) = ∑ r ∈ R, r (0 : Fin (2 : ℕ)) ∧ ∑ q ∈ Q, q (1 : Fin (2 : ℕ)) = ∑ r ∈ R, r (1 : Fin (2 : ℕ))) ↔ v ∈ putnam_2018_b1_solution) := by sorry. Answer Type: Set (Fin 2 → ℤ). 
+Let \(v=(a,b)\), where \(a=v(0)\) and \(b=v(1)\).
+
+For a partition \(P\setminus\{v\}=Q\sqcup R\) with
+- \(|Q|=|R|\),
+- equal sums of first coordinates,
+- equal sums of second coordinates,
+
+the total sums on \(P\setminus\{v\}\) must each be even.
+
+For the full set
+\[
+P=\{(x,y)\in \mathbb Z^2: 0\le x\le 2,\ 0\le y\le 100\},
+\]
+we have:
+- \(|P|=3\cdot 101=303\),
+- total first-coordinate sum \(=101(0+1+2)=303\),
+- total second-coordinate sum \(=3(0+1+\cdots+100)=15150\).
+
+After removing \(v=(a,b)\), these become:
+- \(302\) points,
+- first-coordinate sum \(303-a\),
+- second-coordinate sum \(15150-b\).
+
+So necessary conditions are:
+- \(303-a\) even \(\iff a=1\),
+- \(15150-b\) even \(\iff b\) even.
+
+Also \(v\) must lie in \(P\), so \(0\le b\le 100\).
+
+These conditions are also sufficient; thus the removable points are exactly the middle-column points with even second coordinate.
+
+So the solution set is:
+\[
+\{\,v : \mathrm{Fin}\ 2 \to \mathbb Z \mid v(0)=1,\ 0\le v(1)\le 100,\ \text{$v(1)$ even}\,\}.
+\]
+
+<<<{v : Fin 2 → ℤ | v (0 : Fin (2 : ℕ)) = 1 ∧ 0 ≤ v (1 : Fin (2 : ℕ)) ∧ v (1 : Fin (2 : ℕ)) ≤ 100 ∧ Even (v (1 : Fin (2 : ℕ)))}>>>

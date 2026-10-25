@@ -1,0 +1,63 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology Set
+theorem putnam_2010_b2 : ∃ (putnam_2010_b2_solution : ℕ), ∀ (ABCintcoords ABCintdists ABCall : EuclideanSpace ℝ (Fin (2 : ℕ)) → EuclideanSpace ℝ (Fin (2 : ℕ)) → EuclideanSpace ℝ (Fin (2 : ℕ)) → Prop), ((∀ (A B C : EuclideanSpace ℝ (Fin (2 : ℕ))), ABCintcoords A B C ↔ ∀ (i : Fin (2 : ℕ)), A i = (↑(round (A i)) : (fun (x : Fin (2 : ℕ)) => ℝ) i) ∧ B i = (↑(round (B i)) : (fun (x : Fin (2 : ℕ)) => ℝ) i) ∧ C i = (↑(round (C i)) : (fun (x : Fin (2 : ℕ)) => ℝ) i)) ∧ (∀ (A B C : EuclideanSpace ℝ (Fin (2 : ℕ))), ABCintdists A B C ↔ dist A B = (↑(round (dist A B)) : ℝ) ∧ dist A C = (↑(round (dist A C)) : ℝ) ∧ dist B C = (↑(round (dist B C)) : ℝ)) ∧ (∀ (A B C : EuclideanSpace ℝ (Fin (2 : ℕ))), ABCall A B C ↔ ¬Collinear ℝ {A, B, C} ∧ ABCintcoords A B C ∧ ABCintdists A B C)) → (IsLeast {y : ℝ | ∃ (A : EuclideanSpace ℝ (Fin (2 : ℕ))) (B : EuclideanSpace ℝ (Fin (2 : ℕ))) (C : EuclideanSpace ℝ (Fin (2 : ℕ))), ABCall A B C ∧ y = dist A B} (↑putnam_2010_b2_solution : ℝ)) := by sorry. Answer Type: ℕ. 
+The least possible value is **3**.
+
+Reasoning:
+
+- A side of length \(1\) between two lattice points must be horizontal or vertical, say \(A=(0,0)\), \(B=(1,0)\).
+  If \(C\) is another lattice point with integer distances \(AC=m\), \(BC=n\), then by triangle inequality,
+  \[
+  |m-n|<1,
+  \]
+  so \(m=n\). Thus \(C\) is equidistant from \(A\) and \(B\), so it lies on the perpendicular bisector of \(AB\), i.e. \(x=\tfrac12\), impossible for a lattice point.
+
+- A side of length \(2\) between two lattice points must similarly be, up to translation/sign/swap, \(A=(0,0)\), \(B=(2,0)\).
+  Let \(AC=m\), \(BC=n\in\mathbb Z\).
+  Triangle inequality gives \(|m-n|<2\), so either \(m=n\) or \(|m-n|=1\).
+
+  - If \(m=n\), then \(C\) lies on the perpendicular bisector \(x=1\), and
+    \[
+    m^2 = 1+y^2,
+    \]
+    impossible for integer \(y\neq 0\).
+  - If \(|m-n|=1\), then
+    \[
+    m^2-n^2=(m-n)(m+n)
+    \]
+    is odd, but also from coordinates
+    \[
+    m^2-n^2 = x^2+y^2 - ((x-2)^2+y^2)=4x-4,
+    \]
+    which is divisible by \(4\). Contradiction.
+
+So lengths \(1\) and \(2\) are impossible.
+
+- Length \(3\) is achievable: take
+  \[
+  A=(0,0),\quad B=(3,0),\quad C=(0,4).
+  \]
+  Then the side lengths are \(3,4,5\), all integers, and the points are noncollinear.
+
+Hence the least possible value is \(3\).
+
+<<<3>>>

@@ -1,0 +1,107 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open intervalIntegral MvPolynomial Real
+theorem putnam_2009_b4 : ∃ (putnam_2009_b4_solution : ℕ), ∀ (IsBalanced : MvPolynomial (Fin (2 : ℕ)) ℝ → Prop), ∀ (V : Submodule ℝ (MvPolynomial (Fin (2 : ℕ)) ℝ)), ((∀ (P : MvPolynomial (Fin (2 : ℕ)) ℝ), IsBalanced P ↔ ∀ r > (0 : ℝ), (∫ (t : ℝ) in (0 : ℝ)..(2 : ℝ) * π, (eval ![r * cos t, r * sin t] : MvPolynomial (Fin (Nat.succ (0 : ℕ)).succ) ℝ → ℝ) P) / ((2 : ℝ) * π * r) = (0 : ℝ)) ∧ (∀ (P : MvPolynomial (Fin (2 : ℕ)) ℝ), P ∈ V ↔ IsBalanced P ∧ P.totalDegree ≤ (2009 : ℕ))) → (Module.rank ℝ ↥V = (↑putnam_2009_b4_solution : Cardinal.{0})) := by sorry. Answer Type: ℕ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_Y2r9Ax2CHt1acctj7TrJEfhl):
+import math
+
+def avg_monomial(a,b):
+    # angular average (without 1/r) of (r cos t)^a (r sin t)^b over t, symbolic up to factor r^(a+b)
+    # return zero unless a,b even
+    if a%2 or b%2:
+        return None
+    # nonzero coefficient of r^(a+b)
+    # integral average 1/(2pi)∫ cos^a sin^b
+    # exact value not needed
+    return (a+b)
+
+for n in range(0,11):
+    total=(n+1)*(n+2)//2
+    constraints=n//2+1
+    print(n, total, constraints, total-constraints)
+[TOOL OUTPUT]
+0 1 1 0
+1 3 1 2
+2 6 2 4
+3 10 2 8
+4 15 3 12
+5 21 3 18
+6 28 4 24
+7 36 4 32
+8 45 5 40
+9 55 5 50
+10 66 6 60
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_zSgLeBCPJgakV6xnPiDn538H):
+n=2009
+ans=(n+1)*(n+2)//2 - (n//2+1)
+print(ans)
+# also via homogeneous-degree sum
+m=n//2
+ans2=sum(2*k for k in range(m+1)) + sum(2*k+2 for k in range(m+1))
+print(ans2)
+[TOOL OUTPUT]
+2020050
+2020050
+
+=== CONJECTURER ROUND ===
+Let \(W_n\) be the real vector space of polynomials in \(x,y\) of total degree \(\le n\), with \(n=2009\).
+
+Write any \(P\in W_n\) as a sum of homogeneous parts:
+\[
+P=\sum_{d=0}^{2009} H_d,\qquad H_d \text{ homogeneous of degree } d.
+\]
+On the circle \((x,y)=(r\cos t,r\sin t)\),
+\[
+H_d(r\cos t,r\sin t)=r^d H_d(\cos t,\sin t),
+\]
+so
+\[
+\frac1{2\pi r}\int_0^{2\pi} P(r\cos t,r\sin t)\,dt
+\]
+is a linear combination of distinct powers of \(r\). Hence \(P\) is balanced iff each homogeneous part has zero circle-average.
+
+Now:
+
+- If \(d\) is odd, then \(H_d(-x,-y)=-H_d(x,y)\), so opposite points on the circle cancel, and the average is automatically \(0\).
+  Thus every odd-degree homogeneous polynomial is balanced.
+- If \(d=2k\) is even, the average-on-circle map on homogeneous polynomials of degree \(2k\) is a nonzero linear functional (e.g. \((x^2+y^2)^k\) has nonzero average), so its kernel has codimension \(1\).
+
+Since the space of homogeneous polynomials of degree \(d\) has dimension \(d+1\):
+
+- odd degree \(2k+1\): balanced subspace dimension \(2k+2\),
+- even degree \(2k\): balanced subspace dimension \(2k\).
+
+So for degrees \(0\) through \(2009\):
+\[
+\sum_{k=0}^{1004} 2k \;+\; \sum_{k=0}^{1004} (2k+2)
+=1004\cdot 1005 + 1005\cdot 1006
+=2020050.
+\]
+
+Thus the rank is \(2020050\).
+
+<<<2020050>>>

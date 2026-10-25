@@ -1,0 +1,71 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Nat
+theorem putnam_2014_a4 : ∃ (putnam_2014_a4_solution : ℝ), ∀ (Xrandvar : (ℕ → ℝ) → Prop), ∀ (E : (ℕ → ℝ) → (ℕ → ℝ) → ℝ), ((Xrandvar = fun (X : ℕ → ℝ) => (∀ (n : ℕ), X n ∈ Set.Icc (0 : ℝ) (1 : ℝ)) ∧ ∑' (n : ℕ), X n = (1 : ℝ)) ∧ (E = fun (X f : ℕ → ℝ) => ∑' (n : ℕ), f n * X n)) → (sInf {X0 : ℝ | ∃ (X : ℕ → ℝ), Xrandvar X ∧ (E X fun (x : ℕ) => (↑x : ℝ)) = (1 : ℝ) ∧ (E X fun (x : ℕ) => (↑x : ℝ) ^ (2 : ℕ)) = (2 : ℝ) ∧ (E X fun (x : ℕ) => (↑x : ℝ) ^ (3 : ℕ)) = (5 : ℝ) ∧ X0 = X (0 : ℕ)} = putnam_2014_a4_solution) := by sorry. Answer Type: ℝ. 
+Let \(p_n = X(n)\). The hypotheses make \((p_n)\) a probability distribution on \(\mathbb N\), with
+\[
+\sum p_n = 1,\qquad \sum n p_n = 1,\qquad \sum n^2 p_n = 2,\qquad \sum n^3 p_n = 5.
+\]
+
+It is convenient to convert to factorial moments:
+\[
+E[N(N-1)] = E[N^2]-E[N]=2-1=1,
+\]
+\[
+E[N(N-1)(N-2)] = E[N^3]-3E[N^2]+2E[N]=5-6+2=1.
+\]
+
+Now consider
+\[
+Q(n)=1-n+\binom n2-\binom n3.
+\]
+For \(n=0\), \(Q(0)=1\). For \(n\ge1\),
+\[
+Q(n)=1-n+\binom n2-\binom n3 = -\binom{n-1}{3}\le 0.
+\]
+So \(Q(n)\le \mathbf 1_{\{0\}}(n)\) for all \(n\in\mathbb N\). Therefore
+\[
+p_0 = E[\mathbf 1_{\{0\}}(N)] \ge E[Q(N)].
+\]
+Using the factorial moments,
+\[
+E[Q(N)]
+= 1 - E[N] + \frac{E[N(N-1)]}{2} - \frac{E[N(N-1)(N-2)]}{6}
+= 1-1+\frac12-\frac16
+= \frac13.
+\]
+Hence \(p_0\ge \frac13\).
+
+This bound is attained by the distribution
+\[
+p_0=\frac13,\qquad p_1=\frac12,\qquad p_3=\frac16,
+\]
+and \(p_n=0\) otherwise. Indeed,
+\[
+E[N]=\frac12+3\cdot\frac16=1,\quad
+E[N^2]=\frac12+9\cdot\frac16=2,\quad
+E[N^3]=\frac12+27\cdot\frac16=5.
+\]
+So the infimum is exactly \(\frac13\).
+
+Thus the Lean expression for the answer is
+
+<<<((1 : ℝ) / 3)>>>

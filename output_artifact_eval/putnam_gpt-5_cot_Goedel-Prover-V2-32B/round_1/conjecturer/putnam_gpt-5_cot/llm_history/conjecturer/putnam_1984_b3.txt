@@ -1,0 +1,43 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Nat
+theorem putnam_1984_b3 : ∃ (putnam_1984_b3_solution : Prop), ((∀ (F : Type u_1) (x : Fintype F), Fintype.card F ≥ (2 : ℕ) → ∃ (mul : F → F → F), ∀ (x y z : F), (mul x z = mul y z → x = y) ∧ mul x (mul y z) ≠ mul (mul x y) z) ↔ putnam_1984_b3_solution) := by sorry. Answer Type: Prop. 
+A simple construction shows the statement is true for every finite set with at least two elements.
+
+Take a fixed-point-free permutation `σ` of `F` (such a derangement exists on any finite type of cardinality at least `2`). Define
+\[
+\text{mul } x\, y := \sigma(x),
+\]
+so the product does not depend on `y`.
+
+Then:
+
+- `mul x z = mul y z` means `σ x = σ y`, hence `x = y` since `σ` is injective.
+- Also,
+  \[
+  \text{mul } x\, (\text{mul } y\, z) = \sigma(x), \qquad
+  \text{mul } (\text{mul } x\, y)\, z = \sigma(\sigma(x)) = \sigma^2(x).
+  \]
+  If these were equal, then applying `σ⁻¹` would give `x = σ(x)`, contradicting that `σ` has no fixed points.
+
+So the quantified statement is true, hence the answer proposition is simply `True`.
+
+<<<True>>>

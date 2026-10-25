@@ -1,0 +1,72 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1999_a1 : ∃ (putnam_1999_a1_solution : Prop), (putnam_1999_a1_solution ↔ ∃ (f : Polynomial ℝ) (g : Polynomial ℝ) (h : Polynomial ℝ), ∀ (x : ℝ), |Polynomial.eval x f| - |Polynomial.eval x g| + Polynomial.eval x h = if x < (-1 : ℝ) then (-1 : ℝ) else if x ≤ (0 : ℝ) then (3 : ℝ) * x + (2 : ℝ) else (-2 : ℝ) * x + (2 : ℝ)) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_2dxsnBAqIYfxjthQSghkS97T):
+import sympy as sp
+x=sp.symbols('x', real=True)
+F=sp.Abs(sp.Rational(3,2)*(x+1)) - sp.Abs(sp.Rational(5,2)*x) + (sp.Rational(1,2)-x)
+print(sp.simplify(F))
+for val in [-2,-1,-sp.Rational(1,2),0,1]:
+    print(val, sp.simplify(F.subs(x,val)))
+print('x<-1:', sp.simplify(sp.expand((-(sp.Rational(3,2)*(x+1))) - (sp.Rational(5,2)*(-x)) + (sp.Rational(1,2)-x))))
+print('-1<x<0:', sp.simplify(sp.expand((sp.Rational(3,2)*(x+1)) - (sp.Rational(5,2)*(-x)) + (sp.Rational(1,2)-x))))
+print('x>0:', sp.simplify(sp.expand((sp.Rational(3,2)*(x+1)) - (sp.Rational(5,2)*x) + (sp.Rational(1,2)-x))))
+[TOOL OUTPUT]
+-x - 5*Abs(x)/2 + 3*Abs(x + 1)/2 + 1/2
+-2 -1
+-1 -1
+-1/2 1/2
+0 2
+1 0
+x<-1: -1
+-1<x<0: 3*x + 2
+x>0: 2 - 2*x
+
+=== CONJECTURER ROUND ===
+Yes — such polynomials exist.
+
+One explicit choice is
+- \(f(x)=\frac32(x+1)\),
+- \(g(x)=\frac52 x\),
+- \(h(x)=\frac12-x\).
+
+Then
+\[
+|f(x)|-|g(x)|+h(x)
+=
+\frac32|x+1|-\frac52|x|+\frac12-x.
+\]
+Checking by cases:
+
+- If \(x<-1\), then \(|x+1|=-(x+1)\), \(|x|=-x\), so the expression is \(-1\).
+- If \(-1\le x\le 0\), then \(|x+1|=x+1\), \(|x|=-x\), so it is \(3x+2\).
+- If \(x>0\), then \(|x+1|=x+1\), \(|x|=x\), so it is \(-2x+2\).
+
+So the required existential statement is true.  
+(The Python check also matches these three formulas.)
+
+Therefore the proposition can be taken to be:
+
+<<<True>>>

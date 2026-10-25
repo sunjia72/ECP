@@ -1,0 +1,84 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Set
+theorem putnam_2019_b2 : ∃ (putnam_2019_b2_solution : ℝ), ∀ (a : ℕ → ℝ), ((a = fun (n : ℕ) => ∑ k : (↑(Icc (1 : ℤ) ((↑n : ℤ) - (1 : ℤ))) : Type), Real.sin (((2 : ℝ) * (↑(↑k : ℤ) : ℝ) - (1 : ℝ)) * Real.pi / ((2 : ℝ) * (↑n : ℝ))) / (Real.cos (((↑(↑k : ℤ) : ℝ) - (1 : ℝ)) * Real.pi / ((2 : ℝ) * (↑n : ℝ))) ^ (2 : ℕ) * Real.cos ((↑(↑k : ℤ) : ℝ) * Real.pi / ((2 : ℝ) * (↑n : ℝ))) ^ (2 : ℕ)))) → (Tendsto (fun (n : ℕ) => a n / (↑n : ℝ) ^ (3 : ℕ)) atTop (𝓝 putnam_2019_b2_solution)) := by sorry. Answer Type: ℝ. 
+Let  
+\[
+\theta=\frac{\pi}{2n},\qquad x=(k-1)\theta,\qquad y=k\theta.
+\]
+Then \(y-x=\theta\), and the summand is
+\[
+\frac{\sin(x+y)}{\cos^2 x\,\cos^2 y}.
+\]
+Using
+\[
+\frac{\sin(x+y)}{\cos x\cos y}=\tan x+\tan y
+\]
+and
+\[
+\tan y-\tan x=\frac{\sin(y-x)}{\cos x\cos y}
+=\frac{\sin\theta}{\cos x\cos y},
+\]
+we get
+\[
+\frac{\sin(x+y)}{\cos^2 x\,\cos^2 y}
+=
+\frac{(\tan x+\tan y)(\tan y-\tan x)}{\sin\theta}
+=
+\frac{\tan^2 y-\tan^2 x}{\sin\theta}.
+\]
+So the sum telescopes:
+\[
+a_n=\sum_{k=1}^{n-1}\frac{\tan^2(k\theta)-\tan^2((k-1)\theta)}{\sin\theta}
+=
+\frac{\tan^2((n-1)\theta)}{\sin\theta}.
+\]
+Now \((n-1)\theta=\frac{\pi}{2}-\theta\), so
+\[
+\tan((n-1)\theta)=\cot\theta.
+\]
+Hence
+\[
+a_n=\frac{\cot^2\theta}{\sin\theta}
+=\frac{\cos^2\theta}{\sin^3\theta}.
+\]
+Therefore
+\[
+\frac{a_n}{n^3}
+=
+\cos^2\theta \cdot \left(\frac{1}{n\sin\theta}\right)^3.
+\]
+As \(n\to\infty\), \(\theta=\frac{\pi}{2n}\to0\), so \(\cos\theta\to1\) and
+\[
+n\sin\left(\frac{\pi}{2n}\right)\to \frac{\pi}{2}.
+\]
+Thus
+\[
+\lim_{n\to\infty}\frac{a_n}{n^3}
+=
+1\cdot\left(\frac{2}{\pi}\right)^3
+=
+\frac{8}{\pi^3}.
+\]
+
+So the Lean expression for the answer is:
+
+<<<(8 : ℝ) / Real.pi ^ (3 : ℕ)>>>

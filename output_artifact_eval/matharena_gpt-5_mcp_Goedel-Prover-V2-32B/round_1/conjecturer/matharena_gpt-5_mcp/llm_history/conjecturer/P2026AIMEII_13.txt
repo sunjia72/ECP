@@ -1,0 +1,320 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026AIMEII_13 : ∃ (P2026AIMEII_13_answer : Nat), (let possibleCousins := fun (S : Finset ℤ) => (S.biUnion fun (s : ℤ) => {s - (1 : ℤ), s + (1 : ℤ)}).powerset; let cousinsOf := fun (S : Finset ℤ) => {T ∈ possibleCousins S | #S = #T ∧ _root_.Disjoint S T ∧ ∃ (e : { x : ℤ // x ∈ S } ≃ { x : ℤ // x ∈ T }), ∀ (x : { x : ℤ // x ∈ S }), |(↑((e : { x : ℤ // x ∈ S } → { x : ℤ // x ∈ T }) x) : ℤ) - (↑x : ℤ)| = (1 : ℤ)}; IsLeast {n : ℕ | ∃ (S : Finset ℤ), #S = n ∧ #(cousinsOf S) = (4040 : ℕ)} P2026AIMEII_13_answer) := by sorry. Answer Type: Nat. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_iDYej5V1UzInVyVBLQHNOhvz):
+from functools import lru_cache
+
+def count_cluster(ds):
+    # ds list of gaps 1 or 2, cluster size m=len(ds)+1
+    m=len(ds)+1
+    ans=0
+    vals=[]
+    for mask in range(1<<m):
+        x=[1 if (mask>>i)&1 else -1 for i in range(m)]
+        ok=True
+        for i,d in enumerate(ds):
+            if d==1:
+                if not (x[i]==-1 and x[i+1]==1): ok=False
+            elif d==2:
+                if x[i]==1 and x[i+1]==-1: ok=False
+            else:
+                raise
+        if ok:
+            ans+=1; vals.append(tuple(x))
+    return ans,vals
+
+for ds in [[],[1],[2],[1,2],[2,1],[2,2],[1,2,2],[2,1,2],[2,2,1],[2,2,2],[1,2,1]]:
+    print(ds, count_cluster(ds)[0])
+[TOOL OUTPUT]
+[] 2
+[1] 1
+[2] 3
+[1, 2] 1
+[2, 1] 1
+[2, 2] 4
+[1, 2, 2] 1
+[2, 1, 2] 1
+[2, 2, 1] 1
+[2, 2, 2] 5
+[1, 2, 1] 0
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_H5OPGJlw770byfkZKWizlNJA):
+tests=[[1,2,2,1],[1,2,2,2,1],[2,1,2,2],[2,2,1,2,2],[1,2,2,2]]
+from itertools import product
+for ds in tests:
+    print(ds,count_cluster(ds)[0],count_cluster(ds)[1][:5])
+[TOOL OUTPUT]
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+NameError: name 'count_cluster' is not defined
+
+===== ENUMERATOR ROUND 3 =====
+[TOOL CALL] code_exec (call_id=call_to25I95UOiH4CfwSR7ImKTCv):
+def count_cluster(ds):
+    m=len(ds)+1
+    ans=0
+    vals=[]
+    for mask in range(1<<m):
+        x=[1 if (mask>>i)&1 else -1 for i in range(m)]
+        ok=True
+        for i,d in enumerate(ds):
+            if d==1:
+                if not (x[i]==-1 and x[i+1]==1): ok=False
+            elif d==2:
+                if x[i]==1 and x[i+1]==-1: ok=False
+        if ok:
+            ans+=1; vals.append(tuple(x))
+    return ans,vals
+
+for ds in [[1,2,2,1],[1,2,2,2,1],[2,1,2,2],[2,2,1,2,2],[1,2,2,2]]:
+    c,v=count_cluster(ds)
+    print(ds,c,v[:10])
+[TOOL OUTPUT]
+[1, 2, 2, 1] 0 []
+[1, 2, 2, 2, 1] 0 []
+[2, 1, 2, 2] 1 [(-1, -1, 1, 1, 1)]
+[2, 2, 1, 2, 2] 1 [(-1, -1, -1, 1, 1, 1)]
+[1, 2, 2, 2] 1 [(-1, 1, 1, 1, 1)]
+
+===== ENUMERATOR ROUND 4 =====
+[TOOL CALL] code_exec (call_id=call_LGAe0Z2iJ6E1xn2QfGK45aty):
+from itertools import combinations
+
+def cousin_count(S):
+    S=set(S)
+    poss=sorted({s-1 for s in S}|{s+1 for s in S})
+    ans=0
+    Ts=[]
+    from itertools import combinations
+    for T in combinations(poss,len(S)):
+        T=set(T)
+        if S & T: 
+            continue
+        # bipartite matching existence in path graph; brute force via assignments/perms small
+        # use Hall by trying all injections from S to T
+        s_list=list(S); t_list=list(T)
+        ok=False
+        import itertools
+        for perm in itertools.permutations(t_list):
+            if all(abs(s-p)==1 for s,p in zip(s_list,perm)):
+                ok=True; break
+        if ok:
+            ans+=1; Ts.append(tuple(sorted(T)))
+    return ans,Ts
+
+def formula_count(S):
+    A=sorted(S)
+    n=len(A)
+    if n==0:return 1
+    ans=1
+    i=0
+    while i<n:
+        j=i
+        while j+1<n and A[j+1]-A[j] <= 2:
+            j+=1
+        ds=[A[k+1]-A[k] for k in range(i,j)]
+        ones=ds.count(1)
+        if ones>=2:
+            return 0
+        if ones==1:
+            ans*=1
+        else:
+            ans*= (j-i+1)+1
+        i=j+1
+    return ans
+
+for n in range(1,7):
+    vals=[]
+    for S in combinations(range(0,12), n):
+        c,_=cousin_count(S)
+        f=formula_count(S)
+        if c!=f:
+            print('mismatch',S,c,f)
+            raise SystemExit
+    print('n',n,'ok')
+print('all ok')
+[TOOL OUTPUT]
+n 1 ok
+n 2 ok
+n 3 ok
+n 4 ok
+n 5 ok
+n 6 ok
+all ok
+
+===== ENUMERATOR ROUND 5 =====
+[TOOL CALL] code_exec (call_id=call_IGQG0vJzFwOPdE7E003xmf07):
+S=list(range(0,200,2))+[300,302,304,306,400,500,600]
+print('n =', len(S))
+print('formula count =', __import__('math').prod([101,5,2,2,2]))
+print('computed by formula_count =', (lambda S: (lambda A=sorted(S): (lambda n=len(A): (lambda ans=1: ans) ) ) )
+
+def formula_count(S):
+    A=sorted(S)
+    n=len(A)
+    ans=1
+    i=0
+    while i<n:
+        j=i
+        while j+1<n and A[j+1]-A[j] <= 2:
+            j+=1
+        ds=[A[k+1]-A[k] for k in range(i,j)]
+        ones=ds.count(1)
+        if ones>=2:
+            return 0
+        elif ones==1:
+            ans*=1
+        else:
+            ans*= (j-i+1)+1
+        i=j+1
+    return ans
+
+print('formula_count(S)=', formula_count(S))
+[TOOL OUTPUT]
+  File "<stdin>", line 4
+    print('computed by formula_count =', (lambda S: (lambda A=sorted(S): (lambda n=len(A): (lambda ans=1: ans) ) ) )
+         ^
+SyntaxError: '(' was never closed
+
+===== ENUMERATOR ROUND 6 =====
+[TOOL CALL] code_exec (call_id=call_7nFbzecDieD4HsNBudwFAcqJ):
+def formula_count(S):
+    A=sorted(S)
+    n=len(A)
+    ans=1
+    i=0
+    while i<n:
+        j=i
+        while j+1<n and A[j+1]-A[j] <= 2:
+            j+=1
+        ds=[A[k+1]-A[k] for k in range(i,j)]
+        ones=ds.count(1)
+        if ones>=2:
+            return 0
+        elif ones==1:
+            ans*=1
+        else:
+            ans*= (j-i+1)+1
+        i=j+1
+    return ans
+
+S=list(range(0,200,2))+[300,302,304,306,400,500,600]
+print('n =', len(S))
+print('formula_count(S)=', formula_count(S))
+print('target=',4040)
+[TOOL OUTPUT]
+n = 107
+formula_count(S)= 4040
+target= 4040
+
+===== ENUMERATOR ROUND 7 =====
+[TOOL CALL] code_exec (call_id=call_iWby6kL6MkNQHEq2hfSF0AZg):
+from functools import lru_cache
+N=4040
+@lru_cache(None)
+def minsum(prod):
+    # minimum sum of (f_i-1) over factors >1 whose product=prod
+    best=prod-1
+    for a in range(2,int(prod**0.5)+1):
+        if prod%a==0:
+            b=prod//a
+            best=min(best,minsum(a)+minsum(b))
+    return best
+print('min n via recursion =', minsum(N))
+[TOOL OUTPUT]
+min n via recursion = 107
+
+=== CONJECTURER ROUND ===
+Let \(S=\{a_1<\cdots<a_n\}\subset \mathbb Z\).
+
+A cousin set \(T\) is obtained by moving each \(a_i\) to either \(a_i-1\) or \(a_i+1\), with:
+
+- no image landing back in \(S\),
+- no two images equal.
+
+So everything is controlled by the gaps \(a_{i+1}-a_i\).
+
+### 1. Local behavior
+- If \(a_{i+1}-a_i=1\), then \(a_i\) must move left and \(a_{i+1}\) must move right.
+- If \(a_{i+1}-a_i=2\), then they cannot move toward each other (that would collide at the midpoint).
+- If \(a_{i+1}-a_i\ge 3\), the choices are independent across that gap.
+
+So split \(S\) into components separated by gaps \(\ge 3\). The total number of cousins is the product of the numbers for the components.
+
+### 2. Count for one component
+Inside one component, all gaps are \(1\) or \(2\).
+
+- If there is a gap \(1\), that forces directions; then every neighboring gap \(2\) propagates the forcing outward.  
+  Hence:
+  - exactly one gap \(1\) \(\Rightarrow\) exactly **1** cousin set;
+  - two gap \(1\)'s \(\Rightarrow\) impossible, so **0** cousin sets.
+
+- If there are no gap \(1\)'s, the component is
+  \[
+  \{a,a+2,\dots,a+2(m-1)\}
+  \]
+  of size \(m\). Then valid moves are: first \(k\) elements go left, remaining \(m-k\) go right, for \(k=0,1,\dots,m\).  
+  So this component contributes exactly \(m+1\) cousin sets.
+
+Thus every useful component contributes either \(1\) or \(m+1\).
+
+### 3. Optimization
+To get exactly \(4040\), only the \(m+1\) factors matter. If a factor \(m+1\) is composite, say \(m+1=ab\) with \(a,b>1\), then replacing that one component by two components of sizes \(a-1\) and \(b-1\) gives the same count \(ab\) but uses fewer elements:
+\[
+(a-1)+(b-1)=a+b-2<ab-1=m.
+\]
+So the minimum occurs when all factors are prime.
+
+Prime factorization:
+\[
+4040=2^3\cdot 5\cdot 101.
+\]
+Hence the minimum size is
+\[
+(2-1)+(2-1)+(2-1)+(5-1)+(101-1)=1+1+1+4+100=107.
+\]
+
+### 4. Existence
+Take components of sizes \(1,1,1,4,100\), each as a step-2 progression and separated far apart, e.g.
+\[
+\{0,2,\dots,198\}\cup\{300,302,304,306\}\cup\{400\}\cup\{500\}\cup\{600\}.
+\]
+Its number of cousin sets is
+\[
+101\cdot 5\cdot 2\cdot 2\cdot 2=4040.
+\]
+
+Python checks:
+- exhaustive verification for small sets matched the formula,
+- explicit construction above gives count \(4040\),
+- recursive minimization returns \(107\).
+
+Therefore the least \(n\) is
+
+<<<107>>>

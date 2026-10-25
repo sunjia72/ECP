@@ -1,0 +1,47 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Function Set
+theorem putnam_2013_b1 : ∃ (putnam_2013_b1_solution : ℤ), ∀ (c : ℕ → ℤ), ((c (1 : ℕ) = (1 : ℤ)) ∧ (∀ n > (0 : ℕ), c ((2 : ℕ) * n) = c n) ∧ (∀ n > (0 : ℕ), c ((2 : ℕ) * n + (1 : ℕ)) = (-1 : ℤ) ^ n * c n)) → (∑ n : (↑(Icc (1 : ℕ) (2013 : ℕ)) : Type), c (↑n : ℕ) * c ((↑n : ℕ) + (2 : ℕ)) = putnam_2013_b1_solution) := by sorry. Answer Type: ℤ. 
+Let
+\[
+a_n := c(n)c(n+2).
+\]
+Using the defining relations of \(c\), for every \(m>0\),
+
+- \(a_{2m} = c(2m)c(2m+2) = c(m)c(m+1)\),
+- \(a_{2m+1} = c(2m+1)c(2m+3) = \big((-1)^m c(m)\big)\big((-1)^{m+1} c(m+1)\big) = -\,c(m)c(m+1)\).
+
+So
+\[
+a_{2m}+a_{2m+1}=0 \qquad (m\ge 1).
+\]
+Since \(2013=2\cdot 1006+1\), all terms from \(n=2\) to \(2013\) cancel in pairs:
+\[
+(a_2+a_3)+(a_4+a_5)+\cdots +(a_{2012}+a_{2013})=0.
+\]
+Thus the whole sum is just the \(n=1\) term:
+\[
+c(1)c(3)=1\cdot\big((-1)^1 c(1)\big)=1\cdot(-1)=-1.
+\]
+
+So the constant value is:
+
+<<<(-1 : ℤ)>>>

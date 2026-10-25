@@ -1,0 +1,49 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Real Filter Topology Polynomial
+theorem putnam_1978_b5 : ∃ (putnam_1978_b5_solution : Polynomial ℝ), ∀ (S : Set ℝ[X]), ((S = {p : ℝ[X] | p.degree = (4 : WithBot ℕ) ∧ ∀ x ∈ Icc (-1 : ℝ) (1 : ℝ), eval x p ∈ Icc (0 : ℝ) (1 : ℝ)})) → (putnam_1978_b5_solution ∈ S ∧ ∀ p ∈ S, p.coeff (4 : ℕ) ≤ putnam_1978_b5_solution.coeff (4 : ℕ)) := by sorry. Answer Type: Polynomial ℝ. 
+Let  
+\[
+q(x)=2p(x)-1.
+\]
+Then \(p(x)\in[0,1]\) for all \(x\in[-1,1]\) is equivalent to
+\[
+|q(x)|\le 1 \quad (x\in[-1,1]).
+\]
+Also, if \(p\) has leading coefficient \(a_4\), then \(q\) has leading coefficient \(2a_4\).
+
+So the problem becomes: among degree-4 polynomials bounded by \(1\) in absolute value on \([-1,1]\), maximize the \(x^4\)-coefficient. By the extremal property of Chebyshev polynomials, the maximizer is
+\[
+T_4(x)=8x^4-8x^2+1.
+\]
+Hence
+\[
+2a_4 \le 8 \implies a_4 \le 4.
+\]
+Equality is attained by
+\[
+p(x)=\frac{T_4(x)+1}{2}=4x^4-4x^2+1.
+\]
+This indeed satisfies \(0\le p(x)\le 1\) on \([-1,1]\), has degree \(4\), and its \(x^4\)-coefficient is \(4\), which is maximal.
+
+Therefore the Lean expression for the solution polynomial is:
+
+<<<4 * X^4 - 4 * X^2 + 1>>>

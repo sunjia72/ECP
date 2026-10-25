@@ -1,0 +1,93 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Polynomial Filter Topology ProbabilityTheory MeasureTheory
+theorem putnam_1976_b5 : ∃ (putnam_1976_b5_solution : ℕ → Polynomial ℤ), (∀ (n : ℕ), ∑ k ∈ Finset.range (n + (1 : ℕ)), (C : ℤ → ℤ[X]) ((-1 : ℤ) ^ k * (↑(n.choose k) : ℤ)) * (X - (C : ℤ → ℤ[X]) (↑k : ℤ)) ^ n = putnam_1976_b5_solution n) := by sorry. Answer Type: ℕ → Polynomial ℤ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_2xJlxhOqFLEWqJkjK0iNWCYE):
+import sympy as s
+x=s.symbols('x')
+for n in range(6):
+    expr=sum(((-1)**k)*s.binomial(n,k)*(x-k)**n for k in range(n+1))
+    print(n, s.expand(expr))
+[TOOL OUTPUT]
+0 1
+1 1
+2 2
+3 6
+4 24
+5 120
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+S_n(X)=\sum_{k=0}^n (-1)^k\binom nk (X-k)^n.
+\]
+
+Using Python to check small cases:
+
+- \(n=0,1,2,3,4,5\) gives \(1,1,2,6,24,120\),
+
+so it strongly suggests
+\[
+S_n(X)=n!.
+\]
+
+### Why this is true
+Expand:
+\[
+(X-k)^n=\sum_{j=0}^n \binom nj X^j(-k)^{\,n-j}.
+\]
+Hence
+\[
+S_n(X)=\sum_{j=0}^n \binom nj X^j \sum_{k=0}^n (-1)^k\binom nk(-k)^{\,n-j}.
+\]
+
+For \(j\ge 1\), the inner sum is
+\[
+\sum_{k=0}^n (-1)^k\binom nk p(k),
+\]
+where \(p(k)\) is a polynomial of degree \(n-j<n\). The \(n\)-th finite difference of a polynomial of degree \(<n\) is \(0\), so all coefficients of \(X^j\) for \(j\ge1\) vanish. Thus \(S_n(X)\) is constant.
+
+So just evaluate at \(X=0\):
+\[
+S_n(0)=\sum_{k=0}^n (-1)^k\binom nk(-k)^n
+      =(-1)^n\sum_{k=0}^n (-1)^k\binom nk k^n.
+\]
+Now the standard inclusion-exclusion identity for surjections \([n]\to[n]\) gives
+\[
+\sum_{k=0}^n (-1)^{n-k}\binom nk k^n=n!,
+\]
+equivalently
+\[
+\sum_{k=0}^n (-1)^k\binom nk k^n = (-1)^n n!.
+\]
+Therefore
+\[
+S_n(0)=(-1)^n\cdot (-1)^n n! = n!.
+\]
+
+So the polynomial is the constant polynomial \(n!\).
+
+Final Lean expression:
+<<<fun n : ℕ => (C : ℤ → ℤ[X]) (↑(n.factorial) : ℤ)>>>

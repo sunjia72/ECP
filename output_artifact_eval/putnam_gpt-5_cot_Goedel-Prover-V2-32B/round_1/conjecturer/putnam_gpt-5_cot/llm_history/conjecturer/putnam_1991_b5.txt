@@ -1,0 +1,77 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_1991_b5 : ∃ (putnam_1991_b5_solution : ℕ → ℕ), ∀ (p : ℕ), ((Odd p) ∧ (Prime p)) → (({z : ZMod p | ∃ (x : ZMod p), z = x ^ (2 : ℕ)} ∩ {z : ZMod p | ∃ (y : ZMod p), z = y ^ (2 : ℕ) + (1 : ZMod p)}).encard = (↑(putnam_1991_b5_solution p) : ℕ∞)) := by sorry. Answer Type: ℕ → ℕ. 
+Let  
+\[
+A_p=\{z\in \mathbf F_p : z=x^2 \text{ for some }x\}\cap \{z\in \mathbf F_p : z=y^2+1 \text{ for some }y\}.
+\]
+We need \(|A_p|\) for odd prime \(p\).
+
+A value \(z\in A_p\) means
+\[
+z=x^2,\qquad z-1=y^2
+\]
+for some \(x,y\), so
+\[
+x^2-y^2=1.
+\]
+Over \(\mathbf F_p\), set
+\[
+u=x-y,\quad v=x+y.
+\]
+Then \(uv=1\), and since \(p\) is odd, this is a bijection between solutions \((x,y)\) and choices of \(u\in \mathbf F_p^\times\). Hence the equation \(x^2-y^2=1\) has exactly \(p-1\) solutions \((x,y)\).
+
+Now relate this to values of \(z=x^2\):
+
+- Usually, for a given \(z\), both \(x=\pm\sqrt z\) and \(y=\pm\sqrt{z-1}\), giving \(4\) pairs \((x,y)\).
+- \(z=1\) is always in the intersection, and then \(y=0\), so only \(2\) pairs.
+- \(z=0\) is in the intersection iff \(-1\) is a square, i.e. iff \(p\equiv 1\pmod 4\); then it also gives only \(2\) pairs.
+
+So:
+
+### If \(p\equiv 1\pmod 4\)
+Both \(z=0,1\) occur:
+\[
+p-1 = 4(|A_p|-2)+2+2 = 4|A_p|-4,
+\]
+so
+\[
+|A_p|=\frac{p+3}{4}.
+\]
+
+### If \(p\equiv 3\pmod 4\)
+Only \(z=1\) is exceptional:
+\[
+p-1 = 4(|A_p|-1)+2 = 4|A_p|-2,
+\]
+so
+\[
+|A_p|=\frac{p+1}{4}.
+\]
+
+For odd primes, both cases are exactly
+\[
+|A_p|=\left\lfloor \frac{p+3}{4}\right\rfloor.
+\]
+Thus a valid Lean solution function is:
+
+<<<fun p : ℕ => (p + 3) / 4>>>

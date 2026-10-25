@@ -1,0 +1,43 @@
+dataset: matharena, model: Qwen3-32B, baseline: cot
+  AIMEI: 12/15 accuracy=0.8000 (80.00%)
+  AIMEII: 9/15 accuracy=0.6000 (60.00%)
+  HMMT: 13/33 accuracy=0.3939 (39.39%)
+  APEX: 1/12 accuracy=0.0833 (8.33%)
+  overall: 35/75 accuracy=0.4667 (46.67%)
+
+dataset: matharena, model: Qwen3-32B, baseline: mcp
+  AIMEI: 12/15 accuracy=0.8000 (80.00%)
+  AIMEII: 12/15 accuracy=0.8000 (80.00%)
+  HMMT: 14/33 accuracy=0.4242 (42.42%)
+  APEX: 1/12 accuracy=0.0833 (8.33%)
+  overall: 39/75 accuracy=0.5200 (52.00%)
+
+dataset: matharena, model: gpt-5, baseline: cot
+  AIMEI: 13/15 accuracy=0.8667 (86.67%)
+  AIMEII: 15/15 accuracy=1.0000 (100.00%)
+  HMMT: 26/33 accuracy=0.7879 (78.79%)
+  APEX: 4/12 accuracy=0.3333 (33.33%)
+  overall: 58/75 accuracy=0.7733 (77.33%)
+
+dataset: matharena, model: gpt-5, baseline: mcp
+  AIMEI: 14/15 accuracy=0.9333 (93.33%)
+  AIMEII: 15/15 accuracy=1.0000 (100.00%)
+  HMMT: 32/33 accuracy=0.9697 (96.97%)
+  APEX: 7/12 accuracy=0.5833 (58.33%)
+  overall: 68/75 accuracy=0.9067 (90.67%)
+
+dataset: putnam, model: Qwen3-32B, baseline: cot
+  putnam: 201/346 accuracy=0.5809 (58.09%)
+  overall: 201/346 accuracy=0.5809 (58.09%)
+
+dataset: putnam, model: Qwen3-32B, baseline: mcp
+  putnam: 217/346 accuracy=0.6272 (62.72%)
+  overall: 217/346 accuracy=0.6272 (62.72%)
+
+dataset: putnam, model: gpt-5, baseline: cot
+  putnam: 290/346 accuracy=0.8382 (83.82%)
+  overall: 290/346 accuracy=0.8382 (83.82%)
+
+dataset: putnam, model: gpt-5, baseline: mcp
+  putnam: 303/346 accuracy=0.8757 (87.57%)
+  overall: 303/346 accuracy=0.8757 (87.57%)

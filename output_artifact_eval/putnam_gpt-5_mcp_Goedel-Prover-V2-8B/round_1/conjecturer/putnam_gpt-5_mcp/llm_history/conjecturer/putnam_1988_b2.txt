@@ -1,0 +1,102 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Filter Topology
+theorem putnam_1988_b2 : ∃ (putnam_1988_b2_solution : Prop), ((∀ (x y : ℝ), y ≥ (0 : ℝ) ∧ y * (y + (1 : ℝ)) ≤ (x + (1 : ℝ)) ^ (2 : ℕ) → y * (y - (1 : ℝ)) ≤ x ^ (2 : ℕ)) ↔ putnam_1988_b2_solution) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_fZYMJdyRaCW7AwwkrB7cTpHr):
+import math
+cands=[]
+for x in [i/10 for i in range(-50,51)]:
+    for y in [j/10 for j in range(0,101)]:
+        if y*(y+1) <= (x+1)**2 + 1e-9 and y*(y-1) > x**2 + 1e-9:
+            cands.append((x,y,y*(y+1),(x+1)**2,y*(y-1),x**2))
+            if len(cands)>=20: break
+    if len(cands)>=20: break
+print(cands[:20])
+print('count',len(cands))
+[TOOL OUTPUT]
+[]
+count 0
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_UWllXCsa6ZkVXdrGi011JwpW):
+import random, math
+bad=[]
+for _ in range(200000):
+    x = random.uniform(-20,20)
+    y = random.uniform(0,20)
+    if y*(y+1) <= (x+1)**2 + 1e-12 and y*(y-1) > x*x + 1e-12:
+        bad.append((x,y))
+        break
+print('counterexample found?', bool(bad))
+print('sample counterexample list:', bad)
+
+# verify key inequality numerically for y>=1: (sqrt(y(y+1))-1)^2 >= y(y-1)
+mins = 1e9
+arg = None
+for i in range(1,100000):
+    y = 1 + i/10000
+    val = (math.sqrt(y*(y+1))-1)**2 - y*(y-1)
+    if val < mins:
+        mins = val
+        arg = y
+print('min tested gap', mins, 'at y', arg)
+[TOOL OUTPUT]
+counterexample found? False
+sample counterexample list: []
+min tested gap 0.02174960315389285 at y 10.9999
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+P:=\forall x,y\in \mathbb R,\quad \bigl(y\ge 0 \ \wedge\ y(y+1)\le (x+1)^2\bigr)\to y(y-1)\le x^2.
+\]
+
+We show \(P\) is true.
+
+Python check found no counterexample on large random/grid searches, which supports the algebra:
+
+- If \(0\le y\le 1\), then \(y(y-1)\le 0\le x^2\), so the conclusion is immediate.
+- Now suppose \(y\ge 1\). Put \(t=\sqrt{y(y+1)}\).  
+  From \(y(y+1)\le (x+1)^2\), we get either
+  \[
+  x+1\ge t \quad\text{or}\quad x+1\le -t.
+  \]
+  Also,
+  \[
+  (t-1)^2-y(y-1)=y(y+1)+1-2t-y(y-1)=2y+1-2t>0,
+  \]
+  since
+  \[
+  (2y+1)^2-4y(y+1)=1>0.
+  \]
+  Hence \(t-1\ge \sqrt{y(y-1)}\).
+
+  Therefore:
+  - if \(x+1\ge t\), then \(x\ge t-1\ge \sqrt{y(y-1)}\), so \(x^2\ge y(y-1)\);
+  - if \(x+1\le -t\), then \(x\le -1-t\le -\sqrt{y(y-1)}\), so again \(x^2\ge y(y-1)\).
+
+Thus \(P\) is true. So a correct proposition is `True`.
+
+<<<True>>>

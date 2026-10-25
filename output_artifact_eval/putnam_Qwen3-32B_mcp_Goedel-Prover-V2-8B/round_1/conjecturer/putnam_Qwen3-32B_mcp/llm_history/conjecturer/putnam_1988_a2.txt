@@ -1,0 +1,46 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set
+theorem putnam_1988_a2 : ∃ (putnam_1988_a2_solution : Prop), ∀ (f : ℝ → ℝ), ((f = fun (x : ℝ) => Real.exp (x ^ (2 : ℕ)))) → (putnam_1988_a2_solution ↔ ∃ (a : ℝ) (b : ℝ), a < b ∧ ∃ (g : ℝ → ℝ), (∃ x ∈ Ioo a b, g x ≠ (0 : ℝ)) ∧ DifferentiableOn ℝ g (Ioo a b) ∧ ∀ x ∈ Ioo a b, deriv (fun (y : ℝ) => f y * g y) x = deriv f x * deriv g x) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (id=chatcmpl-tool-bfec4961a73b4847968db74f32fdf887):
+from sympy import symbols, Function, Eq, dsolve
+x = symbols('x')
+g = Function('g')
+# The differential equation: 2x*g + g' = 2x*g'
+# Rearranged: 2x*g = g'(2x -1)
+# So, 2x*g = (2x -1)*g'
+# Which is g' = (2x*g)/(2x -1)
+diffeq = Eq(2*x*g(x) + g(x).diff(x), 2*x*g(x).diff(x))
+solution = dsolve(diffeq, g(x), ics=[])
+print(solution)
+[TOOL OUTPUT]
+Eq(g(x), C1*sqrt(2*x - 1)*exp(x))
+
+=== CONJECTURER ROUND ===
+
+
+The problem requires finding a proposition that holds true for the function $ f(x) = e^{x^2} $ and the existence of specific $ a < b $ and $ g $. By solving the differential equation derived from the condition $ (fg)' = f'g' $, we find that $ g(x) = K e^x \sqrt{2x - 1} $, which exists and is non-zero on intervals $ (a, b) $ where $ a > \frac{1}{2} $. Since such intervals and functions exist, the proposition is always **True**.
+
+<<<True>>>

@@ -1,0 +1,57 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology Real
+theorem putnam_1995_a2 : ∃ (putnam_1995_a2_solution : Set (ℝ × ℝ)), ∀ (habconv : ℝ × ℝ → Prop), ((habconv = fun (x : ℝ × ℝ) => match x with | (a, b) => ∃ (limit : ℝ), Tendsto (fun (t : ℝ) => ∫ (x : ℝ) in Set.Icc b t, √(√(x + a) - √x) - √(√x - √(x - b))) atTop (𝓝 limit))) → (∀ (ab : ℝ × ℝ), ab.1 > (0 : ℝ) ∧ ab.2 > (0 : ℝ) → (habconv ab ↔ ab ∈ putnam_1995_a2_solution)) := by sorry. Answer Type: Set (ℝ × ℝ). 
+Let  
+\[
+f_{a,b}(x)=\sqrt{\sqrt{x+a}-\sqrt x}-\sqrt{\sqrt x-\sqrt{x-b}},\qquad x\ge b.
+\]
+
+We need the improper integral \(\int_b^t f_{a,b}(x)\,dx\) to have a finite limit as \(t\to\infty\).
+
+For large \(x\),
+\[
+\sqrt{x+a}-\sqrt x=\frac{a}{\sqrt{x+a}+\sqrt x}\sim \frac{a}{2\sqrt x},
+\]
+and
+\[
+\sqrt x-\sqrt{x-b}=\frac{b}{\sqrt x+\sqrt{x-b}}\sim \frac{b}{2\sqrt x}.
+\]
+So
+\[
+\sqrt{\sqrt{x+a}-\sqrt x}\sim \frac{\sqrt a}{\sqrt2\,x^{1/4}},\qquad
+\sqrt{\sqrt x-\sqrt{x-b}}\sim \frac{\sqrt b}{\sqrt2\,x^{1/4}}.
+\]
+Hence
+\[
+f_{a,b}(x)\sim \frac{\sqrt a-\sqrt b}{\sqrt2\,x^{1/4}}.
+\]
+Since \(\int^\infty x^{-1/4}\,dx\) diverges, convergence is impossible unless \(\sqrt a=\sqrt b\), i.e. \(a=b\).
+
+If \(a=b=c>0\), then the leading \(x^{-1/4}\) terms cancel, and the next term is \(O(x^{-5/4})\), whose integral converges because \(\int^\infty x^{-5/4}\,dx\) converges.
+
+So for positive \(a,b\), the integral converges exactly when \(a=b\). Therefore the solution set can be taken to be the diagonal:
+\[
+\{(a,b)\in \mathbb R^2 : a=b\}.
+\]
+
+Lean expression:
+<<<fun ab : ℝ × ℝ => ab.1 = ab.2>>>

@@ -1,0 +1,53 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1980_b3 : ∃ (putnam_1980_b3_solution : Set ℝ), ∀ (a : ℝ), ∀ (u : ℕ → ℝ), ((u (0 : ℕ) = a ∧ ∀ (n : ℕ), u (n + (1 : ℕ)) = (2 : ℝ) * u n - (↑n : ℝ) ^ (2 : ℕ))) → ((∀ (n : ℕ), u n > (0 : ℝ)) ↔ a ∈ putnam_1980_b3_solution) := by sorry. Answer Type: Set ℝ. 
+Let
+\[
+u_{n+1}=2u_n-n^2,\qquad u_0=a.
+\]
+
+Solve the recurrence:
+
+- A particular solution of the form \(n^2+2n+3\) works, since
+  \[
+  (n+1)^2+2(n+1)+3 = 2(n^2+2n+3)-n^2.
+  \]
+- So the general solution is
+  \[
+  u_n = (a-3)2^n + (n^2+2n+3).
+  \]
+
+Now require \(u_n>0\) for all \(n\).
+
+- If \(a\ge 3\), then \((a-3)2^n\ge 0\), so
+  \[
+  u_n \ge n^2+2n+3 >0
+  \]
+  for all \(n\).
+- If \(a<3\), then \(a-3<0\), so the negative exponential term \((a-3)2^n\) eventually dominates the polynomial \(n^2+2n+3\), hence \(u_n<0\) for some large \(n\).
+
+Therefore the set of all such \(a\) is exactly
+\[
+[3,\infty).
+\]
+
+Lean expression:
+<<<Set.Ici (3 : ℝ)>>>

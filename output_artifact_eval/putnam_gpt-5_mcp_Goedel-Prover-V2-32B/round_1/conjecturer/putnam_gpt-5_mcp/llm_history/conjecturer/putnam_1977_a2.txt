@@ -1,0 +1,76 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1977_a2 : ∃ (putnam_1977_a2_solution : ℝ → ℝ → ℝ → ℝ → Prop), (∀ (a b c d : ℝ), a ≠ (0 : ℝ) → b ≠ (0 : ℝ) → c ≠ (0 : ℝ) → d ≠ (0 : ℝ) → (putnam_1977_a2_solution a b c d ↔ a + b + c = d ∧ (1 : ℝ) / a + (1 : ℝ) / b + (1 : ℝ) / c = (1 : ℝ) / d)) := by sorry. Answer Type: ℝ → ℝ → ℝ → ℝ → Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_Va5NQQIuZd0f3C05xiAa2cZW):
+import sympy as sp
+
+a,b,c=sp.symbols('a b c', nonzero=True)
+d=a+b+c
+expr=sp.expand((a*b+a*c+b*c)*(a+b+c)-a*b*c)
+print(expr)
+print(sp.factor(expr))
+[TOOL OUTPUT]
+a**2*b + a**2*c + a*b**2 + 2*a*b*c + a*c**2 + b**2*c + b*c**2
+(a + b)*(a + c)*(b + c)
+
+=== CONJECTURER ROUND ===
+Let
+\[
+d=a+b+c.
+\]
+Then the reciprocal condition becomes
+\[
+\frac1a+\frac1b+\frac1c=\frac1{a+b+c}.
+\]
+Since \(a,b,c,d\neq 0\), we may clear denominators:
+\[
+(a+b+c)(ab+ac+bc)=abc.
+\]
+Rearranging,
+\[
+a^2b+a^2c+ab^2+ac^2+b^2c+bc^2+2abc=0.
+\]
+But this factors as
+\[
+(a+b)(a+c)(b+c)=0.
+\]
+Hence at least one of
+\[
+a+b=0,\quad a+c=0,\quad b+c=0
+\]
+must hold.
+
+Conversely, if \(a+b=0\), then \(d=a+b+c=c\), so
+\[
+\frac1a+\frac1b+\frac1c=0+\frac1c=\frac1d.
+\]
+Similarly for the other two cases. Therefore the system is equivalent to
+\[
+a+b+c=d \quad\text{and}\quad (a+b=0\ \lor\ b+c=0\ \lor\ c+a=0).
+\]
+
+So a valid Lean expression is
+
+<<<fun a b c d => a + b + c = d ∧ (a + b = 0 ∨ b + c = 0 ∨ c + a = 0)>>>

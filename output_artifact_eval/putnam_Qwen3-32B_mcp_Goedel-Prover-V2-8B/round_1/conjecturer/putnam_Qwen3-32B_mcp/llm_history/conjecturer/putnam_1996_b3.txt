@@ -1,0 +1,45 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Function
+theorem putnam_1996_b3 : ∃ (putnam_1996_b3_solution : ℕ → ℕ), ∀ (n : ℕ), ((n ≥ (2 : ℕ))) → (IsGreatest {k : ℤ | ∃ (x : ℕ → ℤ), x '' (↑(Finset.range n) : Set ℕ) = Set.Icc (1 : ℤ) (↑n : ℤ) ∧ ∑ i : Fin n, x (↑i : ℕ) * x (((↑i : ℕ) + (1 : ℕ)) % n) = k} (↑(putnam_1996_b3_solution n) : ℤ)) := by sorry. Answer Type: ℕ → ℕ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (id=chatcmpl-tool-9468dce0d7854a6da3b60e2a99e973cc):
+import itertools
+
+n = 4
+max_sum = 0
+for perm in itertools.permutations(range(1, n+1)):
+    s = 0
+    for i in range(n):
+        s += perm[i] * perm[(i+1) % n]
+    if s > max_sum:
+        max_sum = s
+print(max_sum)
+[TOOL OUTPUT]
+25
+
+=== CONJECTURER ROUND ===
+
+
+<<<fun n => (2 * n^3 + 3 * n^2 - 11 * n + 18) / 6>>>

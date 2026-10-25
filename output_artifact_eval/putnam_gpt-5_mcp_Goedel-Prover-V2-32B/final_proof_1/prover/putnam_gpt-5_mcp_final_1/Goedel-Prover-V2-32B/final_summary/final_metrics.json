@@ -1,0 +1,119 @@
+{
+  "seed": 0,
+  "field": "complete",
+  "max_round": 2,
+  "num_origins": 346,
+  "automation_solved_num_instances": 0,
+  "pass@1_with_correction": 0.02023121387283237,
+  "pass@1_with_correction_num_solved_instances": 7,
+  "pass@k_with_correction": 0.049132947976878616,
+  "pass@k_with_correction_num_solved_instances": 17,
+  "per_round": {
+    "round_0": {
+      "pass@k": 0.046242774566473986,
+      "pass@k_num_solved_instances": 16,
+      "pass@1": 0.02023121387283237,
+      "pass@1_num_solved_instances": 7
+    },
+    "round_1": {
+      "pass@k": 0.049132947976878616,
+      "pass@k_num_solved_instances": 17,
+      "pass@1": 0.02023121387283237,
+      "pass@1_num_solved_instances": 7
+    },
+    "round_2": {
+      "pass@k": 0.049132947976878616,
+      "pass@k_num_solved_instances": 17,
+      "pass@1": 0.02023121387283237,
+      "pass@1_num_solved_instances": 7
+    }
+  },
+  "final_round_sampled_pass_curve": {
+    "max_k_over_origins": 32,
+    "pass_curve": {
+      "1": {
+        "accuracy": 0.017341040462427744,
+        "num_solved_instances": 6
+      },
+      "2": {
+        "accuracy": 0.02601156069364162,
+        "num_solved_instances": 9
+      },
+      "4": {
+        "accuracy": 0.02601156069364162,
+        "num_solved_instances": 9
+      },
+      "8": {
+        "accuracy": 0.031791907514450865,
+        "num_solved_instances": 11
+      },
+      "16": {
+        "accuracy": 0.03757225433526012,
+        "num_solved_instances": 13
+      },
+      "32": {
+        "accuracy": 0.049132947976878616,
+        "num_solved_instances": 17
+      }
+    }
+  },
+  "category_metrics": {
+    "putnam": {
+      "num_origins": 346,
+      "automation_solved_num_instances": 0,
+      "pass@1_with_correction": 0.02023121387283237,
+      "pass@1_with_correction_num_solved_instances": 7,
+      "pass@k_with_correction": 0.049132947976878616,
+      "pass@k_with_correction_num_solved_instances": 17,
+      "per_round": {
+        "round_0": {
+          "pass@k": 0.046242774566473986,
+          "pass@k_num_solved_instances": 16,
+          "pass@1": 0.02023121387283237,
+          "pass@1_num_solved_instances": 7
+        },
+        "round_1": {
+          "pass@k": 0.049132947976878616,
+          "pass@k_num_solved_instances": 17,
+          "pass@1": 0.02023121387283237,
+          "pass@1_num_solved_instances": 7
+        },
+        "round_2": {
+          "pass@k": 0.049132947976878616,
+          "pass@k_num_solved_instances": 17,
+          "pass@1": 0.02023121387283237,
+          "pass@1_num_solved_instances": 7
+        }
+      },
+      "final_round_sampled_pass_curve": {
+        "max_k_over_origins": 32,
+        "pass_curve": {
+          "1": {
+            "accuracy": 0.017341040462427744,
+            "num_solved_instances": 6
+          },
+          "2": {
+            "accuracy": 0.02601156069364162,
+            "num_solved_instances": 9
+          },
+          "4": {
+            "accuracy": 0.02601156069364162,
+            "num_solved_instances": 9
+          },
+          "8": {
+            "accuracy": 0.031791907514450865,
+            "num_solved_instances": 11
+          },
+          "16": {
+            "accuracy": 0.03757225433526012,
+            "num_solved_instances": 13
+          },
+          "32": {
+            "accuracy": 0.049132947976878616,
+            "num_solved_instances": 17
+          }
+        }
+      }
+    }
+  }
+}

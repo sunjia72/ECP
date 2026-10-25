@@ -1,0 +1,130 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Nat
+theorem putnam_1974_a4 : ∃ (putnam_1974_a4_solution : ℕ → ℚ), ∀ (n : ℕ), (((0 : ℕ) < n)) → ((1 : ℚ) / (2 : ℚ) ^ (n - (1 : ℕ)) * (↑(∑ k ∈ Finset.Icc (0 : ℕ) ⌊n / (2 : ℕ)⌋₊, (n - (2 : ℕ) * k) * n.choose k) : ℚ) = putnam_1974_a4_solution n) := by sorry. Answer Type: ℕ → ℚ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_qPFNzeSeTrpNtSdzI6dd3CwO):
+from math import comb
+from fractions import Fraction
+for n in range(1,21):
+    s=sum((n-2*k)*comb(n,k) for k in range(0,n//2+1))
+    val=Fraction(s,2**(n-1))
+    print(n,s,val,float(val))
+[TOOL OUTPUT]
+1 1 1 1.0
+2 2 1 1.0
+3 6 3/2 1.5
+4 12 3/2 1.5
+5 30 15/8 1.875
+6 60 15/8 1.875
+7 140 35/16 2.1875
+8 280 35/16 2.1875
+9 630 315/128 2.4609375
+10 1260 315/128 2.4609375
+11 2772 693/256 2.70703125
+12 5544 693/256 2.70703125
+13 12012 3003/1024 2.9326171875
+14 24024 3003/1024 2.9326171875
+15 51480 6435/2048 3.14208984375
+16 102960 6435/2048 3.14208984375
+17 218790 109395/32768 3.338470458984375
+18 437580 109395/32768 3.338470458984375
+19 923780 230945/65536 3.5239410400390625
+20 1847560 230945/65536 3.5239410400390625
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_8e4KhqKU4vW7CEHKPpPQP3Is):
+from math import comb
+from fractions import Fraction
+for n in range(0,21):
+    lhs=Fraction(sum((n-2*k)*comb(n,k) for k in range(0,n//2+1)),2**max(n-1,0)) if n>0 else Fraction(0,1)
+    # in Lean nat exponent uses n-1 saturating at 0, so use 2**(n-1 if n>=1 else 0)
+    lhs2=Fraction(sum((n-2*k)*comb(n,k) for k in range(0,n//2+1)),2**(n-1 if n>=1 else 0))
+    rhs=Fraction(n*comb(max(n-1,0), n//2),2**(n-1 if n>=1 else 0))
+    print(n,lhs2==rhs,lhs2,rhs)
+[TOOL OUTPUT]
+0 True 0 0
+1 True 1 1
+2 True 1 1
+3 True 3/2 3/2
+4 True 3/2 3/2
+5 True 15/8 15/8
+6 True 15/8 15/8
+7 True 35/16 35/16
+8 True 35/16 35/16
+9 True 315/128 315/128
+10 True 315/128 315/128
+11 True 693/256 693/256
+12 True 693/256 693/256
+13 True 3003/1024 3003/1024
+14 True 3003/1024 3003/1024
+15 True 6435/2048 6435/2048
+16 True 6435/2048 6435/2048
+17 True 109395/32768 109395/32768
+18 True 109395/32768 109395/32768
+19 True 230945/65536 230945/65536
+20 True 230945/65536 230945/65536
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+S_n=\sum_{k=0}^{\lfloor n/2\rfloor}(n-2k)\binom{n}{k}.
+\]
+
+Using
+\[
+(n-k)\binom{n}{k}=n\binom{n-1}{k},\qquad
+k\binom{n}{k}=n\binom{n-1}{k-1},
+\]
+we get
+\[
+(n-2k)\binom{n}{k}
+= n\binom{n-1}{k}-n\binom{n-1}{k-1}.
+\]
+
+So with \(m=\lfloor n/2\rfloor\),
+\[
+S_n
+= n\sum_{k=0}^m\left(\binom{n-1}{k}-\binom{n-1}{k-1}\right),
+\]
+which telescopes to
+\[
+S_n=n\binom{n-1}{m}=n\binom{n-1}{\lfloor n/2\rfloor}.
+\]
+
+Hence
+\[
+\frac{1}{2^{\,n-1}}S_n
+=
+\frac{n\binom{n-1}{\lfloor n/2\rfloor}}{2^{\,n-1}}.
+\]
+
+Since in Lean for natural numbers \(\lfloor n/2\rfloor\) is just `n / 2`, the solution function is
+\[
+n\mapsto \frac{1}{2^{n-1}}\, n \binom{n-1}{n/2}.
+\]
+
+I also checked by Python for many \(n\), and it matches the given sum exactly.
+
+<<<fun n : ℕ => (1 : ℚ) / (2 : ℚ) ^ (n - 1) * (↑(n * Nat.choose (n - 1) (n / 2)) : ℚ)>>>

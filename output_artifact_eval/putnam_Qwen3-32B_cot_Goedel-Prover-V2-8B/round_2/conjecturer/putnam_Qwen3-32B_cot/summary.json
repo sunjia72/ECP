@@ -1,0 +1,47 @@
+[
+  {
+    "name": "putnam_1974_a4",
+    "round": 2,
+    "actual_answer": "(fun n ↦ (1 : ℚ) / (2 ^ (n - 1)) * (n * (n - 1).choose ⌊n / 2⌋₊))",
+    "proposed_answer": "fun n => (↑n * ↑(Nat.choose (n - 1) ((n - 1) / 2)) / ↑(2 ^ (n - 1)) : ℚ)",
+    "answer_ok": "True",
+    "answer_error": "",
+    "is_equivalent": "True",
+    "explanation": "have h_main : ∀ n : ℕ, (n : ℚ) * ↑((n - 1).choose ⌊n / 2⌋₊) = (n : ℚ) * ↑(Nat.choose (n - 1) ((n - 1) / 2)) := by\n  intro n\n  have h₁ : (n - 1).choose ⌊n / 2⌋₊ = Nat.choose (n - 1) ((n - 1) / 2) := by\n    have h₂ : ⌊n / 2⌋₊ = n / 2 := by\n      rfl\n    rw [h₂]\n    have h₃ : (n - 1).choose (n / 2) = Nat.choose (n - 1) ((n - 1) / 2) := by\n      have h₄ : (n - 1).choose (n / 2) = Nat.choose (n - 1) ((n - 1) / 2) := by\n\n        have h₅ : (n - 1).choose (n / 2) = Nat.choose (n - 1) ((n - 1) - (n / 2)) := by\n          rw [← Nat.choose_symm_of_eq_add]\n          <;>\n          (try omega) <;>\n          (try\n            {\n              cases n with\n              | zero => simp\n              | succ n =>\n                cases n with\n                | zero => simp\n                | succ n =>\n                  simp [Nat.div_eq_of_lt, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]\n                  <;> ring_nf at * <;> omega\n            })\n        have h₆ : (n - 1) - (n / 2) = (n - 1) / 2 := by\n          have h₇ : n / 2 + (n - 1) / 2 = n - 1 := by\n            have h₈ : n / 2 + (n - 1) / 2 = n - 1 := by\n              have h₉ : n / 2 + (n - 1) / 2 = n - 1 := by\n                cases n with\n                | zero => simp\n                | succ n =>\n                  cases n with\n                  | zero => simp\n                  | succ n =>\n                    simp [Nat.div_eq_of_lt, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm]\n                    <;> ring_nf at * <;>\n                    (try omega) <;>\n                    (try\n                      {\n                        omega\n                      })\n              exact h₉\n            exact h₈\n          have h₁₀ : (n - 1) - (n / 2) = (n - 1) / 2 := by\n            have h₁₁ : n / 2 + (n - 1) / 2 = n - 1 := by\n              omega\n            have h₁₂ : (n - 1) - (n / 2) = (n - 1) / 2 := by\n              omega\n            exact h₁₂\n          exact h₁₀\n        rw [h₆] at h₅\n        exact h₅\n      exact h₄\n    exact h₃\n  rw [h₁]\n  <;>\n  simp [mul_assoc]\n  <;>\n  ring_nf\n  <;>\n  norm_num\n  <;>\n  field_simp\n  <;>\n  ring_nf\n  <;>\n  norm_cast\n\nhave h_final : ((fun n ↦ (1 : ℚ) / (2 ^ (n - 1)) * (n * (n - 1).choose ⌊n / 2⌋₊)) : ℕ → ℚ) = (fun n => (↑n * ↑(Nat.choose (n - 1) ((n - 1) / 2)) / ↑(2 ^ (n - 1)) : ℚ) : ℕ → ℚ) := by\n  funext n\n  have h₁ : (n : ℚ) * ↑((n - 1).choose ⌊n / 2⌋₊) = (n : ℚ) * ↑(Nat.choose (n - 1) ((n - 1) / 2)) := h_main n\n  have h₂ : (1 : ℚ) / (2 ^ (n - 1)) * (n * (n - 1).choose ⌊n / 2⌋₊) = (↑n * ↑(Nat.choose (n - 1) ((n - 1) / 2)) / ↑(2 ^ (n - 1)) : ℚ) := by\n    calc\n      (1 : ℚ) / (2 ^ (n - 1)) * (n * (n - 1).choose ⌊n / 2⌋₊) = (n : ℚ) * ↑((n - 1).choose ⌊n / 2⌋₊) / (2 ^ (n - 1) : ℚ) := by\n        field_simp [pow_ne_zero]\n        <;> ring_nf\n        <;> norm_cast\n        <;> simp_all [Nat.choose_zero_right, Nat.choose_one_right]\n        <;> ring_nf\n        <;> norm_num\n        <;> field_simp [pow_ne_zero]\n        <;> ring_nf\n        <;> norm_cast\n      _ = (n : ℚ) * ↑(Nat.choose (n - 1) ((n - 1) / 2)) / (2 ^ (n - 1) : ℚ) := by\n        rw [h₁]\n      _ = (↑n * ↑(Nat.choose (n - 1) ((n - 1) / 2)) / ↑(2 ^ (n - 1)) : ℚ) := by\n        simp [div_eq_mul_inv]\n        <;> field_simp [pow_ne_zero]\n        <;> ring_nf\n        <;> norm_cast\n        <;> simp_all [Nat.choose_zero_right, Nat.choose_one_right]\n        <;> ring_nf\n        <;> norm_num\n  exact h₂\nexact h_final",
+    "answer_construction_runtime_sec": 1373.259108,
+    "answer_construction_output_tokens": 26186,
+    "answer_construction_tool_calls": 0,
+    "answer_construction_api_calls": 2,
+    "answer_construction_llm_calls": 2
+  },
+  {
+    "name": "putnam_1996_b5",
+    "round": 2,
+    "actual_answer": "(fun n : ℕ ↦ 2 ^ ⌊(n + 2) / 2⌋₊ + 2 ^ ⌊(n + 1) / 2⌋₊ - 2)",
+    "proposed_answer": "fun n => 3 * 2^n - 2",
+    "answer_ok": "True",
+    "answer_error": "",
+    "is_equivalent": "False",
+    "explanation": "answer passed Lean syntax and canonical admissibility checks",
+    "answer_construction_runtime_sec": 221.788785,
+    "answer_construction_output_tokens": 6893,
+    "answer_construction_tool_calls": 0,
+    "answer_construction_api_calls": 1,
+    "answer_construction_llm_calls": 1
+  },
+  {
+    "name": "putnam_2021_a3",
+    "round": 2,
+    "actual_answer": "{3 * m ^ 2 | m > 0}",
+    "proposed_answer": "{N | ∃ k : ℕ, N = 3 * k * k}",
+    "answer_ok": "True",
+    "answer_error": "",
+    "is_equivalent": "False",
+    "explanation": "answer passed Lean syntax and canonical admissibility checks",
+    "answer_construction_runtime_sec": 350.514437,
+    "answer_construction_output_tokens": 10877,
+    "answer_construction_tool_calls": 0,
+    "answer_construction_api_calls": 1,
+    "answer_construction_llm_calls": 1
+  }
+]

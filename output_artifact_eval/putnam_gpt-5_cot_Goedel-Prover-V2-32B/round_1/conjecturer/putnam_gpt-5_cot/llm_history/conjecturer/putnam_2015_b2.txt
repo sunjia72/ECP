@@ -1,0 +1,60 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_2015_b2 : ∃ (putnam_2015_b2_solution : Prop), ∀ (sets : ℕ → Set ℕ), ∀ (Smin3 : Set ℕ → Fin (3 : ℕ) → ℕ), ∀ (sums : ℕ → ℕ), ((sets (0 : ℕ) = Set.Ici (1 : ℕ)) ∧ (∀ (S : Set ℕ), S.encard ≥ (3 : ℕ∞) → Smin3 S (0 : Fin (3 : ℕ)) = sInf S ∧ Smin3 S (1 : Fin (3 : ℕ)) = sInf (S \ {Smin3 S (0 : Fin (3 : ℕ))}) ∧ Smin3 S (2 : Fin (3 : ℕ)) = sInf (S \ {Smin3 S (0 : Fin (3 : ℕ)), Smin3 S (1 : Fin (3 : ℕ))})) ∧ (∀ (n : ℕ), sums n = Smin3 (sets n) (0 : Fin (3 : ℕ)) + Smin3 (sets n) (1 : Fin (3 : ℕ)) + Smin3 (sets n) (2 : Fin (3 : ℕ))) ∧ (∀ (n : ℕ), sets (n + (1 : ℕ)) = sets n \ {Smin3 (sets n) (0 : Fin (3 : ℕ)), Smin3 (sets n) (1 : Fin (3 : ℕ)), Smin3 (sets n) (2 : Fin (3 : ℕ)), sums n})) → ((∃ (n : ℕ), [(5 : ℕ), (1 : ℕ), (0 : ℕ), (2 : ℕ)] <+: Nat.digits (10 : ℕ) (sums n)) ↔ putnam_2015_b2_solution) := by sorry. Answer Type: Prop. 
+Let \(s_n = \text{sums } n\).  
+A useful way to package the process is by blocks of 10 consecutive positive integers:
+\[
+\{10m+1,\dots,10m+10\}.
+\]
+Empirically and then recursively, each such block contains exactly one value of the sequence \((s_n)\). So write
+\[
+s_m = 10m + a_m,
+\]
+where \(a_m \in \{1,\dots,10\}\) is the unique missing element of the \(m\)-th block.
+
+Starting from \(a_0=6\), the block recursion is:
+
+- if \(a_m=5\), then \((a_{3m},a_{3m+1},a_{3m+2})=(6,7,7)\)
+- if \(a_m=6\), then \((a_{3m},a_{3m+1},a_{3m+2})=(6,6,7)\)
+- if \(a_m=7\), then \((a_{3m},a_{3m+1},a_{3m+2})=(6,5,7)\)
+
+So from the initial value 6, all \(a_m\) lie in \(\{5,6,7\}\), and the ternary recursion simplifies to:
+
+- appending ternary digit \(0\) forces value \(6\),
+- appending ternary digit \(2\) forces value \(7\),
+- appending ternary digit \(1\) swaps \(5 \leftrightarrow 7\) and fixes \(6\).
+
+Hence \(a_m=5\) whenever the base-3 expansion of \(m\) ends in \(21\); in particular, every \(m \equiv 7 \pmod 9\) has \(a_m=5\).
+
+Now we want a sum ending in \(2015\), i.e. some \(s_m = 10m+5\) with \(m \equiv 201 \pmod{1000}\).  
+So we need
+\[
+m \equiv 201 \pmod{1000},\qquad m \equiv 7 \pmod 9.
+\]
+By CRT, such \(m\) exists; for example \(m=4201\). Then \(a_{4201}=5\), so
+\[
+s_{4201}=10\cdot 4201+5=42015,
+\]
+which ends in \(2015\).
+
+Therefore the required proposition is true.
+
+<<<True>>>

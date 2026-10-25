@@ -1,0 +1,48 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026HMMT_14 : ∃ (P2026HMMT_14_answer : ℚ), (let ChoiceSeq := (i : Fin (5 : ℕ)) → Fin ((↑i : ℕ) + (1 : ℕ)); (∑ c : ChoiceSeq, ∏ i : Fin (5 : ℕ), if (↑(c i) : ℕ) = (0 : ℕ) then (1 / 2 : ℚ) else (1 : ℚ)) / (↑(Fintype.card ChoiceSeq) : ℚ) = P2026HMMT_14_answer) := by sorry. Answer Type: ℚ. 
+For each index \(i \in \{0,1,2,3,4\}\), the value \(c(i)\) is chosen uniformly from `Fin (i+1)`, so there are \(i+1\) possibilities.
+
+The factor in the product is:
+
+- \(1/2\) if \(c(i)=0\),
+- \(1\) otherwise.
+
+So the average contribution from a fixed \(i\) is
+\[
+\frac{\frac12 + i\cdot 1}{i+1}
+= \frac{i+\frac12}{i+1}
+= \frac{2i+1}{2(i+1)}.
+\]
+
+Since the choices are independent across coordinates, the total average is the product:
+\[
+\prod_{i=0}^4 \frac{2i+1}{2(i+1)}
+= \frac12\cdot\frac34\cdot\frac56\cdot\frac78\cdot\frac9{10}
+= \frac{63}{256}.
+\]
+
+So the existential witness should be:
+
+<<<(63 / 256 : ℚ)>>>

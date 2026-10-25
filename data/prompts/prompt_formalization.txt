@@ -1,0 +1,33 @@
+You are given a math problem that requires answer-construction.
+Your task is to formalize the problem in Lean 4 (v4.24.0).
+
+- Each output file MUST be exactly:
+```
+import Mathlib
+import Aesop
+
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+
+noncomputable abbrev {problem_name}_answer : {type} := {answer}
+
+
+theorem {problem_name} ... : ... := by sorry
+```
+
+
+Requirements: 
+1. Define the ground-truth answer as an abbrev for parsing:
+   `noncomputable abbrev <problem_name>_answer : β := <expression>`
+   or
+   `abbrev <problem_name>_answer : α → β := fun x => <expression>`
+   (Don't put `(n : ℕ)` before `: α → β`; encode inputs inside `fun x => ...`.)
+   If no {answer} is given, use `sorry`. 
+2. Formalize Theorem skeleton:
+   `theorem <problem_name> (x : α) (hx : P x) (y : β) :
+      Q(x, y) ↔ y = <problem_name>_answer x := by sorry`
+
+Other Suggestions:
+- Use `IsLeast` / `IsGreatest` for optimal answers.
+- Use `Set β` and membership notation if there are multiple answers.
+Your task: {Raw Problem}

@@ -1,0 +1,54 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open EuclideanGeometry Filter Topology Set
+theorem putnam_1972_a3 : ∃ (putnam_1972_a3_solution : Set (ℝ → ℝ)), ∀ (climit_exists : (ℕ → ℝ) → Prop), ∀ (supercontinuous : (ℝ → ℝ) → Prop), ((∀ (x : ℕ → ℝ), climit_exists x ↔ ∃ (C : ℝ), Tendsto (fun (n : ℕ) => (∑ i ∈ Finset.range n, x i) / (↑n : ℝ)) atTop (𝓝 C)) ∧ (∀ (f : ℝ → ℝ), supercontinuous f ↔ ∀ (x : ℕ → ℝ), (∀ (i : ℕ), x i ∈ Icc (0 : ℝ) (1 : ℝ)) → climit_exists x → climit_exists fun (i : ℕ) => f (x i))) → ({f : ℝ → ℝ | supercontinuous f} = putnam_1972_a3_solution) := by sorry. Answer Type: Set (ℝ → ℝ). 
+Let  
+\[
+A_n(x)=\frac1n\sum_{i<n}x_i
+\]
+be the Cesàro mean.
+
+The condition says that for every sequence \(x_i\in[0,1]\), if \(A_n(x)\) converges, then \(A_n(f\circ x)\) also converges.
+
+A linear function on \([0,1]\), say \(f(x)=ax+b\), clearly works, since
+\[
+A_n(f(x_i))=aA_n(x_i)+b.
+\]
+
+So the main issue is necessity. If \(f\) is not affine on \([0,1]\), then there exist \(u,v\in[0,1]\) and \(t\in[0,1]\) such that
+\[
+f(tu+(1-t)v)\neq tf(u)+(1-t)f(v).
+\]
+Using a sequence with asymptotic density \(t\) of \(u\)'s and \(1-t\) of \(v\)'s, and alternating very long blocks of that sequence with very long constant blocks at the value \(tu+(1-t)v\), one can make the original Cesàro mean still converge, while the Cesàro mean of \(f(x_i)\) oscillates between the two unequal quantities above, hence does not converge. Contradiction.
+
+Therefore \(f\) must satisfy
+\[
+f(tx+(1-t)y)=tf(x)+(1-t)f(y)\qquad (x,y,t\in[0,1]).
+\]
+Taking \(x=1,\ y=0,\ t=z\) gives
+\[
+f(z)=z f(1)+(1-z)f(0)\qquad (z\in[0,1]),
+\]
+so \(f\) is affine on \([0,1]\). Outside \([0,1]\), the condition imposes nothing.
+
+Thus the solution set is exactly the set of functions whose restriction to \([0,1]\) is affine.
+
+<<<{f : ℝ → ℝ | ∃ a b : ℝ, ∀ x ∈ Icc (0 : ℝ) (1 : ℝ), f x = a * x + b}>>>

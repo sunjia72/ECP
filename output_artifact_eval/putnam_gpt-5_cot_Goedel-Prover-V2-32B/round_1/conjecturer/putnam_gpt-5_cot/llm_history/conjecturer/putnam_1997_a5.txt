@@ -1,0 +1,69 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_1997_a5 : ∃ (putnam_1997_a5_solution : Prop), ∀ (N : (n : ℕ+) → Set (Fin (↑n : ℕ) → ℕ+)), ((N = fun (n : ℕ+) => {t : Fin (↑n : ℕ) → ℕ+ | ∑ i : Fin (↑n : ℕ), (1 : ℝ) / (↑(↑(t i) : ℕ) : ℝ) = (1 : ℝ)})) → (Odd (N (10 : ℕ+)).ncard ↔ putnam_1997_a5_solution) := by sorry. Answer Type: Prop. 
+Let  
+\[
+S=\{t:\mathrm{Fin}\ 10\to \mathbb N_{>0} \mid \sum_i 1/t_i = 1\}.
+\]
+We need the parity of `S.ncard`.
+
+Key idea: permuting coordinates preserves the condition, so we group solutions by multiplicity pattern of equal denominators.  
+If a multiset has multiplicities \(m_1,m_2,\dots\) summing to \(10\), then its orbit size is
+\[
+\frac{10!}{m_1!m_2!\cdots}.
+\]
+This is odd iff the multinomial coefficient is odd. By the usual mod-2 criterion (Lucas/Kummer), for \(10=8+2\), this happens only for multiplicity patterns:
+
+- \(10\) (all entries equal), or
+- \(8+2\).
+
+So only these can affect parity.
+
+### Case 1: multiplicity \(10\)
+All entries are \(a\), so \(10/a=1\), hence \(a=10\).  
+This gives exactly one solution: \((10,\dots,10)\).
+
+### Case 2: multiplicity \(8+2\)
+Say eight entries are \(a\) and two are \(b\). Then
+\[
+\frac{8}{a}+\frac{2}{b}=1.
+\]
+Rearrange:
+\[
+ab-2a-8b=0
+\quad\Longrightarrow\quad
+(a-8)(b-2)=16.
+\]
+Positive divisor pairs of \(16\) give:
+\[
+(a,b)=(9,18),(10,10),(12,6),(16,4),(24,3).
+\]
+Exclude \((10,10)\) since that is the previous all-equal case. So there are 4 genuine \(8+2\) multisets.  
+Each has orbit size \(\binom{10}{2}=45\), which is odd, so together they contribute an even number \(4\cdot 45\).
+
+Thus total parity is
+\[
+1 + (\text{even}) = \text{odd}.
+\]
+So the desired proposition is `True`.
+
+<<<True>>>

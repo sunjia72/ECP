@@ -1,0 +1,53 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Filter Topology
+theorem putnam_1988_b2 : ∃ (putnam_1988_b2_solution : Prop), ((∀ (x y : ℝ), y ≥ (0 : ℝ) ∧ y * (y + (1 : ℝ)) ≤ (x + (1 : ℝ)) ^ (2 : ℕ) → y * (y - (1 : ℝ)) ≤ x ^ (2 : ℕ)) ↔ putnam_1988_b2_solution) := by sorry. Answer Type: Prop. 
+Let
+\[
+P := \forall x y \in \mathbb R,\; y\ge 0 \land y(y+1)\le (x+1)^2 \to y(y-1)\le x^2.
+\]
+
+We need determine whether \(P\) is true or false.
+
+Take any \(x,y\) with
+\[
+y\ge 0,\qquad y(y+1)\le (x+1)^2.
+\]
+
+Consider two cases.
+
+- If \(y \ge x+\tfrac12\), then
+  \[
+  y(y-1)=y(y+1)-2y \le (x+1)^2-(2x+1)=x^2.
+  \]
+
+- If \(y \le x+\tfrac12\), then:
+  - if \(y\le \tfrac12\), then \(y(y-1)\le 0\le x^2\);
+  - if \(y\ge \tfrac12\), the function \(t\mapsto t(t-1)\) is increasing on \([1/2,\infty)\), so
+    \[
+    y(y-1)\le \left(x+\tfrac12\right)\left(x-\tfrac12\right)=x^2-\tfrac14\le x^2.
+    \]
+
+In all cases, \(y(y-1)\le x^2\). Hence \(P\) is true.
+
+So the proposition sought is simply `True`.
+
+<<<True>>>

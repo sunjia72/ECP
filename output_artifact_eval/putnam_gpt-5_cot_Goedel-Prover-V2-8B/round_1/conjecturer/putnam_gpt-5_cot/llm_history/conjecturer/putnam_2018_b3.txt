@@ -1,0 +1,78 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_2018_b3 : ∃ (putnam_2018_b3_solution : Set ℕ), ∀ (n : ℕ), (((0 : ℕ) < n)) → (n < (10 : ℕ) ^ (100 : ℕ) ∧ (↑n : ℤ) ∣ (2 : ℤ) ^ n ∧ (↑n : ℤ) - (1 : ℤ) ∣ (2 : ℤ) ^ n - (1 : ℤ) ∧ (↑n : ℤ) - (2 : ℤ) ∣ (2 : ℤ) ^ n - (2 : ℤ) ↔ n ∈ putnam_2018_b3_solution) := by sorry. Answer Type: Set ℕ. 
+Let  
+- `n ∣ 2^n`,  
+- `n - 1 ∣ 2^n - 1`,  
+- `n - 2 ∣ 2^n - 2`.
+
+We solve these conditions for positive `n`.
+
+1. From `n ∣ 2^n`, every prime factor of `n` must be `2`, so `n = 2^k` for some `k`.
+
+2. Then `n - 1 = 2^k - 1`, and
+   \[
+   2^k - 1 \mid 2^{2^k} - 1.
+   \]
+   Using the standard fact
+   \[
+   2^a - 1 \mid 2^b - 1 \iff a \mid b,
+   \]
+   we get `k ∣ 2^k`, hence `k` is also a power of `2`: `k = 2^m`.
+
+3. Now `n - 2 = 2(2^{k-1}-1)` and `2^n - 2 = 2(2^{n-1}-1)`, so
+   \[
+   2^{k-1}-1 \mid 2^{n-1}-1 = 2^{2^k-1}-1.
+   \]
+   Again by the same fact,
+   \[
+   k-1 \mid 2^k - 1.
+   \]
+   Since `k = 2^m`, this becomes
+   \[
+   2^m - 1 \mid 2^{2^m} - 1,
+   \]
+   so `m ∣ 2^m`, hence `m` is a power of `2`.
+
+Thus all solutions are
+\[
+n = 2^{2^m}
+\]
+where `m` is a positive power of `2`.
+
+Finally impose `n < 10^{100}`. Since
+\[
+2^{2^m} < 10^{100},
+\]
+we need `2^m < \log_2(10^{100}) < 333`, so with `m` a power of `2`, the possibilities are
+\[
+m = 1,2,4,8.
+\]
+Hence
+\[
+n = 2^2, 2^4, 2^{16}, 2^{256},
+\]
+i.e.
+\[
+\{4,16,65536,2^{256}\}.
+\]
+
+<<<({4, 16, 65536, 2 ^ 256} : Set ℕ)>>>

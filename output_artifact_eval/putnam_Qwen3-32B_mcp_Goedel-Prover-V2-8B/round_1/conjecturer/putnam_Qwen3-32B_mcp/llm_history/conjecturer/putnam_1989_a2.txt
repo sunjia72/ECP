@@ -1,0 +1,99 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1989_a2 : ∃ (putnam_1989_a2_solution : ℝ → ℝ → ℝ), ∀ (a b : ℝ), ((a > (0 : ℝ) ∧ b > (0 : ℝ))) → (∫ (x : ℝ) in Set.Ioo (0 : ℝ) a, ∫ (y : ℝ) in Set.Ioo (0 : ℝ) b, Real.exp (max (b ^ (2 : ℕ) * x ^ (2 : ℕ)) (a ^ (2 : ℕ) * y ^ (2 : ℕ))) = putnam_1989_a2_solution a b) := by sorry. Answer Type: ℝ → ℝ → ℝ. 
+
+=== CONJECTURER ROUND ===
+
+
+To solve the problem of finding the function `putnam_1989_a2_solution : ℝ → ℝ → ℝ` such that for all positive real numbers $a$ and $b$, the double integral 
+
+$$
+\int_{0}^a \int_{0}^b \exp(\max(b^2 x^2, a^2 y^2)) \, dy \, dx
+$$
+
+equals `putnam_1989_a2_solution a b`, we first analyze the structure of the integrand. The function inside the integral, $\exp(\max(b^2 x^2, a^2 y^2))$, behaves differently depending on whether $b^2 x^2 \geq a^2 y^2$ or vice versa. By splitting the integration region into two parts, we can simplify the computation and evaluate the integral analytically.
+
+---
+
+### Step 1: Split the Integration Region
+
+We divide the rectangle $(0 \leq x \leq a, 0 \leq y \leq b)$ into two regions:
+1. **Region 1:** $b^2 x^2 \geq a^2 y^2$, which simplifies to $y \leq \frac{b}{a}x$.
+2. **Region 2:** $a^2 y^2 > b^2 x^2$, which simplifies to $y > \frac{b}{a}x$.
+
+This allows us to compute the integral as the sum of two separate integrals over these regions.
+
+---
+
+### Step 2: Evaluate the Integrals
+
+Let $I_1$ and $I_2$ represent the integrals over the two regions.
+
+- **Region 1 Integral $I_1$:**  
+  $$
+  I_1 = \int_0^a \int_0^{\frac{b}{a}x} \exp(b^2 x^2) \, dy \, dx
+  $$
+  Since $\exp(b^2 x^2)$ is constant with respect to $y$, we integrate over $y$ and compute:
+  $$
+  I_1 = \int_0^a \exp(b^2 x^2) \cdot \frac{b}{a}x \, dx
+  $$
+  Let $u = b^2 x^2$, then $du = 2b^2 x dx$, and the integral becomes:
+  $$
+  I_1 = \frac{1}{2a b} \left( \exp(a^2 b^2) - 1 \right)
+  $$
+
+- **Region 2 Integral $I_2$:**  
+  $$
+  I_2 = \int_0^a \int_{\frac{b}{a}x}^b \exp(a^2 y^2) \, dy \, dx
+  $$
+  Switch the order of integration by solving $x \leq \frac{a}{b}y$. Then:
+  $$
+  I_2 = \int_0^b \int_0^{\frac{a}{b}y} \exp(a^2 y^2) \, dx \, dy = \frac{a}{b} \int_0^b y \exp(a^2 y^2) \, dy
+  $$
+  Similarly, let $u = a^2 y^2$, then:
+  $$
+  I_2 = \frac{1}{2a b} \left( \exp(a^2 b^2) - 1 \right)
+  $$
+
+---
+
+### Step 3: Final Expression
+
+Combining both parts, we find:
+$$
+I(a, b) = I_1 + I_2 = \frac{1}{a b} \left( \exp(a^2 b^2) - 1 \right)
+$$
+
+This formula gives the value of the double integral for any positive $a$ and $b$.
+
+---
+
+### Final Answer
+
+$$
+\boxed{putnam\_1989\_a2\_solution \, a \, b = \frac{\exp(a^2 b^2) - 1}{a \cdot b}}
+$$
+
+The function is now expressed in Lean syntax:
+
+<<<fun a b => (Real.exp (a^2 * b^2) - 1) / (a * b)>>>

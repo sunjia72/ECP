@@ -1,0 +1,124 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026AIMEII_10 : ∃ (P2026AIMEII_10_answer : Nat), (let Point := ℝ × ℝ; let vsub := fun (P Q : Point) => (P.1 - Q.1, P.2 - Q.2); let dist := fun (P Q : Point) => √((P.1 - Q.1) ^ (2 : ℕ) + (P.2 - Q.2) ^ (2 : ℕ)); let dot := fun (u v : Point) => u.1 * v.1 + u.2 * v.2; let cross := fun (u v : Point) => u.1 * v.2 - u.2 * v.1; let onSegment := fun (P X Y : Point) => ∃ (t : ℝ), (0 : ℝ) ≤ t ∧ t ≤ (1 : ℝ) ∧ P = (((1 : ℝ) - t) * X.1 + t * Y.1, ((1 : ℝ) - t) * X.2 + t * Y.2); let IsPossibleBC := fun (n : ℕ) => ∃ (A : Point) (B : Point) (C : Point) (D : Point) (E : Point) (F : Point) (O : Point) (r : ℝ) (ae : ℕ) (af : ℕ) (bd : ℕ) (cd : ℕ), (0 : ℝ) < r ∧ cross (vsub B A) (vsub C A) ≠ (0 : ℝ) ∧ dist A B = (200 : ℝ) ∧ dist A C = (225 : ℝ) ∧ dist B C = (↑n : ℝ) ∧ onSegment D B C ∧ dist B D = (↑bd : ℝ) ∧ dist D C = (↑cd : ℝ) ∧ (0 : ℕ) < bd ∧ (0 : ℕ) < cd ∧ (0 : ℝ) < dist A D ∧ dot (vsub B A) (vsub D A) / (dist A B * dist A D) = dot (vsub D A) (vsub C A) / (dist A D * dist A C) ∧ dist O A = r ∧ dist O D = r ∧ dot (vsub O D) (vsub C B) = (0 : ℝ) ∧ onSegment E A B ∧ E ≠ A ∧ dist O E = r ∧ dist A E = (↑ae : ℝ) ∧ (0 : ℕ) < ae ∧ onSegment F A C ∧ F ≠ A ∧ dist O F = r ∧ dist A F = (↑af : ℝ) ∧ (0 : ℕ) < af; ∃ (possibleBC : Finset ℕ), (∀ (n : ℕ), n ∈ possibleBC ↔ IsPossibleBC n) ∧ ∑ n ∈ possibleBC, n = P2026AIMEII_10_answer) := by sorry. Answer Type: Nat. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_gricfpTAQalbNV4HwwF90SD6):
+possible=[]
+for n in range(1,1000):
+    if n%17!=0: continue
+    k=n//17
+    ae_num=200*25-8*k*k
+    af_num=225*25-9*k*k
+    # using ae=200-8k^2/25, af=225-9k^2/25
+    if k*k%25!=0: continue
+    ae=200-8*(k//5)**2 if k%5==0 else None
+    af=225-9*(k//5)**2 if k%5==0 else None
+    if k%5==0 and ae>0 and af>0 and 25 < n < 425:
+        possible.append((n,k,ae,af))
+print(possible)
+print('sum',sum(n for n,_,_,_ in possible))
+[TOOL OUTPUT]
+[(85, 5, 192, 216), (170, 10, 168, 189), (255, 15, 128, 144), (340, 20, 72, 81)]
+sum 850
+
+=== CONJECTURER ROUND ===
+Let \(\Gamma\) be the circle centered at \(O\).
+
+From
+\[
+\frac{\overrightarrow{AB}\cdot \overrightarrow{AD}}{|AB||AD|}
+=
+\frac{\overrightarrow{AD}\cdot \overrightarrow{AC}}{|AD||AC|},
+\]
+we get \(\cos \angle BAD=\cos \angle DAC\), hence \(AD\) bisects \(\angle A\).
+
+So by the Angle Bisector Theorem,
+\[
+\frac{BD}{DC}=\frac{AB}{AC}=\frac{200}{225}=\frac89.
+\]
+Since \(BD,DC\in \mathbb N\), write
+\[
+BD=8k,\qquad DC=9k,
+\]
+so
+\[
+BC=17k.
+\]
+
+Now \(OD\perp BC\) and \(D\in \Gamma\), so for any point \(X\in BC\),
+\[
+\mathrm{Pow}_\Gamma(X)=OX^2-r^2=XD^2.
+\]
+Thus
+\[
+\mathrm{Pow}_\Gamma(B)=BD^2=(8k)^2,\qquad \mathrm{Pow}_\Gamma(C)=DC^2=(9k)^2.
+\]
+
+But \(A,E,B\) are collinear with \(E\) on segment \(AB\), so
+\[
+\mathrm{Pow}_\Gamma(B)=BA\cdot BE=200(200-AE).
+\]
+Hence
+\[
+200(200-ae)=64k^2.
+\]
+Similarly,
+\[
+225(225-af)=81k^2.
+\]
+
+Since \(ae,af\in \mathbb N\), both \(8k^2/25\) and \(9k^2/25\) are integers, so \(25\mid k^2\), hence \(5\mid k\). Write \(k=5t\). Then
+\[
+ae=200-8t^2,\qquad af=225-9t^2.
+\]
+Because \(ae,af>0\),
+\[
+200-8t^2>0,\qquad 225-9t^2>0,
+\]
+so \(t=1,2,3,4\).
+
+Therefore
+\[
+BC=17k=17(5t)=85t,
+\]
+so the possible values are
+\[
+85,\ 170,\ 255,\ 340.
+\]
+
+Their sum is
+\[
+85+170+255+340=850.
+\]
+
+Python enumeration agrees:
+- possible \(BC\): \((85,170,255,340)\)
+- sum: \(850\)
+
+Thus the answer is
+
+<<<850>>>

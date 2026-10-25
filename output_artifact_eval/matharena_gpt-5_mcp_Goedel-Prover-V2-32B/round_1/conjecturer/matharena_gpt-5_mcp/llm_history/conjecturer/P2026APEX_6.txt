@@ -1,0 +1,205 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026APEX_6 : ∃ (P2026APEX_6_answer : Nat), ∀ (k : ℕ → ℕ → ℕ), ((∀ (n p : ℕ), (0 : ℕ) < n → Nat.Prime p → (∃ (P : Polynomial ℤ), P.coeff n = (1 : ℤ) ∧ ∀ (x : ℤ), (↑p : ℤ) ^ k n p ∣ Polynomial.eval x P) ∧ ∀ (l : ℕ), (∃ (P : Polynomial ℤ), P.coeff n = (1 : ℤ) ∧ ∀ (x : ℤ), (↑p : ℤ) ^ l ∣ Polynomial.eval x P) → l ≤ k n p)) → (∑ n ∈ Icc (11 : ℕ) (15 : ℕ), ∑ p ∈ {(11 : ℕ), (13 : ℕ)}, k n p = P2026APEX_6_answer) := by sorry. Answer Type: Nat. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_KhaQS4a2O6tkLcaBxRHO0s1n):
+import sympy as sp
+for p in [11,13]:
+    x=sp.symbols('x')
+    F=sp.expand(sp.prod(x-i for i in range(p)))
+    coeffs={n:sp.expand(F).coeff(x,n) for n in range(0,2*p+1)}
+    print('p',p,'F x^p coeff',coeffs[p],'x^0',coeffs[0],'x^1',coeffs[1])
+    F2=sp.expand(F*F)
+    for n in range(p, p+5):
+        c=int(F2.coeff(x,n))
+        print(' p',p,'F^2 coeff x^',n,'=',c,'mod p',c%p,'v_p?', end=' ')
+        vp=0; t=abs(c)
+        if t==0: vp='inf'
+        else:
+            while t%p==0:
+                vp+=1; t//=p
+        print(vp)
+    print('---')
+[TOOL OUTPUT]
+p 11 F x^p coeff 1 x^0 0 x^1 3628800
+ p 11 F^2 coeff x^ 11 = -9309515255700 mod p 0 v_p? 1
+ p 11 F^2 coeff x^ 12 = 2232012515445 mod p 9 v_p? 0
+ p 11 F^2 coeff x^ 13 = -432299636670 mod p 0 v_p? 2
+ p 11 F^2 coeff x^ 14 = 67608163381 mod p 0 v_p? 1
+ p 11 F^2 coeff x^ 15 = -8501266400 mod p 0 v_p? 2
+---
+p 13 F x^p coeff 1 x^0 0 x^1 479001600
+ p 13 F^2 coeff x^ 13 = -29989851619249236 mod p 0 v_p? 1
+ p 13 F^2 coeff x^ 14 = 6032418472347265 mod p 11 v_p? 0
+ p 13 F^2 coeff x^ 15 = -1013438536648512 mod p 0 v_p? 2
+ p 13 F^2 coeff x^ 16 = 142196061481318 mod p 0 v_p? 1
+ p 13 F^2 coeff x^ 17 = -16625859652116 mod p 0 v_p? 2
+---
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_57be1nytdZ53Ae71zOL6c9R3):
+import sympy as sp
+for p in [11,13]:
+    x=sp.symbols('x')
+    F=sp.expand(sp.prod(x-i for i in range(p)))
+    F2=sp.expand(F*F)
+    print('p',p)
+    units=[]
+    for n in range(0,2*p+1):
+        c=int(F2.coeff(x,n))
+        if c%p!=0:
+            units.append(n)
+    print('degrees with coeff not divisible by p in F^2:', units[:50])
+[TOOL OUTPUT]
+p 11
+degrees with coeff not divisible by p in F^2: [2, 12, 22]
+p 13
+degrees with coeff not divisible by p in F^2: [2, 14, 26]
+
+===== ENUMERATOR ROUND 3 =====
+[TOOL CALL] code_exec (call_id=call_9VS2a6MlGK12VP82J9FY4Tm8):
+import sympy as sp
+for p in [11,13]:
+    x=sp.symbols('x')
+    F=sp.expand(sp.prod(x-i for i in range(p)))
+    for e in [1,2,3,4]:
+        Fe=sp.expand(F**e)
+        units=[n for n in range(0,e*p+1) if int(Fe.coeff(x,n))%p!=0]
+        print('p',p,'e',e,'first units',units[:20],'count',len(units))
+    print('---')
+[TOOL OUTPUT]
+p 11 e 1 first units [1, 11] count 2
+p 11 e 2 first units [2, 12, 22] count 3
+p 11 e 3 first units [3, 13, 23, 33] count 4
+p 11 e 4 first units [4, 14, 24, 34, 44] count 5
+---
+p 13 e 1 first units [1, 13] count 2
+p 13 e 2 first units [2, 14, 26] count 3
+p 13 e 3 first units [3, 15, 27, 39] count 4
+p 13 e 4 first units [4, 16, 28, 40, 52] count 5
+---
+
+===== ENUMERATOR ROUND 4 =====
+[TOOL CALL] code_exec (call_id=call_fsYQNMsT1f1jdOT6M4LoK70e):
+import sympy as sp
+x=sp.symbols('x')
+for p in [3,5,11,13]:
+    F=sp.expand(sp.prod(x-i for i in range(p)))
+    for n in [1,2,3]:
+        c=int(sp.expand(F**n).coeff(x,n))
+        mod=p**n
+        # inverse mod
+        a=pow(c,-1,mod)
+        t=(a*c-1)//mod
+        P=sp.expand(a*(F**n)-t*mod*x**n)
+        coeffn=int(P.coeff(x,n))
+        vals=[int(P.subs(x,m))%mod for m in range(0,20)]
+        print('p,n',p,n,'coeffn',coeffn,'allzero',all(v==0 for v in vals[:20]))
+    print('---')
+[TOOL OUTPUT]
+p,n 3 1 coeffn 1 allzero True
+p,n 3 2 coeffn 1 allzero True
+p,n 3 3 coeffn 1 allzero True
+---
+p,n 5 1 coeffn 1 allzero True
+p,n 5 2 coeffn 1 allzero True
+p,n 5 3 coeffn 1 allzero True
+---
+p,n 11 1 coeffn 1 allzero True
+p,n 11 2 coeffn 1 allzero True
+p,n 11 3 coeffn 1 allzero True
+---
+p,n 13 1 coeffn 1 allzero True
+p,n 13 2 coeffn 1 allzero True
+p,n 13 3 coeffn 1 allzero True
+---
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+K(n,p)=\max\{\,l\in \mathbb N:\exists P\in \mathbb Z[x],\ [x^n]P=1,\ \forall x\in \mathbb Z,\ p^l\mid P(x)\,\}.
+\]
+The theorem’s \(k(n,p)\) is exactly this \(K(n,p)\).
+
+Python experimentation with \(p=11,13\) agrees with the pattern \(K(n,p)=n\).
+
+### Claim
+For every prime \(p\) and every \(n>0\),
+\[
+K(n,p)=n.
+\]
+
+### Lower bound: \(K(n,p)\ge n\)
+Take
+\[
+F_p(x)=\prod_{i=0}^{p-1}(x-i).
+\]
+For every integer \(m\), one of \(m,m-1,\dots,m-(p-1)\) is divisible by \(p\), so \(p\mid F_p(m)\). Hence
+\[
+p^n \mid F_p(m)^n \quad \forall m\in\mathbb Z.
+\]
+
+Also the lowest-degree term of \(F_p\) is \(\pm (p-1)!x\), so the coefficient of \(x^n\) in \(F_p(x)^n\) is
+\[
+c=(\pm (p-1)!)^n,
+\]
+which is not divisible by \(p\). Choose \(a\in\mathbb Z\) with \(ac\equiv 1\pmod{p^n}\). Then
+\[
+P(x)=aF_p(x)^n-\frac{ac-1}{p^n}\,p^n x^n
+\]
+has coefficient of \(x^n\) equal to \(1\), and still satisfies \(p^n\mid P(m)\) for all integers \(m\). So \(K(n,p)\ge n\).
+
+### Upper bound: \(K(n,p)\le n\)
+Suppose \(P(x)=\sum a_jx^j\in\mathbb Z[x]\) has \(a_n=1\) and \(p^l\mid P(m)\) for all integers \(m\). Let \(d\) be the smallest index with \(p\nmid a_d\). Then \(d\le n\).
+
+Evaluate at \(x=p\):
+\[
+P(p)=a_dp^d+\sum_{j>d}a_jp^j
+= p^d\left(a_d+p(\cdots)\right).
+\]
+Since \(p\nmid a_d\), the factor in parentheses is not divisible by \(p\). Thus
+\[
+v_p(P(p))=d.
+\]
+But \(p^l\mid P(p)\), so \(l\le d\le n\). Hence \(K(n,p)\le n\).
+
+Therefore \(K(n,p)=n\).
+
+### Required sum
+For \(n=11,12,13,14,15\) and \(p\in\{11,13\}\),
+\[
+k(n,p)=n.
+\]
+So
+\[
+\sum_{n=11}^{15}\sum_{p\in\{11,13\}} k(n,p)
+=2(11+12+13+14+15)=2\cdot 65=130.
+\]
+
+Thus the answer is
+
+<<<130>>>

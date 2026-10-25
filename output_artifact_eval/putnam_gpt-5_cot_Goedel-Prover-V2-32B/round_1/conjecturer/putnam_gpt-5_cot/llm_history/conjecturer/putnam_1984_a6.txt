@@ -1,0 +1,51 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Function Nat
+theorem putnam_1984_a6 : ∃ (putnam_1984_a6_solution : ℕ), ∀ (f : ℕ → ℕ), ∀ (IsPeriodicFrom P : ℕ → (ℕ → ℕ) → ℕ → Prop), ((∀ (n : ℕ), some (f n) = List.find? (fun (d : ℕ) => decide (d ≠ (0 : ℕ))) (digits (10 : ℕ) n !)) ∧ (∀ (x : ℕ) (f : ℕ → ℕ) (p : ℕ), IsPeriodicFrom x f p ↔ Periodic (f ∘ fun (x_1 : ℕ) => x_1 + x) p) ∧ (∀ (x : ℕ) (g : ℕ → ℕ) (p : ℕ), P x g p ↔ if p = (0 : ℕ) then ∀ q > (0 : ℕ), ¬IsPeriodicFrom x g q else IsLeast {q : ℕ | (0 : ℕ) < q ∧ IsPeriodicFrom x g q} p)) → (∃ (g : ℕ → ℕ), (∀ k > (0 : ℕ), ∀ (a : Fin k → ℕ), Injective a → f (∑ i : Fin k, (5 : ℕ) ^ a i) = g (∑ i : Fin k, a i)) ∧ P (1 : ℕ) g putnam_1984_a6_solution) := by sorry. Answer Type: ℕ. 
+Let \(D(n)\) be the last nonzero digit of \(n!\). The hypothesis defining \(f\) is exactly that \(f(n)=D(n)\).
+
+A standard recurrence for last nonzero digits of factorials is
+\[
+D(5q+r)\equiv 2^q D(q)D(r)\pmod{10},\qquad 0\le r<5.
+\]
+Now if
+\[
+n=\sum_i 5^{a_i}
+\]
+with the \(a_i\) distinct, then the base-5 expansion of \(n\) uses only digits \(0\) and \(1\). Write \(n=5q+r\), so \(r\in\{0,1\}\), hence \(D(r)=1\).
+
+Inducting on the largest exponent, one gets
+\[
+D(n)\equiv 2^{\sum_i a_i}\pmod{10}.
+\]
+So the required \(g\) is
+\[
+g(m)=\text{last digit of }2^m.
+\]
+From \(m\ge 1\), this is the repeating cycle
+\[
+2,4,8,6,2,4,8,6,\dots
+\]
+whose least period is \(4\).
+
+Therefore the required natural number is:
+
+<<<4>>>

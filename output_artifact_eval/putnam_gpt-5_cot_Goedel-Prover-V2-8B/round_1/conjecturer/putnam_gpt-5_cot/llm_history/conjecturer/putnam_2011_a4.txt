@@ -1,0 +1,58 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Matrix
+theorem putnam_2011_a4 : ∃ (putnam_2011_a4_solution : Set ℕ), ∀ (nmat : ℕ → Prop), ∀ (n : ℕ), ((∀ (n : ℕ), nmat n ↔ ∃ (A : Matrix (Fin n) (Fin n) ℤ), (∀ (r : Fin n), Even (A r ⬝ᵥ A r)) ∧ Pairwise fun (r1 r2 : Fin n) => Odd (A r1 ⬝ᵥ A r2)) ∧ ((0 : ℕ) < n)) → (nmat n ↔ n ∈ putnam_2011_a4_solution) := by sorry. Answer Type: Set ℕ. 
+Let the rows be \(v_1,\dots,v_n \in \mathbb Z^n\).
+
+Reduce everything mod \(2\), writing \(w_i \in (\mathbb F_2)^n\) for the image of \(v_i\). Then:
+
+- \(v_i \cdot v_i\) even \(\iff w_i \cdot w_i = 0\),
+- \(v_i \cdot v_j\) odd for \(i\ne j\) \(\iff w_i \cdot w_j = 1\).
+
+So the mod-2 Gram matrix is
+\[
+G=(w_i\cdot w_j)=
+\begin{pmatrix}
+0&1&\cdots&1\\
+1&0&\cdots&1\\
+\vdots&\vdots&\ddots&\vdots\\
+1&1&\cdots&0
+\end{pmatrix}.
+\]
+
+Now \(w_i\cdot w_i=0\) means each \(w_i\) has even coordinate sum, so all \(w_i\) lie in the codimension-1 subspace
+\[
+E=\{x\in (\mathbb F_2)^n : \sum x_k =0\},
+\]
+which has dimension \(n-1\). Hence the rank of \(G\) is at most \(n-1\).
+
+But over \(\mathbb F_2\), \(G=J+I\), whose rank is:
+
+- \(n\) if \(n\) is even,
+- \(n-1\) if \(n\) is odd.
+
+So even \(n\) are impossible.
+
+For odd \(n\), construct the integer matrix \(A\) with 0 on the diagonal and 1 off-diagonal. Then each row has self-dot-product \(n-1\), which is even, and distinct rows have dot-product \(n-2\), which is odd since \(n\) is odd.
+
+Therefore the possible \(n\) are exactly the odd naturals.
+
+<<<fun n : ℕ => Odd n>>>

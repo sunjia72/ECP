@@ -1,0 +1,55 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Function
+theorem putnam_1996_b3 : ∃ (putnam_1996_b3_solution : ℕ → ℕ), ∀ (n : ℕ), ((n ≥ (2 : ℕ))) → (IsGreatest {k : ℤ | ∃ (x : ℕ → ℤ), x '' (↑(Finset.range n) : Set ℕ) = Set.Icc (1 : ℤ) (↑n : ℤ) ∧ ∑ i : Fin n, x (↑i : ℕ) * x (((↑i : ℕ) + (1 : ℕ)) % n) = k} (↑(putnam_1996_b3_solution n) : ℤ)) := by sorry. Answer Type: ℕ → ℕ. 
+Let  
+\[
+M_n=\max \sum_{i=0}^{n-1} x_i x_{i+1}
+\]
+over all cyclic permutations \((x_0,\dots,x_{n-1})\) of \(1,2,\dots,n\).
+
+A standard uncrossing argument shows that in an optimal cycle, if \(a<b<c<d\), we cannot use crossing edges \((a,c)\) and \((b,d)\), since replacing them by \((a,b)\) and \((c,d)\) changes the total by
+\[
+ab+cd-ac-bd=(c-b)(d-a)>0.
+\]
+So an optimal cycle is noncrossing, hence it is the union of two increasing paths from \(1\) to \(n\).
+
+Now build those two paths by inserting \(2,3,\dots,n-1\) in order. If a path currently ends with \(p<n\), then inserting \(k\) just before \(n\) changes the sum by
+\[
+pk+kn-pn = kn-p(n-k),
+\]
+which is larger when \(p\) is smaller. Thus each new \(k\) should go to the path whose current predecessor of \(n\) is smaller. Starting from both predecessors equal to \(1\), this forces alternating placement:
+- one path gets \(2,4,6,\dots\),
+- the other gets \(3,5,7,\dots\).
+
+So an optimal cyclic order is
+\[
+1,2,4,6,\dots,\text{(largest even)},\text{(largest odd)},\dots,5,3.
+\]
+
+Evaluating the sum for this arrangement gives, for all \(n\ge 2\),
+\[
+M_n=\frac{2n^3+3n^2-11n+18}{6}.
+\]
+
+Thus the Lean expression for the solution function is:
+
+<<<fun n : ℕ => (2 * n^3 + 3 * n^2 + 18 - 11 * n) / 6>>>

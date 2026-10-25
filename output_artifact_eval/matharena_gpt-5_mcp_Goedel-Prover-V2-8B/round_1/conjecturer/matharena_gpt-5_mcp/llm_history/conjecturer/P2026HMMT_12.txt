@@ -1,0 +1,83 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026HMMT_12 : ∃ (P2026HMMT_12_answer : ℚ), (let RollSeq := Fin (4 : ℕ) → Fin (4 : ℕ); let faceValue := fun (f : Fin (4 : ℕ)) => (↑(↑f : ℕ) : ℚ) + (1 : ℚ); let contribution := fun (σ : RollSeq) (t : Fin (4 : ℕ)) => if ∃ u < t, σ u = σ t then (0 : ℚ) else faceValue (σ t); let score := fun (σ : RollSeq) => ∑ t : Fin (4 : ℕ), contribution σ t; (∑ σ : RollSeq, score σ) / (4 : ℚ) ^ (4 : ℕ) = P2026HMMT_12_answer) := by sorry. Answer Type: ℚ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_Zdj7XBplbtsHojC7K3ckgcr8):
+from itertools import product
+from fractions import Fraction
+vals=[1,2,3,4]
+total=0
+seqs=list(product(vals, repeat=4))
+for s in seqs:
+    seen=set()
+    score=0
+    for x in s:
+        if x not in seen:
+            seen.add(x)
+            score+=x
+    total+=score
+print(total, len(seqs), Fraction(total, len(seqs)))
+
+# linearity check
+ans=sum(i*(1-Fraction(3,4)**4) for i in vals)
+print(ans)
+[TOOL OUTPUT]
+1750 256 875/128
+875/128
+
+=== CONJECTURER ROUND ===
+Let \(X_i\) be the indicator that face \(i\in\{1,2,3,4\}\) appears at least once in the 4 rolls. Then the score is
+\[
+1X_1+2X_2+3X_3+4X_4.
+\]
+So by linearity of expectation,
+\[
+\mathbb E[\text{score}]
+= \sum_{i=1}^4 i\,\mathbb E[X_i]
+= \sum_{i=1}^4 i \,\Pr(\text{face }i\text{ appears at least once}).
+\]
+For any fixed face \(i\),
+\[
+\Pr(\text{face }i\text{ appears at least once})
+=1-\Pr(\text{face }i\text{ never appears})
+=1-\left(\frac34\right)^4
+=1-\frac{81}{256}
+=\frac{175}{256}.
+\]
+Thus
+\[
+\mathbb E[\text{score}]
+=(1+2+3+4)\cdot \frac{175}{256}
+=10\cdot \frac{175}{256}
+=\frac{875}{128}.
+\]
+
+Python enumeration confirms:
+- total score over all \(4^4=256\) sequences = \(1750\)
+- average = \(1750/256 = 875/128\)
+
+<<<(875 : ℚ) / 128>>>

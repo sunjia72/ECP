@@ -1,0 +1,48 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Topology Filter
+theorem putnam_2004_a1 : ∃ (putnam_2004_a1_solution : Prop), ∀ (S : (ℕ → Fin (2 : ℕ)) → ℕ → ℝ), ((∀ (attempts : ℕ → Fin (2 : ℕ)), ∀ N ≥ (1 : ℕ), S attempts N = (↑(∑ i : Fin N, (↑(attempts (↑i : ℕ)) : ℕ)) : ℝ) / (↑N : ℝ))) → ((∀ (attempts : ℕ → Fin (2 : ℕ)) (a b : ℕ), (1 : ℕ) ≤ a ∧ a < b ∧ S attempts a < 0.8 ∧ S attempts b > 0.8 → ∃ (c : ℕ), a < c ∧ c < b ∧ S attempts c = 0.8) ↔ putnam_2004_a1_solution) := by sorry. Answer Type: Prop. 
+Let  
+\[
+s_N=\sum_{i=0}^{N-1} x_i,\qquad A_N=\frac{s_N}{N},
+\]
+where each \(x_i\in\{0,1\}\). The statement asks whether whenever \(A_a<0.8=\frac45\) and \(A_b>\frac45\), there must be some \(c\) with \(a<c<b\) and \(A_c=\frac45\).
+
+Consider
+\[
+t_N:=5s_N-4N.
+\]
+Then:
+- \(A_N<\frac45 \iff t_N<0\),
+- \(A_N=\frac45 \iff t_N=0\),
+- \(A_N>\frac45 \iff t_N>0\).
+
+Also, when passing from \(N\) to \(N+1\),
+\[
+t_{N+1}-t_N = 5x_N-4 \in \{1,-4\}.
+\]
+So \(t_N\) changes only by \(+1\) or \(-4\).
+
+If \(t_a<0\) and \(t_b>0\), let \(d\) be the first index \(>a\) with \(t_d\ge 0\). Then \(t_{d-1}<0\). Since the only way to go from negative to nonnegative in one step using increments in \(\{1,-4\}\) is \(-1\mapsto 0\), we must have \(t_d=0\). Hence \(A_d=\frac45\), and since \(t_b>0\), this \(d\) satisfies \(a<d<b\).
+
+So the asserted property is always true. Therefore the required Prop is `True`.
+
+<<<True>>>

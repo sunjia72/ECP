@@ -1,0 +1,78 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1989_a2 : ∃ (putnam_1989_a2_solution : ℝ → ℝ → ℝ), ∀ (a b : ℝ), ((a > (0 : ℝ) ∧ b > (0 : ℝ))) → (∫ (x : ℝ) in Set.Ioo (0 : ℝ) a, ∫ (y : ℝ) in Set.Ioo (0 : ℝ) b, Real.exp (max (b ^ (2 : ℕ) * x ^ (2 : ℕ)) (a ^ (2 : ℕ) * y ^ (2 : ℕ))) = putnam_1989_a2_solution a b) := by sorry. Answer Type: ℝ → ℝ → ℝ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_ExDQFfz0OyJbwOBequZN5mNN):
+import mpmath as mp
+
+def I(a,b):
+    f = lambda x,y: mp.e**(max(b*b*x*x, a*a*y*y))
+    return mp.quad(lambda xx: mp.quad(lambda yy: f(xx,yy), [0,b]), [0,a])
+
+def F(a,b):
+    return (mp.e**((a*b)**2)-1)/(a*b)
+
+for a,b in [(1,1),(2,3),(0.5,1.7),(1.2,0.8)]:
+    val = I(a,b)
+    print(a,b,val,F(a,b),val-F(a,b))
+[TOOL OUTPUT]
+1 1 1.71827915093441 1.71828182845905 -2.67752463134485e-6
+2 3 718537560416935.0 718538591185864.0 -1030768929.625
+0.5 1.7 1.24655820192237 1.24655966956201 -1.46763964870011e-6
+1.2 0.8 1.5763606944807 1.57636298767249 -2.29319178690623e-6
+
+=== CONJECTURER ROUND ===
+Let
+\[
+I(a,b)=\int_0^a\int_0^b e^{\max(b^2x^2,a^2y^2)}\,dy\,dx,
+\qquad a,b>0.
+\]
+
+Set
+\[
+u=bx,\qquad v=ay.
+\]
+Then \(u,v\in(0,ab)\), and \(dx\,dy=\frac{1}{ab}\,du\,dv\). So
+\[
+I(a,b)=\frac1{ab}\int_0^{ab}\int_0^{ab} e^{\max(u^2,v^2)}\,dv\,du.
+\]
+
+On the square \((0,ab)^2\), split into the two triangles \(u\ge v\) and \(v\ge u\). By symmetry,
+\[
+\int_0^{ab}\int_0^{ab} e^{\max(u^2,v^2)}\,dv\,du
+=2\int_0^{ab}\int_0^u e^{u^2}\,dv\,du
+=2\int_0^{ab} u e^{u^2}\,du.
+\]
+Hence
+\[
+I(a,b)=\frac{2}{ab}\int_0^{ab}u e^{u^2}\,du
+=\frac{1}{ab}\Big[e^{u^2}\Big]_{0}^{ab}
+=\frac{e^{(ab)^2}-1}{ab}.
+\]
+
+I also checked this numerically in Python for sample values, and it matches.
+
+Therefore the solution function is
+
+<<<fun a b => (Real.exp ((a * b) ^ (2 : ℕ)) - 1) / (a * b)>>>

@@ -1,0 +1,55 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Topology Filter
+theorem putnam_1979_b2 : ∃ (putnam_1979_b2_solution : ℝ × ℝ → ℝ), (∀ (a b : ℝ), (0 : ℝ) < a ∧ a < b → Tendsto (fun (t : ℝ) => (∫ (x : ℝ) in Icc (0 : ℝ) (1 : ℝ), (b * x + a * ((1 : ℝ) - x)) ^ t) ^ ((1 : ℝ) / t)) (𝓝[≠] (0 : ℝ)) (𝓝 (putnam_1979_b2_solution (a, b)))) := by sorry. Answer Type: ℝ × ℝ → ℝ. 
+Let  
+\[
+f_t(a,b)=\left(\int_0^1 (bx+a(1-x))^t\,dx\right)^{1/t}.
+\]
+For \(0<a<b\), the function \(x\mapsto bx+a(1-x)\) is positive on \([0,1]\), so the standard \(t\to 0\) power-mean limit applies:
+\[
+\lim_{t\to 0} f_t(a,b)
+= \exp\!\left(\int_0^1 \log(bx+a(1-x))\,dx\right).
+\]
+
+Now compute the integral. Put \(u=a+(b-a)x\), so \(du=(b-a)\,dx\). Then
+\[
+\int_0^1 \log(a+(b-a)x)\,dx
+= \frac{1}{b-a}\int_a^b \log u\,du
+= \frac{1}{b-a}\bigl[u\log u-u\bigr]_a^b.
+\]
+Hence
+\[
+\int_0^1 \log(a+(b-a)x)\,dx
+= \frac{b\log b-a\log a}{b-a}-1.
+\]
+Therefore the limit is
+\[
+\exp\!\left(\frac{b\log b-a\log a}{b-a}-1\right),
+\]
+equivalently the identric mean
+\[
+\frac1e\left(\frac{b^b}{a^a}\right)^{1/(b-a)}.
+\]
+
+So a suitable Lean expression is:
+
+<<<fun p : ℝ × ℝ => Real.exp (((p.2 * Real.log p.2 - p.1 * Real.log p.1) / (p.2 - p.1)) - 1)>>>

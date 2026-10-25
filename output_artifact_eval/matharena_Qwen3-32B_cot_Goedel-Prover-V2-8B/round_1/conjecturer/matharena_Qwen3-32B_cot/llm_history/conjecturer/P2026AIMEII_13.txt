@@ -1,0 +1,67 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026AIMEII_13 : ∃ (P2026AIMEII_13_answer : Nat), (let possibleCousins := fun (S : Finset ℤ) => (S.biUnion fun (s : ℤ) => {s - (1 : ℤ), s + (1 : ℤ)}).powerset; let cousinsOf := fun (S : Finset ℤ) => {T ∈ possibleCousins S | #S = #T ∧ _root_.Disjoint S T ∧ ∃ (e : { x : ℤ // x ∈ S } ≃ { x : ℤ // x ∈ T }), ∀ (x : { x : ℤ // x ∈ S }), |(↑((e : { x : ℤ // x ∈ S } → { x : ℤ // x ∈ T }) x) : ℤ) - (↑x : ℤ)| = (1 : ℤ)}; IsLeast {n : ℕ | ∃ (S : Finset ℤ), #S = n ∧ #(cousinsOf S) = (4040 : ℕ)} P2026AIMEII_13_answer) := by sorry. Answer Type: Nat. 
+
+
+To solve the problem, we need to determine the smallest natural number $ n $ such that there exists a finite set $ S \subseteq \mathbb{Z} $ with $ \#S = n $ and the number of *cousins* of $ S $, denoted $ \#\text{cousinsOf}(S) $, is equal to 4040.
+
+---
+
+### Understanding the Definition
+
+- A **cousin** $ T $ of a set $ S $ must satisfy three conditions:
+  1. $ \#S = \#T $,
+  2. $ S $ and $ T $ are disjoint,
+  3. There is a bijection $ e: S \to T $ such that $ |e(x) - x| = 1 $ for every $ x \in S $.
+
+This means each element $ x \in S $ must be mapped to either $ x - 1 $ or $ x + 1 $, and the resulting set $ T $ must be disjoint from $ S $ and contain the same number of elements as $ S $.
+
+---
+
+### Key Observations
+
+1. **Independent Elements**: If each element of $ S $ is isolated from the others by at least 3 units (i.e., all elements are "sufficiently far apart"), then shifting each element to the left or right will never cause conflicts in the resulting set $ T $. In this case, the number of cousins is exactly $ 2^n $, since each element has 2 independent choices and their images cannot overlap.
+
+2. **Close Elements (e.g. pairs or clusters)**:
+   - If two elements are adjacent (e.g., $ a $ and $ a+1 $), they can only shift in a specific way (e.g., $ a \mapsto a-1 $, $ a+1 \mapsto a+2 $), reducing the number of valid options.
+   - More complex clusters (e.g., sequences of adjacent elements or elements spaced by 2) often lead to fewer valid cousins, sometimes even zero.
+
+3. **Counting Cousins via Combinatorics**:
+   - Fully spaced sets lead to $ 2^n $ cousins.
+   - Partially spaced or structured sets reduce this number.
+   - The total cousin count is thus a product of factors depending on how the elements are spaced and how they interact via their ±1 shifts.
+
+---
+
+### Strategy and Computation
+
+Given $ 4040 $ is close to $ 2^{12} = 4096 $, we examine whether $ n = 12 $ is a candidate. For a fully spaced set of 12 elements, there would be $ 2^{12} = 4096 $ cousins. The difference between 4096 and 4040 is 56. This suggests it is possible to construct a set $ S $ with $ n = 12 $ such that it has exactly 4040 cousins, by carefully arranging the spacing to slightly reduce the number of valid bijections $ e $ from $ 2^{12} $ to 4040.
+
+The challenge is to find such a construction, and while explicitly constructing such a set is non-trivial, the proximity to $ 2^{12} $ and the requirement for the **smallest** such $ n $ strongly suggests that $ n = 12 $ is the answer.
+
+---
+
+### Final Answer
+
+<<<12>>>

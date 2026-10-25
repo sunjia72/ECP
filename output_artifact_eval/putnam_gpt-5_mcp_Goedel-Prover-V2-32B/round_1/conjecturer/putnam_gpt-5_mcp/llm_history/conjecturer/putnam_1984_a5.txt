@@ -1,0 +1,69 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Nat
+theorem putnam_1984_a5 : ∃ (putnam_1984_a5_solution : ℕ × ℕ × ℕ × ℕ × ℕ), ∀ (R : Set (Fin (3 : ℕ) → ℝ)), ∀ (w : (Fin (3 : ℕ) → ℝ) → ℝ), ((R = {p : Fin (3 : ℕ) → ℝ | (∀ (i : Fin (3 : ℕ)), p i ≥ (0 : ℝ)) ∧ p (0 : Fin (3 : ℕ)) + p (1 : Fin (3 : ℕ)) + p (2 : Fin (3 : ℕ)) ≤ (1 : ℝ)}) ∧ (∀ (p : Fin (3 : ℕ) → ℝ), w p = (1 : ℝ) - p (0 : Fin (3 : ℕ)) - p (1 : Fin (3 : ℕ)) - p (2 : Fin (3 : ℕ)))) → (match putnam_1984_a5_solution with | (a, b, c, d, n) => a > (0 : ℕ) ∧ b > (0 : ℕ) ∧ c > (0 : ℕ) ∧ d > (0 : ℕ) ∧ n > (0 : ℕ) ∧ ∫ (p : Fin (3 : ℕ) → ℝ) in R, p (0 : Fin (3 : ℕ)) ^ (1 : ℕ) * p (1 : Fin (3 : ℕ)) ^ (9 : ℕ) * p (2 : Fin (3 : ℕ)) ^ (8 : ℕ) * w p ^ (4 : ℕ) = (↑a ! : ℝ) * (↑b ! : ℝ) * (↑c ! : ℝ) * (↑d ! : ℝ) / (↑n ! : ℝ)) := by sorry. Answer Type: ℕ × ℕ × ℕ × ℕ × ℕ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_ZZl9zd88XFy3o2b9QdZgfYvH):
+import sympy as sp
+x,y,z=sp.symbols('x y z', nonnegative=True)
+expr=x*y**9*z**8*(1-x-y-z)**4
+res=sp.integrate(expr,(z,0,1-x-y),(y,0,1-x),(x,0,1))
+print(res)
+print(sp.simplify(res - sp.factorial(1)*sp.factorial(9)*sp.factorial(8)*sp.factorial(4)/sp.factorial(25)))
+print(sp.nsimplify(res))
+[TOOL OUTPUT]
+1/44172388260000
+0
+1/44172388260000
+
+=== CONJECTURER ROUND ===
+Let
+\[
+I=\iiint_R p_0^1 p_1^9 p_2^8(1-p_0-p_1-p_2)^4\,dp_0\,dp_1\,dp_2,
+\]
+where
+\[
+R=\{(p_0,p_1,p_2)\in \mathbb R_{\ge 0}^3: p_0+p_1+p_2\le 1\}.
+\]
+
+This is a standard simplex/Dirichlet integral:
+\[
+\int_{x,y,z\ge 0,\ x+y+z\le 1} x^a y^b z^c (1-x-y-z)^d\,dx\,dy\,dz
+= \frac{a!\,b!\,c!\,d!}{(a+b+c+d+3)!}.
+\]
+
+Here \((a,b,c,d)=(1,9,8,4)\), so
+\[
+I=\frac{1!\,9!\,8!\,4!}{(1+9+8+4+3)!}
+=\frac{1!\,9!\,8!\,4!}{25!}.
+\]
+
+Python check confirms this exactly:
+\[
+I=\frac1{44172388260000}=\frac{1!\,9!\,8!\,4!}{25!}.
+\]
+
+So a valid Lean tuple is
+
+<<<(1, 9, 8, 4, 25)>>>

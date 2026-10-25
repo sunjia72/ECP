@@ -1,0 +1,155 @@
+matharena_gpt-5_cot_Goedel-Prover-V2-8B
+  metrics: output_artifact_eval/matharena_gpt-5_cot_Goedel-Prover-V2-8B/final_proof_1/prover/matharena_gpt-5_cot_final_1/Goedel-Prover-V2-8B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32             automation_solved
+  ------------  -------  ------------------  ------------------  -----------------
+  overall       round_0  N/A                 0.1867 (14/75)      0
+  overall       round_2  0.1067 (8/75)       0.1867 (14/75)      0
+  AIMEI         round_0  N/A                 0.3333 (5/15)       0
+  AIMEI         round_2  0.1333 (2/15)       0.3333 (5/15)       0
+  AIMEII        round_0  N/A                 0.2000 (3/15)       0
+  AIMEII        round_2  0.2000 (3/15)       0.2000 (3/15)       0
+  HMMT          round_0  N/A                 0.1818 (6/33)       0
+  HMMT          round_2  0.0909 (3/33)       0.1818 (6/33)       0
+  APEX          round_0  N/A                 0.0000 (0/12)       0
+  APEX          round_2  0.0000 (0/12)       0.0000 (0/12)       0
+
+matharena_gpt-5_cot_Goedel-Prover-V2-32B
+  metrics: output_artifact_eval/matharena_gpt-5_cot_Goedel-Prover-V2-32B/final_proof_1/prover/matharena_gpt-5_cot_final_1/Goedel-Prover-V2-32B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32             automation_solved
+  ------------  -------  ------------------  ------------------  -----------------
+  overall       round_0  N/A                 0.2267 (17/75)      0
+  overall       round_2  0.1867 (14/75)      0.2267 (17/75)      0
+  AIMEI         round_0  N/A                 0.4000 (6/15)       0
+  AIMEI         round_2  0.3333 (5/15)       0.4000 (6/15)       0
+  AIMEII        round_0  N/A                 0.2667 (4/15)       0
+  AIMEII        round_2  0.2667 (4/15)       0.2667 (4/15)       0
+  HMMT          round_0  N/A                 0.2121 (7/33)       0
+  HMMT          round_2  0.1515 (5/33)       0.2121 (7/33)       0
+  APEX          round_0  N/A                 0.0000 (0/12)       0
+  APEX          round_2  0.0000 (0/12)       0.0000 (0/12)       0
+
+matharena_gpt-5_mcp_Goedel-Prover-V2-8B
+  metrics: output_artifact_eval/matharena_gpt-5_mcp_Goedel-Prover-V2-8B/final_proof_1/prover/matharena_gpt-5_mcp_final_1/Goedel-Prover-V2-8B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32             automation_solved
+  ------------  -------  ------------------  ------------------  -----------------
+  overall       round_0  N/A                 0.2133 (16/75)      7
+  overall       round_2  0.2133 (16/75)      0.2267 (17/75)      7
+  AIMEI         round_0  N/A                 0.4000 (6/15)       2
+  AIMEI         round_2  0.4000 (6/15)       0.4000 (6/15)       2
+  AIMEII        round_0  N/A                 0.2000 (3/15)       2
+  AIMEII        round_2  0.2667 (4/15)       0.2667 (4/15)       2
+  HMMT          round_0  N/A                 0.2121 (7/33)       3
+  HMMT          round_2  0.1818 (6/33)       0.2121 (7/33)       3
+  APEX          round_0  N/A                 0.0000 (0/12)       0
+  APEX          round_2  0.0000 (0/12)       0.0000 (0/12)       0
+
+matharena_gpt-5_mcp_Goedel-Prover-V2-32B
+  metrics: output_artifact_eval/matharena_gpt-5_mcp_Goedel-Prover-V2-32B/final_proof_1/prover/matharena_gpt-5_mcp_final_1/Goedel-Prover-V2-32B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32             automation_solved
+  ------------  -------  ------------------  ------------------  -----------------
+  overall       round_0  N/A                 0.2133 (16/75)      7
+  overall       round_2  0.2267 (17/75)      0.2400 (18/75)      7
+  AIMEI         round_0  N/A                 0.4000 (6/15)       2
+  AIMEI         round_2  0.4000 (6/15)       0.4000 (6/15)       2
+  AIMEII        round_0  N/A                 0.2667 (4/15)       2
+  AIMEII        round_2  0.2667 (4/15)       0.3333 (5/15)       2
+  HMMT          round_0  N/A                 0.1818 (6/33)       3
+  HMMT          round_2  0.2121 (7/33)       0.2121 (7/33)       3
+  APEX          round_0  N/A                 0.0000 (0/12)       0
+  APEX          round_2  0.0000 (0/12)       0.0000 (0/12)       0
+
+putnam_gpt-5_cot_Goedel-Prover-V2-8B
+  metrics: output_artifact_eval/putnam_gpt-5_cot_Goedel-Prover-V2-8B/final_proof_1/prover/putnam_gpt-5_cot_final_1/Goedel-Prover-V2-8B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32             automation_solved
+  ------------  -------  ------------------  ------------------  -----------------
+  overall       round_0  N/A                 0.0202 (7/346)      0
+  overall       round_2  0.0087 (3/346)      0.0202 (7/346)      0
+  putnam        round_0  N/A                 0.0202 (7/346)      0
+  putnam        round_2  0.0087 (3/346)      0.0202 (7/346)      0
+
+putnam_gpt-5_cot_Goedel-Prover-V2-32B
+  metrics: output_artifact_eval/putnam_gpt-5_cot_Goedel-Prover-V2-32B/final_proof_1/prover/putnam_gpt-5_cot_final_1/Goedel-Prover-V2-32B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32             automation_solved
+  ------------  -------  ------------------  ------------------  -----------------
+  overall       round_0  N/A                 0.0405 (14/346)     0
+  overall       round_2  0.0202 (7/346)      0.0491 (17/346)     0
+  putnam        round_0  N/A                 0.0405 (14/346)     0
+  putnam        round_2  0.0202 (7/346)      0.0491 (17/346)     0
+
+putnam_gpt-5_mcp_Goedel-Prover-V2-8B
+  metrics: output_artifact_eval/putnam_gpt-5_mcp_Goedel-Prover-V2-8B/final_proof_1/prover/putnam_gpt-5_mcp_final_1/Goedel-Prover-V2-8B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32             automation_solved
+  ------------  -------  ------------------  ------------------  -----------------
+  overall       round_0  N/A                 0.0202 (7/346)      0
+  overall       round_2  0.0058 (2/346)      0.0202 (7/346)      0
+  putnam        round_0  N/A                 0.0202 (7/346)      0
+  putnam        round_2  0.0058 (2/346)      0.0202 (7/346)      0
+
+putnam_gpt-5_mcp_Goedel-Prover-V2-32B
+  metrics: output_artifact_eval/putnam_gpt-5_mcp_Goedel-Prover-V2-32B/final_proof_1/prover/putnam_gpt-5_mcp_final_1/Goedel-Prover-V2-32B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32             automation_solved
+  ------------  -------  ------------------  ------------------  -----------------
+  overall       round_0  N/A                 0.0462 (16/346)     0
+  overall       round_2  0.0260 (9/346)      0.0491 (17/346)     0
+  putnam        round_0  N/A                 0.0462 (16/346)     0
+  putnam        round_2  0.0260 (9/346)      0.0491 (17/346)     0
+
+matharena_llm_baseline_gpt-5
+  metrics: output_artifact_eval/matharena_llm_baseline_gpt-5/prover/llm_baseline/gpt-5/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32
+  ------------  -------  ------------------  ------------------
+  overall       round_0  N/A                 0.1200 (9/75)
+  overall       round_2  0.0933 (7/75)       0.1733 (13/75)
+  AIMEI         round_0  N/A                 0.2667 (4/15)
+  AIMEI         round_2  0.1333 (2/15)       0.4000 (6/15)
+  AIMEII        round_0  N/A                 0.1333 (2/15)
+  AIMEII        round_2  0.1333 (2/15)       0.1333 (2/15)
+  HMMT          round_0  N/A                 0.0909 (3/33)
+  HMMT          round_2  0.0909 (3/33)       0.1515 (5/33)
+  APEX          round_0  N/A                 0.0000 (0/12)
+  APEX          round_2  0.0000 (0/12)       0.0000 (0/12)
+
+matharena_llm_baseline_Goedel-Prover-V2-32B
+  metrics: output_artifact_eval/matharena_llm_baseline_Goedel-Prover-V2-32B/prover/llm_baseline/Goedel-Prover-V2-32B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32
+  ------------  -------  ------------------  ------------------
+  overall       round_0  N/A                 0.0000 (0/75)
+  overall       round_2  0.0800 (6/75)       0.0933 (7/75)
+  AIMEI         round_0  N/A                 0.0000 (0/15)
+  AIMEI         round_2  0.2000 (3/15)       0.2667 (4/15)
+  AIMEII        round_0  N/A                 0.0000 (0/15)
+  AIMEII        round_2  0.0667 (1/15)       0.0667 (1/15)
+  HMMT          round_0  N/A                 0.0000 (0/33)
+  HMMT          round_2  0.0606 (2/33)       0.0606 (2/33)
+  APEX          round_0  N/A                 0.0000 (0/12)
+  APEX          round_2  0.0000 (0/12)       0.0000 (0/12)
+
+putnam_llm_baseline_gpt-5
+  metrics: output_artifact_eval/putnam_llm_baseline_gpt-5/prover/llm_baseline/gpt-5/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4
+  ------------  -------  ------------------
+  overall       round_0  0.0116 (4/346)
+  overall       round_2  0.0231 (8/346)
+  putnam        round_0  0.0116 (4/346)
+  putnam        round_2  0.0231 (8/346)
+
+putnam_llm_baseline_Goedel-Prover-V2-32B
+  metrics: output_artifact_eval/putnam_llm_baseline_Goedel-Prover-V2-32B/prover/llm_baseline/Goedel-Prover-V2-32B/final_summary/final_metrics.json
+  source: final_metrics.json only
+  scope         round    pass@4              pass@32
+  ------------  -------  ------------------  ------------------
+  overall       round_0  N/A                 0.0202 (7/346)
+  overall       round_2  0.0173 (6/346)      0.0202 (7/346)
+  putnam        round_0  N/A                 0.0202 (7/346)
+  putnam        round_2  0.0173 (6/346)      0.0202 (7/346)

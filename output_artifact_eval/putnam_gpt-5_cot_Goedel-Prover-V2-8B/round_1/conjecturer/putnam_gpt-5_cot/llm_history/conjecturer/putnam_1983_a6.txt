@@ -1,0 +1,74 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Filter Topology Real
+theorem putnam_1983_a6 : ∃ (putnam_1983_a6_solution : ℝ), ∀ (F : ℝ → ℝ), ((F = fun (a : ℝ) => a ^ (4 : ℕ) / rexp (a ^ (3 : ℕ)) * ∫ (x : ℝ) in (0 : ℝ)..a, ∫ (y : ℝ) in (0 : ℝ)..a - x, rexp (x ^ (3 : ℕ) + y ^ (3 : ℕ)))) → (Tendsto F atTop (𝓝 putnam_1983_a6_solution)) := by sorry. Answer Type: ℝ. 
+Let  
+\[
+I(a)=\int_0^a\int_0^{a-x} e^{x^3+y^3}\,dy\,dx,
+\qquad
+F(a)=\frac{a^4}{e^{a^3}}I(a).
+\]
+
+We want \(\lim_{a\to\infty} F(a)\).
+
+A good way is to differentiate \(I(a)\) with respect to \(a\):
+\[
+I'(a)=\int_0^a e^{x^3+(a-x)^3}\,dx.
+\]
+So
+\[
+F(a)=\frac{I(a)}{e^{a^3}/a^4}.
+\]
+Both numerator and denominator go to \(+\infty\), so heuristically by l’Hôpital,
+\[
+\lim F(a)=\lim \frac{I'(a)}{(e^{a^3}/a^4)'}.
+\]
+
+Now
+\[
+x^3+(a-x)^3=a^3-3ax(a-x),
+\]
+hence
+\[
+I'(a)=e^{a^3}\int_0^a e^{-3ax(a-x)}\,dx.
+\]
+Also
+\[
+\left(\frac{e^{a^3}}{a^4}\right)'=e^{a^3}\left(\frac{3}{a^2}-\frac{4}{a^5}\right).
+\]
+Therefore
+\[
+\lim F(a)=\lim
+\frac{\int_0^a e^{-3ax(a-x)}\,dx}{3/a^2-4/a^5}.
+\]
+
+For large \(a\), the integral is concentrated near \(x=0\) and \(x=a\). Each endpoint contributes asymptotically \(1/(3a^2)\), so
+\[
+\int_0^a e^{-3ax(a-x)}\,dx \sim \frac{2}{3a^2}.
+\]
+Thus
+\[
+\lim F(a)=\frac{2/(3a^2)}{3/a^2}=\frac29.
+\]
+
+So the constant is:
+
+<<<(2 : ℝ) / 9>>>

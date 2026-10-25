@@ -1,0 +1,62 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Set Polynomial Function
+theorem putnam_1981_b1 : ∃ (putnam_1981_b1_solution : ℝ), ∀ (f : ℕ → ℝ), ((f = fun (n : ℕ) => (1 : ℝ) / (↑n : ℝ) ^ (5 : ℕ) * ∑ h ∈ Finset.Icc (1 : ℕ) n, ∑ k ∈ Finset.Icc (1 : ℕ) n, ((5 : ℝ) * (↑h : ℝ) ^ (4 : ℕ) - (18 : ℝ) * (↑h : ℝ) ^ (2 : ℕ) * (↑k : ℝ) ^ (2 : ℕ) + (5 : ℝ) * (↑k : ℝ) ^ (4 : ℕ)))) → (Tendsto f atTop (𝓝 putnam_1981_b1_solution)) := by sorry. Answer Type: ℝ. 
+Let  
+\[
+S_2(n)=\sum_{i=1}^n i^2,\qquad S_4(n)=\sum_{i=1}^n i^4.
+\]
+Then the double sum is
+\[
+\sum_{h=1}^n\sum_{k=1}^n \bigl(5h^4-18h^2k^2+5k^4\bigr)
+= 5nS_4(n)-18S_2(n)^2+5nS_4(n)
+=10nS_4(n)-18S_2(n)^2.
+\]
+
+Using the standard formulas,
+\[
+S_2(n)=\frac{n(n+1)(2n+1)}{6},
+\qquad
+S_4(n)=\frac{n(n+1)(2n+1)(3n^2+3n-1)}{30}.
+\]
+
+Expanding:
+\[
+10nS_4(n)=2n^6+5n^5+\frac{10}{3}n^4-\frac13 n^2,
+\]
+and
+\[
+18S_2(n)^2=2n^6+6n^5+\frac{13}{2}n^4+3n^3+\frac12 n^2.
+\]
+
+So
+\[
+10nS_4(n)-18S_2(n)^2
+= -n^5-\frac{19}{6}n^4-3n^3-\frac56 n^2.
+\]
+Dividing by \(n^5\),
+\[
+f(n)=-1-\frac{19}{6n}-\frac{3}{n^2}-\frac{5}{6n^3}\to -1.
+\]
+
+Therefore the unique candidate for the Putnam solution is:
+
+<<<(-1 : ℝ)>>>

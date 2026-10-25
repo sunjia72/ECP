@@ -1,0 +1,50 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1986_a1 : ∃ (putnam_1986_a1_solution : ℝ), ∀ (S : Set ℝ), ∀ (f : ℝ → ℝ), ((S = {x : ℝ | x ^ (4 : ℕ) + (36 : ℝ) ≤ (13 : ℝ) * x ^ (2 : ℕ)}) ∧ (f = fun (x : ℝ) => x ^ (3 : ℕ) - (3 : ℝ) * x)) → (IsGreatest {x : ℝ | ∃ x_1 ∈ S, f x_1 = x} putnam_1986_a1_solution) := by sorry. Answer Type: ℝ. 
+Let  
+\[
+S=\{x\in \mathbb R : x^4+36\le 13x^2\}.
+\]
+Set \(y=x^2\). Then the condition becomes
+\[
+y^2-13y+36\le 0 \iff (y-4)(y-9)\le 0,
+\]
+so
+\[
+4\le x^2\le 9.
+\]
+Hence
+\[
+x\in [-3,-2]\cup [2,3].
+\]
+
+Now
+\[
+f(x)=x^3-3x,\qquad f'(x)=3x^2-3=3(x^2-1).
+\]
+On all of \(S\), we have \(x^2\ge 4\), so \(f'(x)>0\). Thus \(f\) is strictly increasing on both intervals, and the largest allowed \(x\) is \(x=3\). Therefore the maximum value is
+\[
+f(3)=27-9=18.
+\]
+
+So the required Lean expression is:
+
+<<<(18 : ℝ)>>>

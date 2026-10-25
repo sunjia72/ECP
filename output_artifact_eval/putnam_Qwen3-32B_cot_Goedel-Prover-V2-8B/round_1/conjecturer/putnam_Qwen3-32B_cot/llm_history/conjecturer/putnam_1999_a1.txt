@@ -1,0 +1,26 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1999_a1 : ∃ (putnam_1999_a1_solution : Prop), (putnam_1999_a1_solution ↔ ∃ (f : Polynomial ℝ) (g : Polynomial ℝ) (h : Polynomial ℝ), ∀ (x : ℝ), |Polynomial.eval x f| - |Polynomial.eval x g| + Polynomial.eval x h = if x < (-1 : ℝ) then (-1 : ℝ) else if x ≤ (0 : ℝ) then (3 : ℝ) * x + (2 : ℝ) else (-2 : ℝ) * x + (2 : ℝ)) := by sorry. Answer Type: Prop. 
+
+
+The problem requires determining whether there exist real polynomials $ f $, $ g $, and $ h $ such that the expression $ |f(x)| - |g(x)| + h(x) $ matches a given piecewise function $ F(x) $. Through analysis of the slopes and continuity, we identify that choosing $ f(x) = \frac{3}{2}(x + 1) $, $ g(x) = \frac{5}{2}x $, and $ h(x) = -x + \frac{1}{2} $ satisfies the equation for all $ x $. These are polynomials, confirming the existence.
+
+<<<True>>>

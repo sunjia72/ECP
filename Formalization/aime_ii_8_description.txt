@@ -1,0 +1,6 @@
+Original Description:  Isosceles triangle $\\triangle ABC$ has $AB = BC.$ Let $I$ be the incenter of $\\triangle ABC.$ The perimeters of $\\triangle ABC$ and $\\triangle AIC$ are in the ratio $125:6,$ and all the sides of both triangles have integer lengths. Find the minimum possible value of $AB.$",
+
+Equivalent Description:Find the least positive integer \(x\) such that there exist positive integers \(y,z\) with \(y<2x\), \(z^2(2x+y)=xy^2\), and \(6(2x+y)=125(y+2z)\).
+
+Admissible Vocabulary: [``ofNat.ofNat]
+

@@ -1,0 +1,37 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Matrix Function
+theorem putnam_2012_a5 : ∃ (putnam_2012_a5_solution : Set (ℕ × ℕ)), ∀ (n p : ℕ), ∀ (F : Type u_1), ∀ (_x1 : Field F), ∀ (_x1 : Fintype F), ∀ (G : Matrix (Fin n) (Fin n) F → (Fin n → F) → (Fin n → F) → Fin n → F), ((n > (0 : ℕ)) ∧ (Nat.Prime p) ∧ (Fintype.card F = p) ∧ (∀ (M : Matrix (Fin n) (Fin n) F) (v x : Fin n → F), G M v x = v + M *ᵥ x)) → ((n, p) ∈ putnam_2012_a5_solution ↔ ∃ (M : Matrix (Fin n) (Fin n) F) (v : Fin n → F), ¬∃ (i : { x : ℕ // x ∈ Finset.range (p ^ n) }) (j : { x : ℕ // x ∈ Finset.range (p ^ n) }), i ≠ j ∧ (G M v)^[(↑i : ℕ) + (1 : ℕ)] (0 : Fin n → F) = (G M v)^[(↑j : ℕ) + (1 : ℕ)] (0 : Fin n → F)) := by sorry. Answer Type: Set (ℕ × ℕ). 
+Let \(T(x)=v+Mx\) on the finite vector space \(F^n\), where \(|F|=p\), so there are exactly \(p^n\) states.
+
+The condition in the theorem says that starting from \(0\), the first \(p^n\) iterates
+\[
+T(0), T^2(0), \dots, T^{p^n}(0)
+\]
+are all distinct. Since the whole space has only \(p^n\) elements, this means these are exactly all elements of \(F^n\). So we need an affine map \(T\) whose orbit of \(0\) is a single cycle of length \(p^n\).
+
+Now:
+- If \(p\) is odd, no affine permutation of \(F^n\) can be a single cycle of length \(p^n\). A standard parity/counting fact for affine groups over odd characteristic rules this out.
+- If \(p=2\), such a cycle does exist for every \(n>0\): over \(F_2^n\), there are affine maps with one orbit of size \(2^n\) (for instance, maps corresponding to “adding 1” after identifying \(F_2^n\) with the \(n\)-bit states).
+
+Hence the answer set is exactly all pairs \((n,p)\) with \(n>0\) and \(p=2\). Since the theorem already assumes \(n>0\) and \(p\) prime in the hypothesis, the set itself can simply be described as all pairs whose second coordinate is \(2\).
+
+<<<{np : ℕ × ℕ | np.2 = 2}>>>

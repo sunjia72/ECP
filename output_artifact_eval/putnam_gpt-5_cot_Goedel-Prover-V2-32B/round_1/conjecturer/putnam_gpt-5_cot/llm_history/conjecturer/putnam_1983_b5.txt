@@ -1,0 +1,79 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Filter Topology Real
+theorem putnam_1983_b5 : ∃ (putnam_1983_b5_solution : ℝ), ∀ (dist_fun : ℝ → ℝ), ((dist_fun = fun (x : ℝ) => min (x - (↑⌊x⌋ : ℝ)) ((↑⌈x⌉ : ℝ) - x)) ∧ (Tendsto (fun (N : ℕ) => ∏ n ∈ Finset.Icc (1 : ℕ) N, (2 : ℝ) * (↑n : ℝ) / ((2 : ℝ) * (↑n : ℝ) - (1 : ℝ)) * ((2 : ℝ) * (↑n : ℝ) / ((2 : ℝ) * (↑n : ℝ) + (1 : ℝ)))) atTop (𝓝 (π / (2 : ℝ))))) → (Tendsto (fun (n : ℕ) => (1 : ℝ) / (↑n : ℝ) * ∫ (x : ℝ) in (1 : ℝ)..(↑n : ℝ), dist_fun ((↑n : ℝ) / x)) atTop (𝓝 putnam_1983_b5_solution)) := by sorry. Answer Type: ℝ. 
+Let  
+\[
+d(x)=\min\bigl(x-\lfloor x\rfloor,\ \lceil x\rceil-x\bigr),
+\]
+the distance from \(x\) to the nearest integer.
+
+We study
+\[
+\frac1n\int_1^n d\!\left(\frac n x\right)\,dx.
+\]
+
+Use the substitution \(y=n/x\). Then \(x=n/y\) and \(dx=-n y^{-2}dy\), so
+\[
+\frac1n\int_1^n d\!\left(\frac n x\right)\,dx
+=\int_1^n \frac{d(y)}{y^2}\,dy.
+\]
+Hence the limit is
+\[
+\int_1^\infty \frac{d(y)}{y^2}\,dy.
+\]
+
+Now \(d\) is \(1\)-periodic, and on each interval \([m,m+1]\),
+\[
+d(m+t)=\min(t,1-t)\qquad (0\le t\le 1).
+\]
+So
+\[
+\int_1^\infty \frac{d(y)}{y^2}\,dy
+=\sum_{m=1}^\infty \int_0^1 \frac{\min(t,1-t)}{(m+t)^2}\,dt.
+\]
+
+A standard rearrangement gives
+\[
+\int_1^\infty \frac{d(y)}{y^2}\,dy
+=\int_0^{1/2}\sum_{m=1}^\infty\left(\frac1{m+t}-\frac1{m+1-t}\right)\,dt.
+\]
+Using the digamma/reflection identity (equivalently, Wallis-product-based evaluation),
+\[
+\sum_{m=1}^\infty\left(\frac1{m+t}-\frac1{m+1-t}\right)
+=\pi\cot(\pi t)-\frac1t+\frac1{1-t}.
+\]
+Therefore
+\[
+\int_0^{1/2}\left(\pi\cot(\pi t)-\frac1t+\frac1{1-t}\right)\,dt
+=\Bigl[\log(\sin(\pi t))-\log t-\log(1-t)\Bigr]_{0}^{1/2}.
+\]
+At \(t=\tfrac12\), this is \(2\log 2\).  
+As \(t\to0^+\), \(\sin(\pi t)\sim \pi t\), so the limit is \(\log \pi\).
+
+Thus the constant is
+\[
+2\log 2-\log \pi=\log\!\left(\frac4\pi\right).
+\]
+
+So the Lean expression for the answer is:
+
+<<<Real.log (4 / π)>>>

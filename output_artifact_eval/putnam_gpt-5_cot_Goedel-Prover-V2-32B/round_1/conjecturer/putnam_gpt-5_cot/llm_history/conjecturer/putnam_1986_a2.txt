@@ -1,0 +1,66 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1986_a2 : ∃ (putnam_1986_a2_solution : ℕ), (⌊(10 : ℝ) ^ (20000 : ℕ) / ((10 : ℝ) ^ (100 : ℕ) + (3 : ℝ))⌋₊ % (10 : ℕ) = putnam_1986_a2_solution) := by sorry. Answer Type: ℕ. 
+Let \(x=10^{100}\). Then the quantity is
+\[
+\left\lfloor \frac{x^{200}}{x+3}\right\rfloor.
+\]
+
+Using division by \(x+3\),
+\[
+x^{200}-(-3)^{200}
+\]
+is divisible by \(x+3\), so
+\[
+x^{200}=(x+3)\Big(x^{199}-3x^{198}+9x^{197}-\cdots+(-3)^{199}\Big)+3^{200}.
+\]
+Hence
+\[
+\frac{x^{200}}{x+3}
+=
+Q+\frac{3^{200}}{x+3},
+\]
+where
+\[
+Q=x^{199}-3x^{198}+9x^{197}-\cdots+(-3)^{199}.
+\]
+
+Now \(3^{200}<10^{100}=x<x+3\), so \(0<\frac{3^{200}}{x+3}<1\). Therefore
+\[
+\left\lfloor \frac{x^{200}}{x+3}\right\rfloor = Q.
+\]
+
+To find the last digit of \(Q\), note that every term except the last contains a factor of \(x=10^{100}\), so modulo \(10\),
+\[
+Q \equiv (-3)^{199} \pmod{10}.
+\]
+Since powers of \(-3\) mod \(10\) cycle as
+\[
+7,9,3,1,
+\]
+and \(199\equiv 3 \pmod 4\), we get
+\[
+(-3)^{199}\equiv 3 \pmod{10}.
+\]
+
+So the required digit is \(3\).
+
+<<<3>>>

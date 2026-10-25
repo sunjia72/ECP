@@ -1,0 +1,60 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Polynomial Set
+theorem putnam_2001_a3 : ∃ (putnam_2001_a3_solution : Set ℤ), ∀ (P : ℤ → ℤ[X]), ((P = fun (m : ℤ) => X ^ (4 : ℕ) - (C : ℤ → ℤ[X]) ((2 : ℤ) * m + (4 : ℤ)) * X ^ (2 : ℕ) + (C : ℤ → ℤ[X]) ((m - (2 : ℤ)) ^ (2 : ℕ)))) → ({m : ℤ | ∃ (a : ℤ[X]) (b : ℤ[X]), P m = a * b ∧ (∃ n ∈ Ici (1 : ℕ), a.coeff n ≠ (0 : ℤ)) ∧ ∃ n ∈ Ici (1 : ℕ), b.coeff n ≠ (0 : ℤ)} = putnam_2001_a3_solution) := by sorry. Answer Type: Set ℤ. 
+Let  
+\[
+f_m(X)=X^4-(2m+4)X^2+(m-2)^2.
+\]
+
+If it factors nontrivially in \(\mathbb Z[X]\), then since it is monic and has no odd-power terms, a general factorization must be of one of these forms:
+
+1. \((X^2+b)(X^2+d)\), or  
+2. \((X^2+aX+b)(X^2-aX+b)\).
+
+From coefficient comparison:
+
+- In case 1, the quadratic in \(Y=X^2\) must split over \(\mathbb Z\), so its discriminant
+  \[
+  (2m+4)^2-4(m-2)^2=32m
+  \]
+  must be a square. This is equivalent to \(m=2z^2\) for some \(z\in\mathbb Z\).
+
+- In case 2, comparing coefficients gives
+  \[
+  b^2=(m-2)^2,\qquad 2b-a^2=-(2m+4).
+  \]
+  The only integral possibility is \(b=m-2\), which forces \(a^2=4m\), hence \(m=z^2\) for some \(z\in\mathbb Z\).
+
+Conversely:
+
+- If \(m=z^2\), then
+  \[
+  f_m(X)=(X^2+2zX+z^2-2)(X^2-2zX+z^2-2).
+  \]
+- If \(m=2z^2\), then
+  \[
+  f_m(X)=(X^2-2(z+1)^2)(X^2-2(z-1)^2).
+  \]
+
+So the answer set is exactly the integers that are either a square or twice a square.
+
+<<<{m : ℤ | ∃ z : ℤ, m = z ^ (2 : ℕ) ∨ m = (2 : ℤ) * z ^ (2 : ℕ)}>>>

@@ -1,0 +1,310 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Polynomial
+theorem putnam_2022_b4 : ∃ (putnam_2022_b4_solution : Set ℕ), ∀ (n : ℕ), ∀ (ap3 : ℝ → ℝ → ℝ → Prop), ∀ (xprog : (ℕ → ℝ) → Prop), ((n ≥ (4 : ℕ)) ∧ (∀ (x0 x1 x2 : ℝ), ap3 x0 x1 x2 ↔ ∀ (o0 o1 o2 : ℝ), o0 < o1 ∧ o1 < o2 ∧ {o0, o1, o2} = {x0, x1, x2} → o1 - o0 = o2 - o1) ∧ (∀ (x : ℕ → ℝ), xprog x ↔ (∀ (i j : Fin n), (↑i : ℕ) ≠ (↑j : ℕ) → x (↑i : ℕ) ≠ x (↑j : ℕ)) ∧ ∀ (i : Fin n), ap3 (x (↑i : ℕ)) (x (((↑i : ℕ) + (1 : ℕ)) % n)) (x (((↑i : ℕ) + (2 : ℕ)) % n)))) → ((∃ (x : ℕ → ℝ), xprog x) ↔ n ∈ putnam_2022_b4_solution) := by sorry. Answer Type: Set ℕ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_tXtAlTdcfN99yN6GiWoBhCzE):
+import itertools, math
+
+def good_perm(p):
+    n=len(p)
+    for i in range(n):
+        a,b,c=p[i],p[(i+1)%n],p[(i+2)%n]
+        s=sorted([a,b,c])
+        if s[1]-s[0] != s[2]-s[1]:
+            return False
+    return True
+
+for n in range(4,11):
+    sols=[]
+    for p in itertools.permutations(range(n)):
+        if good_perm(p):
+            sols.append(p)
+            break
+    print(n, bool(sols), sols[:3])
+[TOOL OUTPUT]
+4 False []
+5 False []
+6 False []
+7 False []
+8 False []
+9 True [(0, 2, 1, 3, 5, 7, 6, 8, 4)]
+10 False []
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_CvjsfooyAnCZT1fvIiHt7RPM):
+p=(0,2,1,3,5,7,6,8,4)
+n=len(p)
+d=[p[(i+1)%n]-p[i] for i in range(n)]
+print('d',d)
+print('ratios',[d[(i+1)%n]/d[i] for i in range(n)])
+for i in range(n):
+    a,b,c=p[i],p[(i+1)%n],p[(i+2)%n]
+    s=sorted([a,b,c])
+    print(i,(a,b,c),s, s[1]-s[0], s[2]-s[1])
+[TOOL OUTPUT]
+d [2, -1, 2, 2, 2, -1, 2, -4, -4]
+ratios [-0.5, -2.0, 1.0, 1.0, -0.5, -2.0, -2.0, 1.0, -0.5]
+0 (0, 2, 1) [0, 1, 2] 1 1
+1 (2, 1, 3) [1, 2, 3] 1 1
+2 (1, 3, 5) [1, 3, 5] 2 2
+3 (3, 5, 7) [3, 5, 7] 2 2
+4 (5, 7, 6) [5, 6, 7] 1 1
+5 (7, 6, 8) [6, 7, 8] 1 1
+6 (6, 8, 4) [4, 6, 8] 2 2
+7 (8, 4, 0) [0, 4, 8] 4 4
+8 (4, 0, 2) [0, 2, 4] 2 2
+
+===== ENUMERATOR ROUND 3 =====
+[TOOL CALL] code_exec (call_id=call_Zb8kJeR33Jr5KPB8x0zpCKBO):
+from fractions import Fraction
+
+def exists(n, want_example=False):
+    vals=[]
+    S=[Fraction(1,1), Fraction(-2,1), Fraction(-1,2)]
+    # choose d0=1, ratios r0..r_{n-1}, with d_{i+1}=r_i d_i and d_n=d_0 => product=1
+    # recursive search tracking current di, partial sum of d's so far, and maybe product implicitly.
+    ex=None
+    seen=set()
+    def rec(i, di, sumd, ds, rs):
+        nonlocal ex
+        if ex is not None: return
+        # i = number of ratios chosen so far, current di = d_i
+        if i==n:
+            if di==1 and sumd==0:
+                # check distinct partial sums x
+                x=[0]
+                s=0
+                ok=True
+                se={0}
+                for d in ds:
+                    s+=d
+                    x.append(s)
+                    if len(x)<=n and s in se and len(x)<=n:
+                        ok=False; break
+                    se.add(s)
+                if ok and s==0:
+                    ex=(ds,rs,x[:-1])
+            return
+        # simple memo prune on rounded? exact rational state huge maybe but okay
+        key=(i,di,sumd)
+        # can't memo because distinctness path matters? for existence maybe maybe not; ignore.
+        for r in S:
+            ndi=di*r
+            rec(i+1, ndi, sumd+di, ds+[di], rs+[r])
+            if ex is not None: return
+    rec(0, Fraction(1,1), Fraction(0,1), [], [])
+    return ex if want_example else (ex is not None)
+
+for n in range(4,19):
+    ex=exists(n, want_example=True)
+    print(n, bool(ex), ex[2] if ex else None, ex[0] if ex else None, ex[1] if ex else None)
+[TOOL OUTPUT]
+4 False None None None
+5 False None None None
+6 False None None None
+7 False None None None
+8 False None None None
+9 True [0, Fraction(1, 1), Fraction(2, 1), Fraction(3, 1), Fraction(5, 2), Fraction(7, 2), Fraction(3, 2), Fraction(-1, 2), Fraction(1, 2)] [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2)] [Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(-2, 1)]
+10 False None None None
+11 False None None None
+12 True [0, Fraction(1, 1), Fraction(2, 1), Fraction(3, 1), Fraction(4, 1), Fraction(5, 1), Fraction(9, 2), Fraction(11, 2), Fraction(7, 2), Fraction(3, 2), Fraction(-1, 2), Fraction(1, 2)] [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2)] [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(-2, 1)]
+13 False None None None
+14 False None None None
+15 True [0, Fraction(1, 1), Fraction(2, 1), Fraction(3, 1), Fraction(4, 1), Fraction(5, 1), Fraction(6, 1), Fraction(7, 1), Fraction(13, 2), Fraction(15, 2), Fraction(11, 2), Fraction(7, 2), Fraction(3, 2), Fraction(-1, 2), Fraction(1, 2)] [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2)] [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(-2, 1)]
+16 False None None None
+17 False None None None
+18 True [0, Fraction(1, 1), Fraction(2, 1), Fraction(3, 1), Fraction(4, 1), Fraction(5, 1), Fraction(6, 1), Fraction(7, 1), Fraction(8, 1), Fraction(9, 1), Fraction(17, 2), Fraction(19, 2), Fraction(15, 2), Fraction(11, 2), Fraction(7, 2), Fraction(3, 2), Fraction(-1, 2), Fraction(1, 2)] [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2)] [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(-2, 1)]
+
+===== ENUMERATOR ROUND 4 =====
+[TOOL CALL] code_exec (call_id=call_6Ld8vFZR3PCcA3vj5LcpHTXo):
+from fractions import Fraction
+S=[Fraction(1,1),Fraction(-2,1),Fraction(-1,2)]
+sol=[]
+import itertools
+for rs in itertools.product(S, repeat=6):
+    d=Fraction(1,1)
+    ds=[]
+    for r in rs:
+        ds.append(d)
+        d*=r
+    if d!=1: 
+        continue
+    if sum(ds)!=0:
+        continue
+    # partial sums distinct?
+    s=Fraction(0)
+    seen={s}
+    ok=True
+    for di in ds[:-1]:
+        s+=di
+        if s in seen:
+            ok=False; break
+        seen.add(s)
+    sol.append((rs,ds,ok))
+print('count',len(sol))
+print(sol[:20])
+[TOOL OUTPUT]
+count 33
+[((Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2)), [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1)], False), ((Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1)), [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1)], False), ((Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(-2, 1), Fraction(-1, 2)), [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-2, 1)], False), ((Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(-1, 2)), [Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(4, 1), Fraction(-2, 1)], False), ((Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(1, 1)), [Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1)], False), ((Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-1, 2)), [Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(4, 1), Fraction(-2, 1), Fraction(-2, 1)], False), ((Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2)), [Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1)], False), ((Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1)), [Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1)], False), ((Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1)), [Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-1, 2)], False), ((Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1)), [Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(-1, 2), Fraction(-1, 2)], False), ((Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-1, 2)), [Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1)], False), ((Fraction(-2, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(1, 1)), [Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(4, 1), Fraction(-2, 1), Fraction(1, 1)], False), ((Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1)), [Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1)], False), ((Fraction(-2, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1)), [Fraction(1, 1), Fraction(-2, 1), Fraction(4, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1)], False), ((Fraction(-2, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(-1, 2), Fraction(-2, 1), Fraction(-1, 2)), [Fraction(1, 1), Fraction(-2, 1), Fraction(4, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-2, 1)], False), ((Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2)), [Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1)], False), ((Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1)), [Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1)], False), ((Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1)), [Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(-1, 2)], False), ((Fraction(-2, 1), Fraction(-1, 2), Fraction(-2, 1), Fraction(-2, 1), Fraction(-1, 2), Fraction(-1, 2)), [Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(4, 1), Fraction(-2, 1)], False), ((Fraction(-2, 1), Fraction(-1, 2), Fraction(-2, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(1, 1)), [Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(1, 1)], False)]
+
+===== ENUMERATOR ROUND 5 =====
+[TOOL CALL] code_exec (call_id=call_usJUSA0DA2P2TFmMN4ZsZNnz):
+from fractions import Fraction
+
+def constructed_x(n):
+    assert n % 3 == 0 and n >= 9
+    m = n // 3
+    d = [1]*(2*m-3) + [Fraction(-1,2), 1] + [-2]*(m-1) + [1, Fraction(-1,2)]
+    x=[Fraction(0)]
+    for di in d[:-1]:
+        x.append(x[-1]+di)
+    return x,d
+
+def ap(a,b,c):
+    s=sorted([a,b,c])
+    return s[1]-s[0] == s[2]-s[1]
+
+def good(x):
+    n=len(x)
+    if len(set(x))<n: return False
+    for i in range(n):
+        if not ap(x[i], x[(i+1)%n], x[(i+2)%n]): return False
+    return True
+
+print('Search on permutations 0..n-1 for n<=10:')
+import itertools
+for n in range(4,11):
+    found=False
+    for p in itertools.permutations(range(n)):
+        if good(p):
+            found=True
+            print(n, 'example', p)
+            break
+    if not found:
+        print(n, 'no example')
+
+print('\nConstructed examples:')
+for n in [9,12,15,18]:
+    x,d=constructed_x(n)
+    print(n, good(x), x)
+[TOOL OUTPUT]
+Search on permutations 0..n-1 for n<=10:
+4 no example
+5 no example
+6 no example
+7 no example
+8 no example
+9 example (0, 2, 1, 3, 5, 7, 6, 8, 4)
+10 no example
+
+Constructed examples:
+9 True [Fraction(0, 1), Fraction(1, 1), Fraction(2, 1), Fraction(3, 1), Fraction(5, 2), Fraction(7, 2), Fraction(3, 2), Fraction(-1, 2), Fraction(1, 2)]
+12 True [Fraction(0, 1), Fraction(1, 1), Fraction(2, 1), Fraction(3, 1), Fraction(4, 1), Fraction(5, 1), Fraction(9, 2), Fraction(11, 2), Fraction(7, 2), Fraction(3, 2), Fraction(-1, 2), Fraction(1, 2)]
+15 True [Fraction(0, 1), Fraction(1, 1), Fraction(2, 1), Fraction(3, 1), Fraction(4, 1), Fraction(5, 1), Fraction(6, 1), Fraction(7, 1), Fraction(13, 2), Fraction(15, 2), Fraction(11, 2), Fraction(7, 2), Fraction(3, 2), Fraction(-1, 2), Fraction(1, 2)]
+18 True [Fraction(0, 1), Fraction(1, 1), Fraction(2, 1), Fraction(3, 1), Fraction(4, 1), Fraction(5, 1), Fraction(6, 1), Fraction(7, 1), Fraction(8, 1), Fraction(9, 1), Fraction(17, 2), Fraction(19, 2), Fraction(15, 2), Fraction(11, 2), Fraction(7, 2), Fraction(3, 2), Fraction(-1, 2), Fraction(1, 2)]
+
+===== ENUMERATOR ROUND 6 =====
+[TOOL CALL] code_exec (call_id=call_8CaGsWNZ4EhtMu8PngS3NWnK):
+from fractions import Fraction
+S=[Fraction(1,1), Fraction(-2,1), Fraction(-1,2)]
+
+def exists_via_ratios(n):
+    ex=None
+    def rec(i, di, sumd, ds):
+        nonlocal ex
+        if ex is not None: return
+        if i==n:
+            if di==1 and sumd==0:
+                s=Fraction(0)
+                seen={s}
+                ok=True
+                for d in ds[:-1]:
+                    s += d
+                    if s in seen:
+                        ok=False; break
+                    seen.add(s)
+                if ok:
+                    ex=ds[:]
+            return
+        for r in S:
+            rec(i+1, di*r, sumd+di, ds+[di])
+    rec(0, Fraction(1,1), Fraction(0,1), [])
+    return ex
+
+for n in range(4,13):
+    print(n, exists_via_ratios(n))
+[TOOL OUTPUT]
+4 None
+5 None
+6 None
+7 None
+8 None
+9 [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2)]
+10 None
+11 None
+12 [Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(1, 1), Fraction(-1, 2), Fraction(1, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(-2, 1), Fraction(1, 1), Fraction(-1, 2)]
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+d_i=x_{i+1}-x_i \qquad (i \bmod n).
+\]
+Then \(x_n=x_0\) means \(\sum_{i=0}^{n-1} d_i=0\).
+
+For three consecutive terms \(x_i,x_{i+1},x_{i+2}\) to form an arithmetic progression as a set, one of them must be the average of the other two. In terms of \(d_i,d_{i+1}\), this gives exactly
+\[
+d_{i+1}=d_i,\qquad d_{i+1}=-2d_i,\qquad d_{i+1}=-\frac12 d_i.
+\]
+So every ratio \(d_{i+1}/d_i\) is in \(\{1,-2,-\tfrac12\}\).
+
+Now normalize: divide by \(d_0\), and multiply by a large power of \(2\), so we get integers \(e_i\) of the form \(\pm 2^k\), hence none is divisible by \(3\). The same three relations become
+\[
+e_{i+1}=e_i,\quad e_{i+1}=-2e_i,\quad 2e_{i+1}=-e_i,
+\]
+and each implies \(e_{i+1}\equiv e_i \pmod 3\). Thus all \(e_i\) are congruent mod \(3\). Since \(\sum e_i=0\),
+\[
+0\equiv \sum_{i=0}^{n-1} e_i \equiv n e_0 \pmod 3,
+\]
+so \(3\mid n\).
+
+A Python search over all possible ratio-patterns confirms there is no solution for \(n=4,5,6,7,8\), and the first solution is \(n=9\).
+
+For every \(n=3m\ge 9\) (\(m\ge 3\)), we can construct one. Take cyclic differences
+\[
+\underbrace{1,\dots,1}_{2m-3},\ -\tfrac12,\ 1,\ \underbrace{-2,\dots,-2}_{m-1},\ 1,\ -\tfrac12.
+\]
+Their sum is
+\[
+(2m-3)-\tfrac12+1-2(m-1)+1-\tfrac12=0,
+\]
+so they define a cyclic sequence. Also each consecutive ratio is \(1,-2\), or \(-\tfrac12\), so every consecutive triple is an arithmetic progression. The partial sums are
+\[
+0,1,2,\dots,2m-3,\ 2m-\tfrac72,\ 2m-\tfrac52,\ 2m-\tfrac92,\dots,-\tfrac12,\tfrac12,
+\]
+which are all distinct.
+
+So the valid \(n\) are exactly the multiples of \(3\) starting at \(9\).
+
+<<<{n : ℕ | 9 ≤ n ∧ 3 ∣ n}>>>

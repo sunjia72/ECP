@@ -1,0 +1,17 @@
+[
+  {
+    "name": "P2026HMMT_2",
+    "round": 2,
+    "actual_answer": "420261",
+    "proposed_answer": "420261",
+    "answer_ok": "True",
+    "answer_error": "",
+    "is_equivalent": "True",
+    "explanation": "answer passed Lean syntax and canonical admissibility checks",
+    "answer_construction_runtime_sec": 57.146109,
+    "answer_construction_output_tokens": 2865,
+    "answer_construction_tool_calls": 3,
+    "answer_construction_api_calls": 4,
+    "answer_construction_llm_calls": 1
+  }
+]

@@ -1,0 +1,58 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Nat
+theorem putnam_1984_a5 : ∃ (putnam_1984_a5_solution : ℕ × ℕ × ℕ × ℕ × ℕ), ∀ (R : Set (Fin (3 : ℕ) → ℝ)), ∀ (w : (Fin (3 : ℕ) → ℝ) → ℝ), ((R = {p : Fin (3 : ℕ) → ℝ | (∀ (i : Fin (3 : ℕ)), p i ≥ (0 : ℝ)) ∧ p (0 : Fin (3 : ℕ)) + p (1 : Fin (3 : ℕ)) + p (2 : Fin (3 : ℕ)) ≤ (1 : ℝ)}) ∧ (∀ (p : Fin (3 : ℕ) → ℝ), w p = (1 : ℝ) - p (0 : Fin (3 : ℕ)) - p (1 : Fin (3 : ℕ)) - p (2 : Fin (3 : ℕ)))) → (match putnam_1984_a5_solution with | (a, b, c, d, n) => a > (0 : ℕ) ∧ b > (0 : ℕ) ∧ c > (0 : ℕ) ∧ d > (0 : ℕ) ∧ n > (0 : ℕ) ∧ ∫ (p : Fin (3 : ℕ) → ℝ) in R, p (0 : Fin (3 : ℕ)) ^ (1 : ℕ) * p (1 : Fin (3 : ℕ)) ^ (9 : ℕ) * p (2 : Fin (3 : ℕ)) ^ (8 : ℕ) * w p ^ (4 : ℕ) = (↑a ! : ℝ) * (↑b ! : ℝ) * (↑c ! : ℝ) * (↑d ! : ℝ) / (↑n ! : ℝ)) := by sorry. Answer Type: ℕ × ℕ × ℕ × ℕ × ℕ. 
+This is a standard Dirichlet/Beta integral on the 3-simplex
+\[
+\{(x,y,z)\mid x,y,z\ge 0,\ x+y+z\le 1\},
+\]
+with the fourth barycentric coordinate
+\[
+w=1-x-y-z.
+\]
+
+The general formula is
+\[
+\int_{x_i\ge 0,\ \sum_{i=1}^m x_i\le 1}
+x_1^{a_1}\cdots x_m^{a_m}(1-\sum x_i)^{a_{m+1}}
+\,dx
+=
+\frac{a_1!\cdots a_{m+1}!}{(a_1+\cdots+a_{m+1}+m)!}.
+\]
+
+Here \(m=3\), and the exponents are
+\[
+a_1=1,\quad a_2=9,\quad a_3=8,\quad a_4=4.
+\]
+So the denominator is
+\[
+(1+9+8+4+3)! = 25!.
+\]
+Hence
+\[
+\int_R p_0^1 p_1^9 p_2^8 w^4
+=
+\frac{1!\,9!\,8!\,4!}{25!}.
+\]
+
+So the requested 5-tuple is \((1,9,8,4,25)\).
+
+<<<(1, 9, 8, 4, 25)>>>

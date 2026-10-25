@@ -1,0 +1,88 @@
+{
+  "matharena": {
+    "input_path": "output/matharena_gpt-5_mcp_Goedel-Prover-V2-8B/finalized_answers/summary.json",
+    "frequency": {
+      "0": 0,
+      "1": 28,
+      "2": 11,
+      "3": 9,
+      "4": 2,
+      "5": 2,
+      "6+": 23
+    },
+    "record_count": 75,
+    "total_tool_calls": 295,
+    "average_tool_calls_per_file": 3.933333333333333,
+    "category_tool_calls": {
+      "AIMEI": {
+        "record_count": 15,
+        "total_tool_calls": 35,
+        "average_tool_calls_per_file": 2.3333333333333335
+      },
+      "AIMEII": {
+        "record_count": 15,
+        "total_tool_calls": 38,
+        "average_tool_calls_per_file": 2.533333333333333
+      },
+      "HMMT": {
+        "record_count": 33,
+        "total_tool_calls": 124,
+        "average_tool_calls_per_file": 3.757575757575758
+      },
+      "APEX": {
+        "record_count": 12,
+        "total_tool_calls": 98,
+        "average_tool_calls_per_file": 8.166666666666666
+      },
+      "putnam": {
+        "record_count": 0,
+        "total_tool_calls": 0,
+        "average_tool_calls_per_file": 0.0
+      }
+    },
+    "unmatched_record_count": 0
+  },
+  "putnam": {
+    "input_path": "output/putnam_gpt-5_mcp_Goedel-Prover-V2-8B/finalized_answers/summary.json",
+    "frequency": {
+      "0": 0,
+      "1": 147,
+      "2": 92,
+      "3": 32,
+      "4": 21,
+      "5": 16,
+      "6+": 38
+    },
+    "record_count": 346,
+    "total_tool_calls": 900,
+    "average_tool_calls_per_file": 2.601156069364162,
+    "category_tool_calls": {
+      "AIMEI": {
+        "record_count": 0,
+        "total_tool_calls": 0,
+        "average_tool_calls_per_file": 0.0
+      },
+      "AIMEII": {
+        "record_count": 0,
+        "total_tool_calls": 0,
+        "average_tool_calls_per_file": 0.0
+      },
+      "HMMT": {
+        "record_count": 0,
+        "total_tool_calls": 0,
+        "average_tool_calls_per_file": 0.0
+      },
+      "APEX": {
+        "record_count": 0,
+        "total_tool_calls": 0,
+        "average_tool_calls_per_file": 0.0
+      },
+      "putnam": {
+        "record_count": 346,
+        "total_tool_calls": 900,
+        "average_tool_calls_per_file": 2.601156069364162
+      }
+    },
+    "unmatched_record_count": 0
+  }
+}

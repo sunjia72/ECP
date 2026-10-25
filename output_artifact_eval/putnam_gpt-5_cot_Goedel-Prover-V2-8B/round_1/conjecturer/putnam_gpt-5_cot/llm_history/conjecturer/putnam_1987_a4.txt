@@ -1,0 +1,82 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MvPolynomial Real
+theorem putnam_1987_a4 : ∃ (putnam_1987_a4_solution : ℂ), ∀ (P : MvPolynomial (Fin (3 : ℕ)) ℂ), ∀ (F : ℝ → ℝ → ℝ), ∀ (vars : ℂ → ℂ → ℂ → Fin (3 : ℕ) → ℂ), ∀ (A B C : ℂ), ((∀ (i : Fin (3 : ℕ) →₀ ℕ), (coeff i P).im = (0 : ℝ)) ∧ (vars = fun (a b c : ℂ) (i : Fin (3 : ℕ)) => if i = (0 : Fin (3 : ℕ)) then a else if i = (1 : Fin (3 : ℕ)) then b else c) ∧ (∀ (x y z u : ℝ), (eval (vars ((↑u : ℂ) * (↑x : ℂ)) ((↑u : ℂ) * (↑y : ℂ)) ((↑u : ℂ) * (↑z : ℂ))) : MvPolynomial (Fin (3 : ℕ)) ℂ → ℂ) P = (↑u : ℂ) ^ (2 : ℕ) * (↑(F (y - x) (z - x)) : ℂ)) ∧ ((eval (vars (1 : ℂ) (0 : ℂ) (0 : ℂ)) : MvPolynomial (Fin (3 : ℕ)) ℂ → ℂ) P = (4 : ℂ) ∧ (eval (vars (0 : ℂ) (1 : ℂ) (0 : ℂ)) : MvPolynomial (Fin (3 : ℕ)) ℂ → ℂ) P = (5 : ℂ) ∧ (eval (vars (0 : ℂ) (0 : ℂ) (1 : ℂ)) : MvPolynomial (Fin (3 : ℕ)) ℂ → ℂ) P = (6 : ℂ)) ∧ ((eval (vars A B C) : MvPolynomial (Fin (3 : ℕ)) ℂ → ℂ) P = (0 : ℂ)) ∧ (‖B - A‖ = (10 : ℝ))) → ((↑‖C - A‖ : ℂ) = putnam_1987_a4_solution) := by sorry. Answer Type: ℂ. 
+Let  
+\[
+P(x,y,z)=F(y-x,z-x)
+\]
+for real \(x,y,z\), which follows by taking \(u=1\) in the given identity
+\[
+P(ux,uy,uz)=u^2F(y-x,z-x).
+\]
+Then \(P\) depends only on the differences \(y-x\) and \(z-x\), and the extra \(u^2\)-scaling forces it to be homogeneous of degree \(2\). So
+\[
+P(x,y,z)=a(y-x)^2+b(y-x)(z-x)+c(z-x)^2
+\]
+for some real \(a,b,c\).
+
+Using the three given values:
+- \(P(0,1,0)=a=5\),
+- \(P(0,0,1)=c=6\),
+- \(P(1,0,0)=a+b+c=4\),
+
+we get
+\[
+a=5,\quad c=6,\quad b=4-5-6=-7.
+\]
+Hence
+\[
+P(x,y,z)=5(y-x)^2-7(y-x)(z-x)+6(z-x)^2.
+\]
+
+Now set
+\[
+u=B-A,\qquad v=C-A.
+\]
+Since \(P(A,B,C)=0\),
+\[
+5u^2-7uv+6v^2=0.
+\]
+If \(u\neq 0\), divide by \(u^2\) and let \(r=v/u\). Then
+\[
+6r^2-7r+5=0,
+\]
+so
+\[
+r=\frac{7\pm i\sqrt{71}}{12}.
+\]
+Thus
+\[
+|r|^2=\frac{7^2+71}{12^2}=\frac{120}{144}=\frac56,
+\qquad |r|=\sqrt{\frac56}.
+\]
+Given \(|u|=|B-A|=10\),
+\[
+|v|=|r||u|=10\sqrt{\frac56}=\frac{5\sqrt{30}}{3}.
+\]
+Therefore
+\[
+\|C-A\|=\frac{5\sqrt{30}}{3},
+\]
+so the required complex constant is that real number viewed in \(\mathbb C\).
+
+<<<(((5 * Real.sqrt 30) / 3 : ℝ) : ℂ)>>>

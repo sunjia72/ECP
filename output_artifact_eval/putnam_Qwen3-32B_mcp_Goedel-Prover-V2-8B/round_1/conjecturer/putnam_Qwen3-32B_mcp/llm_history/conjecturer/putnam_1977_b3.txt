@@ -1,0 +1,31 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open RingHom Set Nat Filter Topology
+theorem putnam_1977_b3 : ∃ (putnam_1977_b3_solution : Prop), ∀ (P balanced : ℝ × ℝ × ℝ → Prop), ∀ (B : ℝ × ℝ × ℝ → ℝ × ℝ × ℝ), ((P = fun (x : ℝ × ℝ × ℝ) => match x with | (a, b, c) => Irrational a ∧ Irrational b ∧ Irrational c ∧ a > (0 : ℝ) ∧ b > (0 : ℝ) ∧ c > (0 : ℝ) ∧ a + b + c = (1 : ℝ)) ∧ (balanced = fun (x : ℝ × ℝ × ℝ) => match x with | (a, b, c) => a < (1 / 2 : ℝ) ∧ b < (1 / 2 : ℝ) ∧ c < (1 / 2 : ℝ)) ∧ (B = fun (x : ℝ × ℝ × ℝ) => match x with | (a, b, c) => (if a > (1 / 2 : ℝ) then (2 : ℝ) * a - (1 : ℝ) else (2 : ℝ) * a, if b > (1 / 2 : ℝ) then (2 : ℝ) * b - (1 : ℝ) else (2 : ℝ) * b, if c > (1 / 2 : ℝ) then (2 : ℝ) * c - (1 : ℝ) else (2 : ℝ) * c))) → ((∀ (t : ℝ × ℝ × ℝ), P t → ∃ (n : ℕ), balanced (B^[n] t)) ↔ putnam_1977_b3_solution) := by sorry. Answer Type: Prop. 
+
+=== CONJECTURER ROUND ===
+
+
+To solve this problem, we analyze the transformation $ B $ and the behavior of points $ t = (a, b, c) $ satisfying the conditions $ a, b, c \in \mathbb{R} \setminus \mathbb{Q}, a, b, c > 0, a + b + c = 1 $. The function $ B $ doubles each coordinate and "folds" values exceeding $ 1/2 $ into the range $ (0, 1/2) $. Since the sum of $ a, b, c $ is 1, at most one coordinate can exceed $ 1/2 $, ensuring that $ B $ progressively reduces any coordinate exceeding $ 1/2 $ until all are below $ 1/2 $. This guarantees that for any such $ t $, there exists an $ n $ such that $ B^n(t) $ is balanced. The equivalence in the theorem holds when the proposition is **True**.
+
+<<<True>>>

@@ -1,0 +1,43 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Matrix
+theorem putnam_2011_b3 : ∃ (putnam_2011_b3_solution : Prop), ((∀ (f g : ℝ → ℝ), g (0 : ℝ) ≠ (0 : ℝ) → ContinuousAt g (0 : ℝ) → DifferentiableAt ℝ (fun (x : ℝ) => f x * g x) (0 : ℝ) → DifferentiableAt ℝ (fun (x : ℝ) => f x / g x) (0 : ℝ) → DifferentiableAt ℝ f (0 : ℝ)) ↔ putnam_2011_b3_solution) := by sorry. Answer Type: Prop. 
+Let  
+- \(h(x)=f(x)g(x)\),  
+- \(q(x)=\dfrac{f(x)}{g(x)}\).
+
+We are given \(g(0)\neq 0\), \(g\) continuous at \(0\), and both \(h\) and \(q\) differentiable at \(0\). We want to know whether this always forces \(f\) to be differentiable at \(0\).
+
+Split into cases:
+
+1. **If \(f(0)=0\)**, then \(q(0)=f(0)/g(0)=0\).  
+   Since \(q\) is differentiable at \(0\) and vanishes there, and \(g\) is continuous at \(0\), the product \(f=q\cdot g\) is differentiable at \(0\).
+
+2. **If \(f(0)\neq 0\)**, then \(q(0)=f(0)/g(0)\neq 0\).  
+   Near \(0\), \(q\) stays nonzero, so
+   \[
+   g(x)^2=\frac{h(x)}{q(x)}.
+   \]
+   Since \(h\) and \(q\) are differentiable, \(g^2\) is differentiable at \(0\). Also \(g(0)\neq 0\), so by continuity \(g\) keeps a constant sign near \(0\), hence \(g=\pm \sqrt{g^2}\) near \(0\), which makes \(g\) differentiable at \(0\). Then \(f=qg\) is differentiable at \(0\).
+
+So the statement is **always true**. Therefore the required `Prop` is just `True`.
+
+<<<True>>>

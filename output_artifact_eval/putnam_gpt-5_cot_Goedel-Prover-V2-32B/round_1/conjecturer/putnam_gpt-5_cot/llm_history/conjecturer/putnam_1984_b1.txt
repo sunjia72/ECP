@@ -1,0 +1,54 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Nat
+theorem putnam_1984_b1 : ∃ (putnam_1984_b1_solution : Polynomial ℝ × Polynomial ℝ), ∀ (f : ℕ → ℤ), ((∀ n > (0 : ℕ), f n = ∑ i : (↑(Set.Icc (1 : ℕ) n) : Type), (↑(↑i : ℕ)! : ℤ))) → (match putnam_1984_b1_solution with | (P, Q) => ∀ n ≥ (1 : ℕ), (↑(f (n + (2 : ℕ))) : ℝ) = Polynomial.eval (↑n : ℝ) P * (↑(f (n + (1 : ℕ))) : ℝ) + Polynomial.eval (↑n : ℝ) Q * (↑(f n) : ℝ)) := by sorry. Answer Type: Polynomial ℝ × Polynomial ℝ. 
+Let  
+\[
+S_n=\sum_{k=1}^n k!
+\]
+for \(n\ge 1\). The hypothesis says \(f(n)=S_n\) for all positive \(n\).
+
+Now,
+\[
+S_{n+1}-S_n=(n+1)!,
+\]
+so
+\[
+S_{n+2}-S_{n+1}=(n+2)!=(n+2)(n+1)!=(n+2)(S_{n+1}-S_n).
+\]
+Rearranging:
+\[
+S_{n+2}=S_{n+1}+(n+2)(S_{n+1}-S_n)
+=(n+3)S_{n+1}-(n+2)S_n.
+\]
+Thus for all \(n\ge 1\),
+\[
+f(n+2)=(n+3)f(n+1)-(n+2)f(n).
+\]
+
+So the required polynomials are
+\[
+P(x)=x+3,\qquad Q(x)=-(x+2).
+\]
+
+In Lean, a suitable answer is:
+
+<<<(Polynomial.X + 3, -(Polynomial.X + 2))>>>

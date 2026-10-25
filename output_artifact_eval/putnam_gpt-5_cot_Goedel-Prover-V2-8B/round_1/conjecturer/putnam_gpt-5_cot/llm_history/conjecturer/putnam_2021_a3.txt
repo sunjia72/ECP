@@ -1,0 +1,67 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_2021_a3 : ∃ (putnam_2021_a3_solution : Set ℕ), ∀ (N : ℕ), ∀ (Nsphere intcoords : Set (EuclideanSpace ℝ (Fin (3 : ℕ)))), ((Nsphere = {p : EuclideanSpace ℝ (Fin (3 : ℕ)) | p (0 : Fin (3 : ℕ)) ^ (2 : ℕ) + p (1 : Fin (3 : ℕ)) ^ (2 : ℕ) + p (2 : Fin (3 : ℕ)) ^ (2 : ℕ) = (↑N : ℝ)}) ∧ (∀ (p : EuclideanSpace ℝ (Fin (3 : ℕ))), intcoords p ↔ ∀ (i : Fin (3 : ℕ)), p i = (↑(round (p i)) : (fun (x : Fin (3 : ℕ)) => ℝ) i))) → (((0 : ℕ) < N ∧ ∃ (A : EuclideanSpace ℝ (Fin (3 : ℕ))) (B : EuclideanSpace ℝ (Fin (3 : ℕ))) (C : EuclideanSpace ℝ (Fin (3 : ℕ))) (D : EuclideanSpace ℝ (Fin (3 : ℕ))), A ∈ Nsphere ∧ B ∈ Nsphere ∧ C ∈ Nsphere ∧ D ∈ Nsphere ∧ intcoords A ∧ intcoords B ∧ intcoords C ∧ intcoords D ∧ ∃ s > (0 : ℝ), dist A B = s ∧ dist A C = s ∧ dist A D = s ∧ dist B C = s ∧ dist B D = s ∧ dist C D = s) ↔ N ∈ putnam_2021_a3_solution) := by sorry. Answer Type: Set ℕ. 
+Let the four integer vectors be \(A,B,C,D \in \mathbb Z^3\), each with
+\[
+\|A\|^2=\|B\|^2=\|C\|^2=\|D\|^2=N,
+\]
+and all six pairwise distances equal.
+
+If all pairwise distances are equal, then all pairwise dot products are equal, say \(A\cdot B=A\cdot C=\cdots=t\). Since the tetrahedron is nondegenerate in \(\mathbb R^3\), its circumcenter is its centroid, so here
+\[
+A+B+C+D=0.
+\]
+Dotting with \(A\) gives
+\[
+N+3t=0 \quad\Rightarrow\quad t=-N/3,
+\]
+so \(3\mid N\).
+
+Now define
+\[
+u=\frac{A+B}{2},\quad v=\frac{A+C}{2},\quad w=\frac{A+D}{2}.
+\]
+Then one checks
+\[
+u\cdot v=u\cdot w=v\cdot w=0,\qquad \|u\|^2=\|v\|^2=\|w\|^2=N/3.
+\]
+Also \(2u,2v,2w\in \mathbb Z^3\). So the \(3\times3\) integer matrix with rows \(2u,2v,2w\) satisfies
+\[
+MM^T = 4(N/3) I_3.
+\]
+Taking determinants,
+\[
+(\det M)^2 = \bigl(4N/3\bigr)^3.
+\]
+Since \(\det M\in\mathbb Z\), this forces \(N/3\) to be a perfect square. Hence
+\[
+N=3k^2
+\]
+for some positive integer \(k\).
+
+Conversely, for every \(k\ge1\), the four points
+\[
+(k,k,k),\ (k,-k,-k),\ (-k,k,-k),\ (-k,-k,k)
+\]
+are integer points on \(x^2+y^2+z^2=3k^2\) and form a regular tetrahedron. So the solution set is exactly the positive integers of the form \(3k^2\).
+
+<<<{N : ℕ | ∃ k : ℕ, 0 < k ∧ N = 3 * k ^ (2 : ℕ)}>>>

@@ -1,0 +1,44 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology Nat
+theorem putnam_1990_a6 : ∃ (putnam_1990_a6_solution : ℕ), ({x : Finset (↑(Set.Icc (1 : ℕ) (10 : ℕ)) : Type) × Finset (↑(Set.Icc (1 : ℕ) (10 : ℕ)) : Type) | match x with | (S, T) => (∀ s ∈ S, T.card < (↑s : ℕ)) ∧ ∀ t ∈ T, S.card < (↑t : ℕ)}.card = putnam_1990_a6_solution) := by sorry. Answer Type: ℕ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (id=chatcmpl-tool-e2011b080f9548178f7b80f688ea089a):
+import math
+
+# Calculate the total number of valid (S, T) pairs
+total = 0
+for s in range(0, 11):
+    for t in range(0, 11 - s):
+        term = math.comb(10 - t, s) * math.comb(10 - s, t)
+        total += term
+
+print(total)
+[TOOL OUTPUT]
+17711
+
+=== CONJECTURER ROUND ===
+
+
+<<<17711>>>

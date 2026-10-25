@@ -1,0 +1,25 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Matrix
+theorem putnam_2011_b2 : ∃ (putnam_2011_b2_solution : Set ℕ), ∀ (S : Set (Fin (3 : ℕ) → ℕ)), ∀ (t : ℕ), ((S = {s : Fin (3 : ℕ) → ℕ | Nat.Prime (s (0 : Fin (3 : ℕ))) ∧ Nat.Prime (s (1 : Fin (3 : ℕ))) ∧ Nat.Prime (s (2 : Fin (3 : ℕ))) ∧ ∃ (x : ℚ), (↑(s (0 : Fin (3 : ℕ))) : ℚ) * x ^ (2 : ℕ) + (↑(s (1 : Fin (3 : ℕ))) : ℚ) * x + (↑(s (2 : Fin (3 : ℕ))) : ℚ) = (0 : ℚ)})) → (Nat.Prime t ∧ {s : Fin (3 : ℕ) → ℕ | s ∈ S ∧ ∃ (i : Fin (3 : ℕ)), s i = t}.encard ≥ (7 : ℕ∞) ↔ t ∈ putnam_2011_b2_solution) := by sorry. Answer Type: Set ℕ. 
+
+
+<<<{2, 5}>>>

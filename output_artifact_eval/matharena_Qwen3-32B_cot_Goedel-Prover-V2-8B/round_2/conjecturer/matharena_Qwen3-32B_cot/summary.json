@@ -1,0 +1,17 @@
+[
+  {
+    "name": "P2026HMMT_7",
+    "round": 2,
+    "actual_answer": "(3 + Real.sqrt 6) ^ ((-1 : ℝ) / 3)",
+    "proposed_answer": "((489 + 10 * Real.sqrt 6) / 3) ^ (1 / 3)",
+    "answer_ok": "True",
+    "answer_error": "",
+    "is_equivalent": "False",
+    "explanation": "answer passed Lean syntax and canonical admissibility checks",
+    "answer_construction_runtime_sec": 304.943577,
+    "answer_construction_output_tokens": 10426,
+    "answer_construction_tool_calls": 0,
+    "answer_construction_api_calls": 1,
+    "answer_construction_llm_calls": 1
+  }
+]

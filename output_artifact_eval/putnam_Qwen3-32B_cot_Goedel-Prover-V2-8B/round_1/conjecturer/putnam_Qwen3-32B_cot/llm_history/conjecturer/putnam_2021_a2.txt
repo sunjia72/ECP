@@ -1,0 +1,25 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_2021_a2 : ∃ (putnam_2021_a2_solution : ℝ), ∀ (g : ℝ → ℝ), ((∀ x > (0 : ℝ), Tendsto (fun (r : ℝ) => ((x + (1 : ℝ)) ^ (r + (1 : ℝ)) - x ^ (r + (1 : ℝ))) ^ ((1 : ℝ) / r)) (𝓝[>] (0 : ℝ)) (𝓝 (g x)))) → (Tendsto (fun (x : ℝ) => g x / x) atTop (𝓝 putnam_2021_a2_solution)) := by sorry. Answer Type: ℝ. 
+
+
+<<<Real.exp 1>>>

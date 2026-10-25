@@ -1,0 +1,62 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MeasureTheory
+open scoped ProbabilityTheory
+open scoped Topology
+open scoped Real
+theorem putnam_2024_b4 : ∃ (putnam_2024_b4_solution : ℝ), ∀ (Ω : Type u_1), ∀ (_x1 : MeasureSpace Ω), ∀ (m a : ℕ → ℕ → Ω → ℤ), ((IsProbabilityMeasure ℙ) ∧ (∀ n > (0 : ℕ), a n (0 : ℕ) = (1 : Ω → ℤ)) ∧ (∀ (n k : ℕ), (0 : ℕ) < n → pdf.IsUniform (m n k) (Set.Icc (1 : ℤ) (↑n : ℤ)) ℙ (ProbabilityTheory.uniformOn (Set.Icc (1 : ℤ) (↑n : ℤ)))) ∧ (∀ (n k : ℕ) (ω : Ω), (0 : ℕ) < n → a n (k + (1 : ℕ)) ω = if m n k ω > a n k ω then a n k ω + (1 : ℤ) else if m n k ω = a n k ω then a n k ω else a n k ω - (1 : ℤ)) ∧ (ProbabilityTheory.iIndepFun (Function.uncurry m) ℙ)) → (Filter.Tendsto (fun (n : ℕ) => (∫ (ω : Ω), (↑(a n n ω) : ℝ)) / (↑n : ℝ)) Filter.atTop (𝓝 putnam_2024_b4_solution)) := by sorry. Answer Type: ℝ. 
+Let \(X_k = a\,n\,k\). For fixed \(n>0\), the update rule gives a Markov chain on \(\{1,\dots,n\}\):
+
+- from state \(i\), it moves to \(i+1\) with probability \((n-i)/n\),
+- stays at \(i\) with probability \(1/n\),
+- moves to \(i-1\) with probability \((i-1)/n\).
+
+So
+\[
+\mathbb E[X_{k+1}\mid X_k=i]
+= i + \frac{n-i}{n}-\frac{i-1}{n}
+= \left(1-\frac{2}{n}\right)i+\frac{n+1}{n}.
+\]
+Hence if \(\mu_k=\mathbb E[X_k]\), then
+\[
+\mu_{k+1}=\left(1-\frac{2}{n}\right)\mu_k+\frac{n+1}{n},\qquad \mu_0=1.
+\]
+The fixed point is \((n+1)/2\), so
+\[
+\mu_k=\frac{n+1}{2}-\frac{n-1}{2}\left(1-\frac{2}{n}\right)^k.
+\]
+Setting \(k=n\),
+\[
+\frac{\mu_n}{n}
+=
+\frac{n+1}{2n}
+-
+\frac{n-1}{2n}\left(1-\frac{2}{n}\right)^n
+\to
+\frac12-\frac12 e^{-2}.
+\]
+
+Thus the required real constant is
+\[
+\frac{1-e^{-2}}{2}.
+\]
+
+<<<(1 - Real.exp (-(2 : ℝ))) / 2>>>

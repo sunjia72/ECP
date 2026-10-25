@@ -1,0 +1,51 @@
+{
+  "seed": 0,
+  "field": "complete",
+  "max_round": 2,
+  "num_origins": 1,
+  "pass@1_with_correction": 0.0,
+  "pass@1_with_correction_num_solved_instances": 0,
+  "pass@k_with_correction": 0.0,
+  "pass@k_with_correction_num_solved_instances": 0,
+  "per_round": {
+    "round_0": {
+      "pass@k": 0.0,
+      "pass@k_num_solved_instances": 0,
+      "pass@1": 0.0,
+      "pass@1_num_solved_instances": 0
+    },
+    "round_1": {
+      "pass@k": 0.0,
+      "pass@k_num_solved_instances": 0,
+      "pass@1": 0.0,
+      "pass@1_num_solved_instances": 0
+    },
+    "round_2": {
+      "pass@k": 0.0,
+      "pass@k_num_solved_instances": 0,
+      "pass@1": 0.0,
+      "pass@1_num_solved_instances": 0
+    }
+  },
+  "final_round_sampled_pass_curve": {
+    "max_k_over_origins": 4,
+    "pass_curve": {
+      "1": {
+        "accuracy": 0.0,
+        "num_solved_instances": 0
+      },
+      "2": {
+        "accuracy": 0.0,
+        "num_solved_instances": 0
+      },
+      "3": {
+        "accuracy": 0.0,
+        "num_solved_instances": 0
+      },
+      "4": {
+        "accuracy": 0.0,
+        "num_solved_instances": 0
+      }
+    }
+  }
+}

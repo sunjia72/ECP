@@ -1,0 +1,65 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_1977_a3 : ∃ (putnam_1977_a3_solution : (ℝ → ℝ) → (ℝ → ℝ) → (ℝ → ℝ)), ∀ (f g h : ℝ → ℝ), ((∀ (x : ℝ), f x = (h (x + (1 : ℝ)) + h (x - (1 : ℝ))) / (2 : ℝ)) ∧ (∀ (x : ℝ), g x = (h (x + (4 : ℝ)) + h (x - (4 : ℝ))) / (2 : ℝ))) → (h = putnam_1977_a3_solution f g) := by sorry. Answer Type: (ℝ → ℝ) → (ℝ → ℝ) → (ℝ → ℝ). 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_0zH5seMWVVi98KbhIn08oGcq):
+import sympy as sp
+h4,h2,h0,hm2,hm4 = sp.symbols('h4 h2 h0 hm2 hm4')
+f3 = (h4+h2)/2
+f1 = (h2+h0)/2
+fm1 = (h0+hm2)/2
+fm3 = (hm2+hm4)/2
+g0 = (h4+hm4)/2
+expr = sp.simplify(g0 - f3 + f1 + fm1 - fm3)
+print(expr)
+[TOOL OUTPUT]
+h0
+
+=== CONJECTURER ROUND ===
+Let
+\[
+S(f,g)(x)=g(x)-f(x+3)+f(x+1)+f(x-1)-f(x-3).
+\]
+
+Then using
+\[
+f(y)=\frac{h(y+1)+h(y-1)}2,\qquad g(x)=\frac{h(x+4)+h(x-4)}2,
+\]
+we get
+\[
+\begin{aligned}
+S(f,g)(x)
+&= \frac{h(x+4)+h(x-4)}2
+-\frac{h(x+4)+h(x+2)}2
++\frac{h(x+2)+h(x)}2 \\
+&\quad +\frac{h(x)+h(x-2)}2
+-\frac{h(x-2)+h(x-4)}2 \\
+&= h(x).
+\end{aligned}
+\]
+So \(h\) is uniquely determined by \(f,g\), namely by that formula.
+
+The Python symbolic check gave exactly \(h(x)\).
+
+<<<fun f g x => g x - f (x + (3 : ℝ)) + f (x + (1 : ℝ)) + f (x - (1 : ℝ)) - f (x - (3 : ℝ))>>>

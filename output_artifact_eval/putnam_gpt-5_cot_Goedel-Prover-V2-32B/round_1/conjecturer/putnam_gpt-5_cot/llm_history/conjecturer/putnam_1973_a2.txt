@@ -1,0 +1,46 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Set MeasureTheory Topology Filter
+theorem putnam_1973_a2 : ∃ (putnam_1973_a2_solution : Prop), ∀ (L : List ℝ), ∀ (pluses : ℕ), ∀ (S : ℕ → ℝ), ((L.length = (8 : ℕ) ∧ ∀ (i : Fin L.length), L[i] = (1 : ℝ) ∨ L[i] = (-1 : ℝ)) ∧ (pluses = {i : Fin L.length | L[i] = (1 : ℝ)}.ncard) ∧ (S = fun (n : ℕ) => ∑ i ∈ Finset.Icc (1 : ℕ) n, L[i % (8 : ℕ)] / (↑i : ℝ))) → ((pluses = (4 : ℕ) → ∃ (l : ℝ), Tendsto S atTop (𝓝 l)) ∧ (putnam_1973_a2_solution ↔ (∃ (l : ℝ), Tendsto S atTop (𝓝 l)) → pluses = (4 : ℕ))) := by sorry. Answer Type: Prop. 
+For a periodic sign sequence \(a_n = L[n \bmod 8] \in \{\pm 1\}\), the series is
+
+\[
+\sum_{n=1}^\infty \frac{a_n}{n}.
+\]
+
+A standard fact for periodic coefficients is:
+
+- if the sum of one full period is \(0\), then the partial sums of \(a_n\) are bounded, so by Dirichlet the series converges;
+- if the sum of one full period is nonzero, then the series differs from a nonzero multiple of the harmonic series by a convergent series, so it diverges.
+
+Here the sum over one period is
+\[
+(+1)\cdot \text{pluses} + (-1)\cdot (8-\text{pluses}) = 2\cdot \text{pluses}-8.
+\]
+So convergence happens exactly when \(2\cdot \text{pluses}-8=0\), i.e. exactly when \(\text{pluses}=4\).
+
+Thus the statement
+\[
+(\exists l,\ \mathrm{Tendsto}\ S\ \mathrm{atTop}\ (\mathcal N l)) \to \text{pluses}=4
+\]
+is always true under the hypotheses, so the sought proposition is simply `True`.
+
+<<<True>>>

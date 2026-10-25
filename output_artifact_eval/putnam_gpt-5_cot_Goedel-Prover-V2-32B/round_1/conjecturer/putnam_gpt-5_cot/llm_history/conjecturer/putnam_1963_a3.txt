@@ -1,0 +1,63 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Set Topology Filter
+theorem putnam_1963_a3 : ∃ (putnam_1963_a3_solution : (ℝ → ℝ) → ℕ → ℝ → ℝ → ℝ), ∀ (P : ℕ → (ℝ → ℝ) → ℝ → ℝ), ∀ (n : ℕ), ∀ (f y : ℝ → ℝ), ((P (0 : ℕ) = id ∧ ∀ (i : ℕ) (y : ℝ → ℝ), P (i + (1 : ℕ)) y = P i fun (x : ℝ) => x * deriv y x - (↑i : ℝ) * y x) ∧ ((0 : ℕ) < n) ∧ (ContinuousOn f (Ici (1 : ℝ))) ∧ (ContDiffOn ℝ (↑n : WithTop ℕ∞) y (Ici (1 : ℝ))) ∧ (ContDiffAt ℝ (↑n : WithTop ℕ∞) y (1 : ℝ))) → ((∀ i < n, deriv^[i] y (1 : ℝ) = (0 : ℝ)) ∧ EqOn (P n y) f (Ici (1 : ℝ)) ↔ ∀ x ≥ (1 : ℝ), y x = ∫ (t : ℝ) in (1 : ℝ)..x, putnam_1963_a3_solution f n x t) := by sorry. Answer Type: (ℝ → ℝ) → ℕ → ℝ → ℝ → ℝ. 
+The recurrence
+- `P 0 = id`
+- `P (i+1) y = P i (fun x => x * deriv y x - i * y x)`
+
+strongly suggests the Euler/Cauchy differential operator. Writing `D = d/dx`, one checks
+\[
+P_n[y](x)=x^n y^{(n)}(x).
+\]
+Indeed:
+- for `n=0`, `P 0 y = y`;
+- if `P_i[z](x)=x^i z^{(i)}(x)`, then with `z(x)=x y'(x)- i y(x)`,
+  \[
+  P_{i+1}y = x^i z^{(i)} = x^{i+1} y^{(i+1)}.
+  \]
+
+So the condition `EqOn (P n y) f (Ici 1)` means
+\[
+x^n y^{(n)}(x)=f(x)\quad (x\ge 1),
+\]
+i.e.
+\[
+y^{(n)}(x)=\frac{f(x)}{x^n}.
+\]
+Together with the initial conditions
+\[
+y^{(i)}(1)=0 \quad (i<n),
+\]
+the repeated integral formula gives
+\[
+y(x)=\int_1^x \frac{(x-t)^{n-1}}{(n-1)!}\,\frac{f(t)}{t^n}\,dt
+\]
+for `x ≥ 1`. This is the unique Green-kernel form.
+
+So the solution kernel is
+\[
+(f,n,x,t)\mapsto \frac{(x-t)^{n-1}}{(n-1)!\, t^n}\, f(t).
+\]
+
+In Lean, using real coercions from naturals, this is:
+
+<<<fun f n x t => ((x - t) ^ (n - 1) / ((n - 1).factorial : ℝ)) * (f t / t ^ n)>>>

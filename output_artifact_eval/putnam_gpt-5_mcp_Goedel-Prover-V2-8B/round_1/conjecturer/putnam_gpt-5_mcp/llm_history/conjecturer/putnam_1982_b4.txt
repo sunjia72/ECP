@@ -1,0 +1,159 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Function Filter Topology Polynomial Real
+theorem putnam_1982_b4 : ∃ (putnam_1982_b4_solution : Prop × Prop), ∀ (P : Finset ℤ → Prop), ((∀ (n : Finset ℤ), P n ↔ n.Nonempty ∧ ∀ (k : ℤ), ∏ i ∈ n, i ∣ ∏ i ∈ n, (i + k))) → (((∀ (n : Finset ℤ), P n → (1 : ℤ) ∈ n ∨ (-1 : ℤ) ∈ n) ↔ putnam_1982_b4_solution.1) ∧ ((∀ (n : Finset ℤ), P n → (∀ i ∈ n, (0 : ℤ) < i) → n = Finset.Icc (1 : ℤ) (↑n.card : ℤ)) ↔ putnam_1982_b4_solution.2)) := by sorry. Answer Type: Prop × Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_LKlsUaK9Q05LoObEj6kcQDdk):
+from itertools import combinations
+from math import prod
+
+def good(S, krange=50):
+    a=prod(S)
+    if a==0: return False
+    for k in range(-krange, krange+1):
+        b=prod([i+k for i in S])
+        if b%a!=0:
+            return False
+    return True
+
+vals=list(range(-6,7))
+sol=[]
+for r in range(1,7):
+    for comb in combinations(vals,r):
+        if 0 in comb: 
+            continue
+        if good(comb, krange=100):
+            sol.append(comb)
+print('count', len(sol))
+print(sol[:200])
+[TOOL OUTPUT]
+count 135
+[(-1,), (1,), (-2, -1), (-2, 1), (-1, 1), (-1, 2), (1, 2), (-6, -1, 1), (-3, -2, -1), (-3, -1, 1), (-3, 1, 2), (-2, -1, 1), (-2, -1, 3), (-1, 1, 2), (-1, 1, 3), (-1, 1, 6), (1, 2, 3), (-6, -4, -1, 1), (-6, -2, -1, 1), (-6, -1, 1, 2), (-6, -1, 1, 4), (-4, -3, -2, -1), (-4, -2, -1, 1), (-4, -2, 1, 3), (-4, -1, 1, 2), (-4, -1, 1, 6), (-4, 1, 2, 3), (-3, -2, -1, 1), (-3, -2, -1, 2), (-3, -2, -1, 4), (-3, -2, 1, 2), (-3, -1, 1, 2), (-3, -1, 2, 4), (-2, -1, 1, 2), (-2, -1, 1, 3), (-2, -1, 1, 4), (-2, -1, 1, 6), (-2, -1, 2, 3), (-2, 1, 2, 3), (-1, 1, 2, 3), (-1, 1, 2, 4), (-1, 1, 2, 6), (-1, 1, 4, 6), (1, 2, 3, 4), (-6, -5, -2, 1, 2), (-6, -2, -1, 1, 2), (-5, -4, -3, -2, -1), (-5, -4, -1, 2, 3), (-5, -3, -2, -1, 1), (-5, -2, -1, 1, 2), (-5, -1, 1, 2, 3), (-5, 1, 2, 3, 4), (-4, -3, -2, -1, 1), (-4, -3, -2, -1, 5), (-4, -3, -1, 1, 2), (-4, -2, -1, 1, 3), (-4, -1, 1, 2, 3), (-3, -2, -1, 1, 2), (-3, -2, -1, 1, 4), (-3, -2, -1, 1, 5), (-3, -2, 1, 4, 5), (-3, -1, 1, 2, 4), (-2, -1, 1, 2, 3), (-2, -1, 1, 2, 5), (-2, -1, 1, 2, 6), (-2, -1, 1, 3, 4), (-2, -1, 2, 5, 6), (-1, 1, 2, 3, 4), (-1, 1, 2, 3, 5), (1, 2, 3, 4, 5), (-6, -5, -4, -3, -2, -1), (-6, -5, -4, 1, 2, 3), (-6, -5, -2, -1, 1, 2), (-6, -5, -1, 1, 2, 3), (-6, -4, -3, -2, -1, 1), (-6, -4, -2, -1, 1, 3), (-6, -3, -2, -1, 1, 2), (-6, -3, -2, -1, 1, 5), (-6, -3, -2, 1, 2, 5), (-6, -3, -1, 1, 2, 4), (-6, -2, -1, 1, 2, 3), (-6, -2, -1, 1, 2, 5), (-6, -2, 1, 2, 3, 5), (-6, -1, 1, 2, 3, 4), (-6, 1, 2, 3, 4, 5), (-5, -4, -3, -2, -1, 1), (-5, -4, -3, -2, -1, 2), (-5, -4, -3, -2, -1, 3), (-5, -4, -3, -2, -1, 6), (-5, -4, -2, -1, 1, 2), (-5, -4, -1, 1, 2, 3), (-5, -3, -2, -1, 1, 2), (-5, -3, -2, -1, 1, 4), (-5, -3, -2, -1, 2, 6), (-5, -3, -2, 1, 2, 4), (-5, -3, -1, 1, 2, 3), (-5, -2, -1, 1, 2, 3), (-5, -2, -1, 1, 2, 4), (-5, -2, -1, 1, 2, 6), (-5, -2, -1, 2, 3, 6), (-5, -2, 1, 2, 3, 4), (-5, -1, 1, 2, 3, 4), (-5, -1, 1, 2, 3, 6), (-4, -3, -2, -1, 1, 2), (-4, -3, -2, -1, 1, 3), (-4, -3, -2, -1, 1, 5), (-4, -3, -2, -1, 1, 6), (-4, -3, -2, -1, 2, 5), (-4, -3, -2, 1, 2, 3), (-4, -2, -1, 1, 2, 3), (-4, -2, -1, 1, 2, 5), (-4, -2, -1, 1, 3, 6), (-4, -2, -1, 2, 3, 5), (-4, -1, 1, 2, 3, 5), (-3, -2, -1, 1, 2, 3), (-3, -2, -1, 1, 2, 4), (-3, -2, -1, 1, 2, 5), (-3, -2, -1, 1, 2, 6), (-3, -2, -1, 1, 3, 5), (-3, -2, -1, 1, 4, 5), (-3, -2, -1, 1, 5, 6), (-3, -2, -1, 2, 3, 4), (-3, -2, -1, 4, 5, 6), (-3, -1, 1, 2, 3, 4), (-3, -1, 1, 2, 4, 6), (-3, 1, 2, 3, 4, 5), (-2, -1, 1, 2, 3, 4), (-2, -1, 1, 2, 3, 5), (-2, -1, 1, 2, 3, 6), (-2, -1, 1, 2, 4, 5), (-2, -1, 1, 2, 5, 6), (-2, 1, 2, 3, 4, 5), (-1, 1, 2, 3, 4, 5), (-1, 1, 2, 3, 4, 6), (1, 2, 3, 4, 5, 6)]
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_5xN7AUvbZSwbBa9HUZL4MOL2):
+from itertools import combinations
+from math import factorial, prod
+for n in range(1,9):
+    vals=list(range(-20,21))
+    vals.remove(0)
+    bad=[]
+    for comb in combinations(vals,n):
+        if 1 in comb or -1 in comb: continue
+        A=prod(comb)
+        if factorial(n)%abs(A)==0: # sign irrelevant for divisibility in Z
+            bad.append(comb)
+            break
+    print(n, bad[:1])
+[TOOL OUTPUT]
+1 []
+2 []
+3 []
+4 []
+5 []
+6 [(-5, -4, -3, -2, 2, 3)]
+7 [(-7, -5, -4, -3, -2, 2, 3)]
+8 [(-14, -5, -4, -3, -2, 2, 3, 4)]
+
+===== ENUMERATOR ROUND 3 =====
+[TOOL CALL] code_exec (call_id=call_Fg5meEEAl2G7nKUyfkm1i8vn):
+from itertools import combinations
+from math import prod
+
+def good_exact_search_bound(S):
+    # test many k; enough for evidence, not proof
+    A=prod(S)
+    if A==0:
+        return False
+    for k in range(-200,201):
+        B=prod(i+k for i in S)
+        if B % A != 0:
+            return False
+    return True
+
+vals=list(range(-8,9))
+vals.remove(0)
+good_sets=[]
+for r in range(1,7):
+    for S in combinations(vals,r):
+        if good_exact_search_bound(S):
+            good_sets.append(S)
+
+print('number found:', len(good_sets))
+print('all contain ±1?:', all((1 in S or -1 in S) for S in good_sets))
+positive_good=[S for S in good_sets if all(x>0 for x in S)]
+print('positive good sets:', positive_good)
+print('all positive good are consecutive?:', all(S==tuple(range(1,len(S)+1)) for S in positive_good))
+[TOOL OUTPUT]
+number found: 135
+all contain ±1?: True
+positive good sets: [(1,), (1, 2), (1, 2, 3), (1, 2, 3, 4), (1, 2, 3, 4, 5), (1, 2, 3, 4, 5, 6)]
+all positive good are consecutive?: True
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+A=\prod_{i\in n} i,\qquad F(x)=\frac{1}{A}\prod_{i\in n}(x+i).
+\]
+The hypothesis says exactly that \(F(k)\in \mathbb Z\) for every integer \(k\).
+
+Python check on many small examples supports:
+- every such set contains \(1\) or \(-1\),
+- every positive such set is \(\{1,2,\dots,|n|\}\).
+
+Mathematical reason:
+
+1. **Must contain \(1\) or \(-1\).**  
+   If neither \(1\) nor \(-1\) is in \(n\), then every \(i\in n\) has \(|i|\ge 2\). Hence
+   \[
+   F(1)F(-1)=\prod_{i\in n}\left(1-\frac1{i^2}\right).
+   \]
+   Each factor is strictly between \(0\) and \(1\), so the whole product is strictly between \(0\) and \(1\).  
+   But \(F(1),F(-1)\in\mathbb Z\), so \(F(1)F(-1)\in\mathbb Z\), impossible.  
+   Therefore \(1\in n\) or \(-1\in n\).
+
+2. **If all elements are positive, then \(n=\{1,2,\dots,|n|\}\).**  
+   Write the positive elements as
+   \[
+   1\le a_1<a_2<\cdots<a_m,\qquad m=n.card.
+   \]
+   Then \(A=a_1a_2\cdots a_m\), and \(F(x)\) is an integer-valued polynomial of degree \(m\) with leading coefficient \(1/A\).  
+   A standard fact about integer-valued polynomials says: for degree \(m\), \(m!\) times the leading coefficient is an integer. So
+   \[
+   \frac{m!}{A}\in\mathbb Z,
+   \]
+   i.e. \(A\mid m!\).
+
+   But since \(a_j\ge j\) for each \(j\),
+   \[
+   A=a_1\cdots a_m \ge 1\cdot 2\cdot \cdots \cdot m = m!.
+   \]
+   Since \(A\) divides \(m!\) and \(A\ge m!\), we must have \(A=m!\). Thus every inequality \(a_j\ge j\) is equality, so \(a_j=j\) for all \(j\). Therefore
+   \[
+   n=\{1,2,\dots,m\}=\mathrm{Finset.Icc}\ 1\ m.
+   \]
+
+So both statements are **true**.
+
+<<<(True, True)>>>

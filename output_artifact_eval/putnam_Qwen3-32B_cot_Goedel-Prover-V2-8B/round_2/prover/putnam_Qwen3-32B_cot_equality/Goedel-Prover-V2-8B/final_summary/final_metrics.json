@@ -1,0 +1,51 @@
+{
+  "seed": 0,
+  "field": "complete",
+  "max_round": 2,
+  "num_origins": 3,
+  "pass@1_with_correction": 0.3333333333333333,
+  "pass@1_with_correction_num_solved_instances": 1,
+  "pass@k_with_correction": 0.3333333333333333,
+  "pass@k_with_correction_num_solved_instances": 1,
+  "per_round": {
+    "round_0": {
+      "pass@k": 0.3333333333333333,
+      "pass@k_num_solved_instances": 1,
+      "pass@1": 0.3333333333333333,
+      "pass@1_num_solved_instances": 1
+    },
+    "round_1": {
+      "pass@k": 0.3333333333333333,
+      "pass@k_num_solved_instances": 1,
+      "pass@1": 0.3333333333333333,
+      "pass@1_num_solved_instances": 1
+    },
+    "round_2": {
+      "pass@k": 0.3333333333333333,
+      "pass@k_num_solved_instances": 1,
+      "pass@1": 0.3333333333333333,
+      "pass@1_num_solved_instances": 1
+    }
+  },
+  "final_round_sampled_pass_curve": {
+    "max_k_over_origins": 4,
+    "pass_curve": {
+      "1": {
+        "accuracy": 0.0,
+        "num_solved_instances": 0
+      },
+      "2": {
+        "accuracy": 0.0,
+        "num_solved_instances": 0
+      },
+      "3": {
+        "accuracy": 0.3333333333333333,
+        "num_solved_instances": 1
+      },
+      "4": {
+        "accuracy": 0.3333333333333333,
+        "num_solved_instances": 1
+      }
+    }
+  }
+}

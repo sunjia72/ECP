@@ -1,0 +1,67 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Polynomial
+theorem putnam_1963_b1 : ∃ (putnam_1963_b1_solution : ℤ), (∀ (a : ℤ), X ^ (2 : ℕ) - X + (C : ℤ → ℤ[X]) a ∣ X ^ (13 : ℕ) + X + (C : ℤ → ℤ[X]) (90 : ℤ) ↔ a = putnam_1963_b1_solution) := by sorry. Answer Type: ℤ. 
+Let  
+\[
+f(X)=X^2-X+a,\qquad g(X)=X^{13}+X+90.
+\]
+We want the unique integer \(a\) such that \(f \mid g\) in \(\mathbb Z[X]\).
+
+Modulo \(f\), we have
+\[
+X^2 \equiv X-a.
+\]
+So write
+\[
+X^n \equiv A_n X + B_n \pmod{f},
+\]
+with \(A_0=0,\ A_1=1\), and the recurrence
+\[
+A_{n+1}=A_n-aA_{n-1}.
+\]
+Computing up to \(n=13\) gives
+\[
+A_{13}=a^6-21a^5+70a^4-84a^3+45a^2-11a+1.
+\]
+Hence
+\[
+g(X)\equiv (A_{13}+1)X + (\cdots) \pmod{f}.
+\]
+Therefore divisibility implies
+\[
+A_{13}+1
+= a^6-21a^5+70a^4-84a^3+45a^2-11a+2
+=0.
+\]
+This is a monic polynomial with constant term \(2\), so any integer root must divide \(2\). Checking \(a=\pm1,\pm2\), only \(a=2\) works.
+
+It remains to verify \(a=2\). For \(a=2\), the same recurrence gives
+\[
+X^{13}\equiv -X-90 \pmod{X^2-X+2},
+\]
+so indeed
+\[
+X^{13}+X+90\equiv 0 \pmod{X^2-X+2}.
+\]
+Thus the unique integer is \(2\).
+
+<<<(2 : ℤ)>>>

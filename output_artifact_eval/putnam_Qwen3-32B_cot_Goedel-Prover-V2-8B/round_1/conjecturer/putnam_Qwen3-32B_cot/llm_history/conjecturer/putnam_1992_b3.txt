@@ -1,0 +1,25 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Topology Filter Nat Function Polynomial
+theorem putnam_1992_b3 : ∃ (putnam_1992_b3_solution : ℝ), ∀ (a : (Fin (2 : ℕ) → ℝ) → ℕ → ℝ), ((∀ (p : Fin (2 : ℕ) → ℝ), a p (0 : ℕ) = p (0 : Fin (2 : ℕ)) ∧ ∀ (n : ℕ), a p (n + (1 : ℕ)) = (a p n ^ (2 : ℕ) + p (1 : Fin (2 : ℕ)) ^ (2 : ℕ)) / (2 : ℝ))) → (putnam_1992_b3_solution = ((MeasureTheory.volume : Set (Fin (2 : ℕ) → ℝ) → ENNReal) {p : Fin (2 : ℕ) → ℝ | ∃ (L : ℝ), Tendsto (a p) atTop (𝓝 L)}).toReal) := by sorry. Answer Type: ℝ. 
+
+
+<<<4 + Real.pi>>>

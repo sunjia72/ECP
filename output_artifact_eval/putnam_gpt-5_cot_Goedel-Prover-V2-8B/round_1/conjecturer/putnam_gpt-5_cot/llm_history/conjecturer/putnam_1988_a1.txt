@@ -1,0 +1,47 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MeasureTheory
+theorem putnam_1988_a1 : ∃ (putnam_1988_a1_solution : ℝ), ∀ (R : Set (Fin (2 : ℕ) → ℝ)), ((R = {p : Fin (2 : ℕ) → ℝ | |p (0 : Fin (2 : ℕ))| - |p (1 : Fin (2 : ℕ))| ≤ (1 : ℝ) ∧ |p (1 : Fin (2 : ℕ))| ≤ (1 : ℝ)})) → (((volume : Set (Fin (2 : ℕ) → ℝ) → ENNReal) R).toReal = putnam_1988_a1_solution) := by sorry. Answer Type: ℝ. 
+Let \(x = p(0)\) and \(y = p(1)\). Then the set is
+\[
+R=\{(x,y)\in \mathbb R^2 : |x|-|y|\le 1,\ |y|\le 1\}.
+\]
+The first inequality is equivalent to
+\[
+|x| \le 1+|y|.
+\]
+So for each fixed \(y\in[-1,1]\), the allowed \(x\)-values form the interval
+\[
+-(1+|y|)\le x \le 1+|y|,
+\]
+whose length is \(2(1+|y|)\).
+
+Hence the area is
+\[
+\int_{-1}^1 2(1+|y|)\,dy
+=2\int_{-1}^1 (1+|y|)\,dy
+=2\left(2+\int_{-1}^1 |y|\,dy\right)
+=2(2+1)=6.
+\]
+
+So the unique solution value is \(6\).
+
+<<<(6 : ℝ)>>>

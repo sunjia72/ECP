@@ -1,0 +1,181 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026HMMT_13 : ∃ (P2026HMMT_13_answer : Nat), (let four := ⟨(3 : ℕ), ⋯⟩; let IsAdjacentInversionSwap := fun (before after : Equiv.Perm (Fin (7 : ℕ))) (i : Fin (6 : ℕ)) => let left := ⟨(↑i : ℕ), ⋯⟩; let right := ⟨(↑i : ℕ) + (1 : ℕ), ⋯⟩; (↑((before : Fin (7 : ℕ) → Fin (7 : ℕ)) right) : ℕ) < (↑((before : Fin (7 : ℕ) → Fin (7 : ℕ)) left) : ℕ) ∧ (after : Fin (7 : ℕ) → Fin (7 : ℕ)) left = (before : Fin (7 : ℕ) → Fin (7 : ℕ)) right ∧ (after : Fin (7 : ℕ) → Fin (7 : ℕ)) right = (before : Fin (7 : ℕ) → Fin (7 : ℕ)) left ∧ ∀ (j : Fin (7 : ℕ)), j ≠ left → j ≠ right → (after : Fin (7 : ℕ) → Fin (7 : ℕ)) j = (before : Fin (7 : ℕ) → Fin (7 : ℕ)) j; #{initial : Equiv.Perm (Fin (7 : ℕ)) | ∃ (n : ℕ) (states : Fin (n + (1 : ℕ)) → Equiv.Perm (Fin (7 : ℕ))) (swaps : Fin n → Fin (6 : ℕ)), states ⟨(0 : ℕ), ⋯⟩ = initial ∧ states ⟨n, ⋯⟩ = (1 : Equiv.Perm (Fin (7 : ℕ))) ∧ (∀ (k : Fin n), IsAdjacentInversionSwap (states ⟨(↑k : ℕ), ⋯⟩) (states ⟨(↑k : ℕ) + (1 : ℕ), ⋯⟩) (swaps k)) ∧ #{k : Fin n | let left := ⟨(↑(swaps k) : ℕ), ⋯⟩; let right := ⟨(↑(swaps k) : ℕ) + (1 : ℕ), ⋯⟩; (states ⟨(↑k : ℕ), ⋯⟩ : Fin (7 : ℕ) → Fin (7 : ℕ)) left = four ∨ (states ⟨(↑k : ℕ), ⋯⟩ : Fin (7 : ℕ) → Fin (7 : ℕ)) right = four} ≤ (1 : ℕ)} = P2026HMMT_13_answer) := by sorry. Answer Type: Nat. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_nxYQkliN5BJIPOoQJknQgtb0):
+import itertools
+
+def inversions_with_4(perm): # perm values 1..7
+    pos = perm.index(4)
+    count = sum(1 for x in perm[:pos] if x>4) + sum(1 for x in perm[pos+1:] if x<4)
+    return count
+
+# Check if number of swaps involving 4 in arbitrary adjacent inversion-only sorting sequences is invariant maybe equal count.
+
+def legal_swaps(perm):
+    for i in range(len(perm)-1):
+        if perm[i] > perm[i+1]:
+            q = list(perm)
+            q[i],q[i+1]=q[i+1],q[i]
+            yield i, tuple(q)
+
+from functools import lru_cache
+
+def all_counts(perm):
+    perm = tuple(perm)
+    @lru_cache(None)
+    def rec(p):
+        if list(p)==sorted(p):
+            return {0}
+        out=set()
+        for i,q in legal_swaps(p):
+            for c in rec(q):
+                out.add(c + (1 if (p[i]==4 or p[i+1]==4) else 0))
+        return out
+    return rec(perm)
+
+samples=[(3,4,2,1,5,6,7),(5,1,4,2,3,6,7),(4,3,2,1,5,6,7),(7,6,5,4,3,2,1)]
+for p in samples:
+    print(p, inversions_with_4(list(p)), sorted(all_counts(p))[:20], len(all_counts(p)))
+[TOOL OUTPUT]
+(3, 4, 2, 1, 5, 6, 7) 2 [2] 1
+(5, 1, 4, 2, 3, 6, 7) 3 [3] 1
+(4, 3, 2, 1, 5, 6, 7) 3 [3] 1
+(7, 6, 5, 4, 3, 2, 1) 6 [6] 1
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_GlpmgGEapOrh5zrSoqRBnKUZ):
+import itertools
+from functools import lru_cache
+
+def legal_swaps(perm):
+    for i in range(len(perm)-1):
+        if perm[i] > perm[i+1]:
+            q = list(perm)
+            q[i],q[i+1]=q[i+1],q[i]
+            yield i, tuple(q)
+
+def inversion4(perm):
+    pos = perm.index(4)
+    return sum(x>4 for x in perm[:pos]) + sum(x<4 for x in perm[pos+1:])
+
+# dynamic program to test existence of path with <=1 swaps involving 4
+from collections import deque
+
+def exists_le1(perm):
+    start=tuple(perm)
+    target=(1,2,3,4,5,6,7)
+    dq=deque([(start,0)])
+    best={start:0}
+    while dq:
+        p,c=dq.popleft()
+        if p==target and c<=1:
+            return True
+        for i,q in legal_swaps(p):
+            nc=c+(1 if (p[i]==4 or p[i+1]==4) else 0)
+            if nc<=1 and best.get(q,99)>nc:
+                best[q]=nc
+                dq.append((q,nc))
+    return False
+
+cnt=0
+vals=[]
+for p in itertools.permutations(range(1,8)):
+    e=exists_le1(p)
+    inv=inversion4(p)
+    if e!= (inv<=1):
+        print('mismatch',p,e,inv)
+        break
+    if e:
+        cnt+=1
+        vals.append(p)
+print('count',cnt)
+print(vals[:20])
+[TOOL OUTPUT]
+count 324
+[(1, 2, 3, 4, 5, 6, 7), (1, 2, 3, 4, 5, 7, 6), (1, 2, 3, 4, 6, 5, 7), (1, 2, 3, 4, 6, 7, 5), (1, 2, 3, 4, 7, 5, 6), (1, 2, 3, 4, 7, 6, 5), (1, 2, 3, 5, 4, 6, 7), (1, 2, 3, 5, 4, 7, 6), (1, 2, 3, 6, 4, 5, 7), (1, 2, 3, 6, 4, 7, 5), (1, 2, 3, 7, 4, 5, 6), (1, 2, 3, 7, 4, 6, 5), (1, 2, 4, 3, 5, 6, 7), (1, 2, 4, 3, 5, 7, 6), (1, 2, 4, 3, 6, 5, 7), (1, 2, 4, 3, 6, 7, 5), (1, 2, 4, 3, 7, 5, 6), (1, 2, 4, 3, 7, 6, 5), (1, 2, 4, 5, 3, 6, 7), (1, 2, 4, 5, 3, 7, 6)]
+
+===== ENUMERATOR ROUND 3 =====
+[TOOL CALL] code_exec (call_id=call_N9NTnY1ANp7pgd6RVyatm8x2):
+import itertools
+
+def bad_with_4(p):
+    i = p.index(4)
+    return sum(x > 4 for x in p[:i]) + sum(x < 4 for x in p[i+1:])
+
+count = sum(1 for p in itertools.permutations(range(1,8)) if bad_with_4(p) <= 1)
+print(count)
+[TOOL OUTPUT]
+324
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+I(\pi)=\#\{\text{elements } >4 \text{ to the left of }4\}+\#\{\text{elements } <4 \text{ to the right of }4\}.
+\]
+This is exactly the number of inversions involving \(4\).
+
+In any allowed move, we swap adjacent inverted entries.
+
+- If the swap does **not** involve \(4\), then \(I(\pi)\) stays the same.
+- If the swap **does** involve \(4\), then \(4\) swaps with exactly one element that is on the wrong side of it, so \(I(\pi)\) decreases by exactly \(1\).
+
+Since the identity permutation has \(I=0\), any full sorting sequence must use exactly \(I(\pi)\) swaps involving \(4\).  
+So we need to count permutations with \(I(\pi)\le 1\).
+
+### Case 1: \(I(\pi)=0\)
+Then all \(1,2,3\) are left of \(4\), and all \(5,6,7\) are right of \(4\).  
+So \(4\) is in the middle:
+\[
+3!\cdot 3!=36.
+\]
+
+### Case 2: \(I(\pi)=1\)
+Either:
+
+- exactly one of \(5,6,7\) is left of \(4\), and no smaller number is right of \(4\).  
+  Then left side is \(\{1,2,3,x\}\) with \(x\in\{5,6,7\}\), right side is the other two large numbers:
+  \[
+  3\cdot 4!\cdot 2!=144.
+  \]
+
+or
+
+- exactly one of \(1,2,3\) is right of \(4\), and no larger number is left of \(4\).  
+  Symmetrically:
+  \[
+  3\cdot 2!\cdot 4!=144.
+  \]
+
+Total:
+\[
+36+144+144=324.
+\]
+
+Python enumeration also confirms this count is `324`.
+
+<<<324>>>

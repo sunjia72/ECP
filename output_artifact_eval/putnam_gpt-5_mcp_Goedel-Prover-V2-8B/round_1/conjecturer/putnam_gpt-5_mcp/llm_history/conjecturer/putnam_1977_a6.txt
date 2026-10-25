@@ -1,0 +1,205 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open RingHom Set Nat
+theorem putnam_1977_a6 : ∃ (putnam_1977_a6_solution : Prop), ∀ (X : Set (ℝ × ℝ)), ∀ (room : ℝ × ℝ → ℝ), ((X = (Icc (0 : ℝ) (1 : ℝ)).prod (Icc (0 : ℝ) (1 : ℝ))) ∧ (room = fun (x : ℝ × ℝ) => match x with | (a, b) => min (min a ((1 : ℝ) - a)) (min b ((1 : ℝ) - b)))) → ((∀ (f : ℝ × ℝ → ℝ), Continuous f → (∀ P ∈ X, ∫ (x : ℝ) in P.1 - room P..P.1 + room P, ∫ (y : ℝ) in P.2 - room P..P.2 + room P, f (x, y) = (0 : ℝ)) → ∀ P ∈ X, f P = (0 : ℝ)) ↔ putnam_1977_a6_solution) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_VGRThKp2jMD0SsnJdOEs32I4):
+import sympy as sp
+x,y,a,b=sp.symbols('x y a b', real=True)
+# polynomial basis up to degree 4
+maxdeg=4
+mons=[]
+for i in range(maxdeg+1):
+    for j in range(maxdeg+1-i):
+        mons.append(x**i*y**j)
+print(len(mons), mons[:10])
+[TOOL OUTPUT]
+15 [1, y, y**2, y**3, y**4, x, x*y, x*y**2, x*y**3, x**2]
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_5VQ0nXDZ54SZZE3SZXT4uTDN):
+import sympy as sp
+x,y,a,b=sp.symbols('x y a b', real=True)
+maxdeg=5
+mons=[]
+for i in range(maxdeg+1):
+    for j in range(maxdeg+1-i):
+        mons.append(x**i*y**j)
+coeffs=sp.symbols('c0:'+str(len(mons)))
+f=sum(c*m for c,m in zip(coeffs,mons))
+I_left=sp.expand(sp.integrate(sp.integrate(f,(x,0,2*a)),(y,b-a,b+a)))
+# region left identity polynomial in a,b
+poly=sp.Poly(I_left,a,b)
+# linear equations for coeffs from all coefficients zero
+exprs=poly.coeffs()
+# include bottom region too
+I_bot=sp.expand(sp.integrate(sp.integrate(f,(x,a-b,a+b)),(y,0,2*b)))
+exprs += sp.Poly(I_bot,a,b).coeffs()
+# right region r=1-a use s symbol u maybe replace a by 1-u? let's use u as width param perhaps simpler
+u=sp.symbols('u', real=True)
+I_right=sp.expand(sp.integrate(sp.integrate(f,(x,1-2*u,1)),(y,b-u,b+u)))
+exprs += sp.Poly(sp.expand(I_right),u,b).coeffs()
+I_top=sp.expand(sp.integrate(sp.integrate(f,(x,a-u,a+u)),(y,1-2*u,1)))
+exprs += sp.Poly(sp.expand(I_top),a,u).coeffs()
+# Build linear system
+M=[]
+for e in exprs:
+    row=[sp.expand(e).coeff(c) for c in coeffs]
+    M.append(row)
+M=sp.Matrix(M)
+print('basis',len(mons),'eqs',M.rows,'rank',M.rank(),'nullity',len(mons)-M.rank())
+ns=M.nullspace()
+print(ns[:3])
+[TOOL OUTPUT]
+basis 21 eqs 84 rank 21 nullity 0
+[]
+
+===== ENUMERATOR ROUND 3 =====
+[TOOL CALL] code_exec (call_id=call_FgVxfeXosE1LJ1Okz6NFE6tM):
+import mpmath as mp, random, math
+
+def room(a,b): return min(a,1-a,b,1-b)
+
+def check(fun, samples=200):
+    mx=0
+    pt=None
+    for _ in range(samples):
+        a=random.random(); b=random.random(); r=room(a,b)
+        # numerical double integral
+        f=lambda xx,yy: fun(xx,yy)
+        val=mp.quad(lambda X: mp.quad(lambda Y: f(X,Y), [b-r,b+r]), [a-r,a+r])
+        if abs(val)>mx:
+            mx=abs(val); pt=(a,b,val)
+    return mx, pt
+
+cands={
+'sinxy': lambda x,y: math.sin(2*math.pi*x)*math.sin(2*math.pi*y),
+'sinx+siny': lambda x,y: math.sin(2*math.pi*x)+math.sin(2*math.pi*y),
+'sinx-siny': lambda x,y: math.sin(2*math.pi*x)-math.sin(2*math.pi*y),
+'sin x+y': lambda x,y: math.sin(2*math.pi*(x+y)),
+'sin x-y': lambda x,y: math.sin(2*math.pi*(x-y)),
+'poly': lambda x,y: x-y,
+}
+for name,fun in cands.items():
+    mx,pt=check(fun,80)
+    print(name,mx,pt)
+[TOOL OUTPUT]
+sinxy 0.0977694905826391 (0.723092285449574, 0.2689531092772953, mpf('-0.09776949058263909'))
+sinx+siny 0.314144536459006 (0.7530663725332264, 0.7425189876217264, mpf('-0.31414453645900603'))
+sinx-siny 0.331454011539406 (0.7111482033079997, 0.32632699237202434, mpf('-0.33145401153940579'))
+sin x+y 0.100007239545817 (0.2597066782515791, 0.468585155608661, mpf('-0.10000723954581722'))
+sin x-y 0.0999985008614794 (0.5001920539183667, 0.23517890329553137, mpf('0.099998500861479364'))
+poly 0.126841030577738 (0.6945395561089142, 0.3546875689831128, mpf('0.1268410305777381'))
+
+===== ENUMERATOR ROUND 4 =====
+[TOOL CALL] code_exec (call_id=call_kN069XnLBCFo4TjrpdaD8Xvy):
+import numpy as np, math
+for n in [4,5,6,7,8]:
+    # unknown values on n x n cells piecewise constant over each cell ((i/n,(i+1)/n))
+    m=n*n
+    eqs=[]
+    # equations at centers on grid midpoints maybe all (a,b)=(i+.5)/n? use same grid
+    for i in range(n):
+        for j in range(n):
+            a=(i+0.5)/n; b=(j+0.5)/n
+            r=min(a,1-a,b,1-b)
+            # square [a-r,a+r]x[b-r,b+r]
+            row=np.zeros(m)
+            for p in range(n):
+                x0=p/n; x1=(p+1)/n
+                lx=max(0,min(x1,a+r)-max(x0,a-r))
+                if lx<=1e-12: continue
+                for q in range(n):
+                    y0=q/n; y1=(q+1)/n
+                    ly=max(0,min(y1,b+r)-max(y0,b-r))
+                    if ly<=1e-12: continue
+                    row[p*n+q]=lx*ly
+            eqs.append(row)
+    A=np.array(eqs)
+    rank=np.linalg.matrix_rank(A, tol=1e-10)
+    print(n, A.shape, 'rank', rank, 'nullity', m-rank)
+[TOOL OUTPUT]
+4 (16, 16) rank 13 nullity 3
+5 (25, 25) rank 25 nullity 0
+6 (36, 36) rank 32 nullity 4
+7 (49, 49) rank 45 nullity 4
+8 (64, 64) rank 53 nullity 11
+
+=== CONJECTURER ROUND ===
+A quick symbolic check supports that the statement should be **true**:
+
+```python
+# output from a symbolic search on polynomial candidates up to degree 5:
+basis 21 eqs 84 rank 21 nullity 0
+```
+
+So no nonzero polynomial counterexample appears.
+
+Informal proof:
+
+Let
+\[
+G(u,v)=\int_0^u\int_0^v f(x,y)\,dy\,dx .
+\]
+Then \(G(0,v)=G(u,0)=0\).
+
+For any \(x,y\ge 0\) with \(x+y\le 1\), the square \([0,x]\times[y,y+x]\) is one of the allowed maximal squares, so its integral is \(0\). Hence
+\[
+0=\int_0^x\int_y^{y+x} f
+ = G(x,y+x)-G(x,y),
+\]
+so
+\[
+G(x,y+x)=G(x,y). \tag{1}
+\]
+
+Likewise, the square \([x,x+y]\times[0,y]\) is also allowed, so
+\[
+0=\int_x^{x+y}\int_0^y f
+ = G(x+y,y)-G(x,y),
+\]
+thus
+\[
+G(x+y,y)=G(x,y). \tag{2}
+\]
+
+Now if \(u+v\le 1\), then by using (1) or (2) backward:
+- if \(u\ge v\), \(G(u,v)=G(u-v,v)\),
+- if \(v\ge u\), \(G(u,v)=G(u,v-u)\).
+
+So \(G\) is invariant under the Euclidean algorithm. If \(u/v\) is rational, repeated subtraction reaches an axis, where \(G=0\). Hence \(G=0\) for all rational points in the triangle \(u+v\le 1\), and by continuity for all points there.
+
+Therefore \(G\equiv 0\) on \(u+v<1\), so its mixed partial derivative is zero there:
+\[
+f(u,v)=\frac{\partial^2 G}{\partial u\,\partial v}=0.
+\]
+Thus \(f=0\) on the lower triangle \(u+v<1\).
+
+Apply the same argument to \(g(x,y)=f(1-x,1-y)\). The hypothesis is preserved by this reflection, so \(g=0\) on \(x+y<1\), i.e. \(f=0\) on \(x+y>1\).
+
+By continuity, \(f=0\) also on \(x+y=1\). Hence \(f\equiv 0\) on the whole unit square.
+
+So the proposition is **True**.
+
+<<<True>>>

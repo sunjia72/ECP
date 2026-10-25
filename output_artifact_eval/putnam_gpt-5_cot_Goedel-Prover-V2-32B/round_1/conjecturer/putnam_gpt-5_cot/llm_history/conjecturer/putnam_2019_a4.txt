@@ -1,0 +1,33 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MeasureTheory Metric Topology Filter
+theorem putnam_2019_a4 : ∃ (putnam_2019_a4_solution : Prop), ∀ (P : (EuclideanSpace ℝ (Fin (3 : ℕ)) → ℝ) → Prop), ((∀ (f : EuclideanSpace ℝ (Fin (3 : ℕ)) → ℝ), P f ↔ ∀ (C : EuclideanSpace ℝ (Fin (3 : ℕ))), ∫ (x : EuclideanSpace ℝ (Fin (3 : ℕ))) in sphere C (1 : ℝ), f x ∂μH[(2 : ℝ)] = (0 : ℝ))) → ((∀ (f : EuclideanSpace ℝ (Fin (3 : ℕ)) → ℝ), Continuous f → P f → f = (0 : EuclideanSpace ℝ (Fin (3 : ℕ)) → ℝ)) ↔ putnam_2019_a4_solution) := by sorry. Answer Type: Prop. 
+A nonzero continuous counterexample exists, so the statement is **false**.
+
+One way to see it: spherical averaging over radius \(1\) is convolution with surface measure on the unit sphere. Its Fourier multiplier in \(\mathbb R^3\) is proportional to
+\[
+\frac{\sin \|\xi\|}{\|\xi\|},
+\]
+which vanishes for \(\|\xi\|=\pi\). Hence a nonzero function with Fourier support at such a frequency has zero integral over every sphere of radius \(1\). For example, a plane wave like \(f(x)=\cos(\langle \xi,x\rangle)\) with \(\|\xi\|=\pi\) is continuous, nonzero, and has zero integral over every unit sphere.
+
+Therefore the proposition asserting that every continuous such \(f\) must be zero is false.
+
+<<<False>>>

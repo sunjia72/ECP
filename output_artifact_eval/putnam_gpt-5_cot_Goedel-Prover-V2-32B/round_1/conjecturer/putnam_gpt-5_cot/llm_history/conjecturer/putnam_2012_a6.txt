@@ -1,0 +1,44 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Matrix Function
+theorem putnam_2012_a6 : ∃ (putnam_2012_a6_solution : Prop), ∀ (p : (ℝ × ℝ → ℝ) → Prop), ((∀ (f : ℝ × ℝ → ℝ), p f ↔ Continuous f ∧ ∀ (x1 x2 y1 y2 : ℝ), x2 > x1 → y2 > y1 → (x2 - x1) * (y2 - y1) = (1 : ℝ) → ∫ (x : ℝ) in x1..x2, ∫ (y : ℝ) in y1..y2, f (x, y) = (0 : ℝ))) → ((∀ (f : ℝ × ℝ → ℝ) (x y : ℝ), p f → f (x, y) = (0 : ℝ)) ↔ putnam_2012_a6_solution) := by sorry. Answer Type: Prop. 
+Let  
+\[
+I_{a}(x,y)=\int_{x}^{x+a}\int_{y}^{y+1/a} f(u,v)\,dv\,du
+\]
+for \(a>0\). The hypothesis is \(I_a(x,y)=0\) for all \(x,y\in\mathbb R\) and all \(a>0\).
+
+This says that convolution of \(f\) with the indicator function of every axis-parallel rectangle of area \(1\) is identically zero. In Fourier-transform language,
+\[
+\widehat f(\xi,\eta)\,\widehat{\mathbf 1}_{[0,a]\times[0,1/a]}(\xi,\eta)=0
+\quad\text{for every }a>0.
+\]
+Now
+\[
+\widehat{\mathbf 1}_{[0,a]\times[0,1/a]}(\xi,\eta)
+=
+\left(\int_0^a e^{-i\xi x}\,dx\right)\left(\int_0^{1/a} e^{-i\eta y}\,dy\right).
+\]
+For any fixed frequency \((\xi,\eta)\), this vanishes only for a discrete set of \(a\)'s. Hence for every \((\xi,\eta)\) there exists some \(a>0\) for which this Fourier factor is nonzero, forcing \(\widehat f(\xi,\eta)=0\). So \(\widehat f\equiv 0\), hence \(f\equiv 0\).
+
+Therefore the statement “every such \(f\) is identically zero” is **true**, so the required proposition is just `True`.
+
+<<<True>>>

@@ -1,0 +1,31 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Set MeasureTheory Topology Filter
+theorem putnam_1973_a2 : ∃ (putnam_1973_a2_solution : Prop), ∀ (L : List ℝ), ∀ (pluses : ℕ), ∀ (S : ℕ → ℝ), ((L.length = (8 : ℕ) ∧ ∀ (i : Fin L.length), L[i] = (1 : ℝ) ∨ L[i] = (-1 : ℝ)) ∧ (pluses = {i : Fin L.length | L[i] = (1 : ℝ)}.ncard) ∧ (S = fun (n : ℕ) => ∑ i ∈ Finset.Icc (1 : ℕ) n, L[i % (8 : ℕ)] / (↑i : ℝ))) → ((pluses = (4 : ℕ) → ∃ (l : ℝ), Tendsto S atTop (𝓝 l)) ∧ (putnam_1973_a2_solution ↔ (∃ (l : ℝ), Tendsto S atTop (𝓝 l)) → pluses = (4 : ℕ))) := by sorry. Answer Type: Prop. 
+
+=== CONJECTURER ROUND ===
+
+
+The problem requires establishing that for a sequence of eight ±1 values, the infinite series defined by summing their periodic pattern divided by increasing integers converges if and only if exactly four of them are 1 (and four are -1). For the **first condition**, when the count of 1s is 4, the periodic sum of the terms in each block of 8 terms behaves like $ O(1/k^2) $, ensuring convergence. For the **second condition**, the proposition $ \text{putnam\_1973\_a2\_solution} $ must be equivalent to the implication "if the series converges, then the count of 1s is 4." Since the series **always diverges** when the count of 1s is not 4, the implication "converges ⇒ count of 1s is 4" is universally true. Thus, the proposition is trivially satisfied. 
+
+<<<True>>>

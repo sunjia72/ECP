@@ -1,0 +1,90 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+import Aesop
+open BigOperators Classical ENNReal Equiv EuclideanGeometry Filter Finset Fintype Function Lex List MeasureTheory Nat ProbabilityTheory Real SimpleGraph Real Nat Topology Rat
+set_option maxHeartbeats 0
+theorem P2026HMMT_22 : ∃ (P2026HMMT_22_answer : ℝ), ∀ (H O R S E : ℝ × ℝ), ((let Point := ℝ × ℝ; let vsub := fun (P Q : Point) => (P.1 - Q.1, P.2 - Q.2); let dist := fun (P Q : Point) => √((P.1 - Q.1) ^ (2 : ℕ) + (P.2 - Q.2) ^ (2 : ℕ)); let dot := fun (u v : Point) => u.1 * v.1 + u.2 * v.2; let cross := fun (u v : Point) => u.1 * v.2 - u.2 * v.1; let leftAll := fun (A B C D E : Point) => (0 : ℝ) < cross (vsub B A) (vsub C A) ∧ (0 : ℝ) < cross (vsub B A) (vsub D A) ∧ (0 : ℝ) < cross (vsub B A) (vsub E A) ∧ (0 : ℝ) < cross (vsub C B) (vsub D B) ∧ (0 : ℝ) < cross (vsub C B) (vsub E B) ∧ (0 : ℝ) < cross (vsub C B) (vsub A B) ∧ (0 : ℝ) < cross (vsub D C) (vsub E C) ∧ (0 : ℝ) < cross (vsub D C) (vsub A C) ∧ (0 : ℝ) < cross (vsub D C) (vsub B C) ∧ (0 : ℝ) < cross (vsub E D) (vsub A D) ∧ (0 : ℝ) < cross (vsub E D) (vsub B D) ∧ (0 : ℝ) < cross (vsub E D) (vsub C D) ∧ (0 : ℝ) < cross (vsub A E) (vsub B E) ∧ (0 : ℝ) < cross (vsub A E) (vsub C E) ∧ (0 : ℝ) < cross (vsub A E) (vsub D E); (leftAll H O R S E ∨ leftAll H E S R O) ∧ dot (vsub E H) (vsub O H) = (0 : ℝ) ∧ dot (vsub O R) (vsub S R) = (0 : ℝ) ∧ dot (vsub S E) (vsub H E) = (0 : ℝ) ∧ dot (vsub H O) (vsub R O) = dist H O * dist R O * (-√(2 : ℝ) / (2 : ℝ)) ∧ dot (vsub R S) (vsub E S) = dist R S * dist E S * (-√(2 : ℝ) / (2 : ℝ)) ∧ dist H O = (20 : ℝ) ∧ dist S E = (26 : ℝ) ∧ dist O S = (10 : ℝ))) → (let signedDoubleArea := H.1 * O.2 - H.2 * O.1 + (O.1 * R.2 - O.2 * R.1) + (R.1 * S.2 - R.2 * S.1) + (S.1 * E.2 - S.2 * E.1) + (E.1 * H.2 - E.2 * H.1); |signedDoubleArea| / (2 : ℝ) = P2026HMMT_22_answer) := by sorry. Answer Type: ℝ. 
+Let the side vectors of pentagon \(H\to O\to R\to S\to E\to H\) be
+\[
+\overrightarrow{HO}=a,\quad \overrightarrow{OR}=b,\quad \overrightarrow{RS}=c,\quad \overrightarrow{SE}=d,\quad \overrightarrow{EH}=e.
+\]
+
+From the dot-product conditions and convex ordering:
+
+- \(a \perp e\),
+- angle between \(a\) and \(b\) is \(45^\circ\),
+- \(b \perp c\),
+- angle between \(c\) and \(d\) is \(45^\circ\),
+- \(d \perp e\).
+
+So up to rotation, we may take directions:
+- \(a\) horizontal right,
+- \(b\) at \(45^\circ\),
+- \(c\) at \(135^\circ\),
+- \(d\) horizontal left,
+- \(e\) vertical down.
+
+Let
+\[
+|a|=20,\quad |d|=26,\quad |b|=x,\quad |c|=y,\quad |e|=z.
+\]
+
+Using vector closure \(a+b+c+d+e=0\), in coordinates this gives
+\[
+20 + \frac{x-y}{\sqrt2} - 26 = 0,\qquad \frac{x+y}{\sqrt2}-z=0.
+\]
+Hence
+\[
+x-y=6\sqrt2,\qquad z=\frac{x+y}{\sqrt2}.
+\]
+
+Also \(\overrightarrow{OS}=b+c\), and \(|OS|=10\). Since \(b\perp c\),
+\[
+|OS|^2 = |b+c|^2 = x^2+y^2 = 100.
+\]
+Combining with \(x-y=6\sqrt2\):
+\[
+x^2+y^2=100,\quad (x-y)^2=72 \implies xy=14.
+\]
+Then
+\[
+(x+y)^2 = x^2+y^2+2xy = 128 \implies x+y=8\sqrt2.
+\]
+So
+\[
+x=7\sqrt2,\quad y=\sqrt2,\quad z=8.
+\]
+
+Now choose coordinates:
+\[
+H=(0,0),\ O=(20,0),\ R=(27,7),\ S=(26,8),\ E=(0,8).
+\]
+Shoelace area:
+\[
+\frac12 |0\cdot0+20\cdot7+27\cdot8+26\cdot8+0\cdot0-(0\cdot20+0\cdot27+7\cdot26+8\cdot0+8\cdot0)|
+\]
+\[
+=\frac12(564-182)=\frac{382}{2}=191.
+\]
+
+So the constant area is \(191\).
+
+<<<(191 : ℝ)>>>

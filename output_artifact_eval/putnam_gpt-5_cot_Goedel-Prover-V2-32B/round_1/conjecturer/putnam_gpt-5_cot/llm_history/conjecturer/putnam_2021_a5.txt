@@ -1,0 +1,64 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_2021_a5 : ∃ (putnam_2021_a5_solution : Set ℕ), ∀ (j : ℕ), ∀ (A : Finset ℕ), ∀ (S : ℕ → ℕ), (((↑A : Set ℕ) = {n : ℕ | (1 : ℕ) ≤ n ∧ n ≤ (2021 : ℕ) ∧ n.gcd (2021 : ℕ) = (1 : ℕ)}) ∧ (∀ (j' : ℕ), S j' = ∑ n ∈ A, n ^ j')) → ((2021 : ℕ) ∣ S j ↔ j ∈ putnam_2021_a5_solution) := by sorry. Answer Type: Set ℕ. 
+Let  
+- \(2021 = 43\cdot 47\),
+- \(A\) be the integers from \(1\) to \(2021\) that are coprime to \(2021\),
+- \(S(j)=\sum_{n\in A} n^j\).
+
+We want the set of all \(j\) such that \(2021\mid S(j)\).
+
+Key observation: reduce modulo each prime factor.
+
+For a prime \(p\in\{43,47\}\), the reduced residues mod \(2021=43\cdot 47\) project onto each nonzero residue mod \(p\) equally often. Thus:
+- modulo \(43\), each nonzero residue appears \(46\) times, so
+  \[
+  S(j)\equiv 46\sum_{x\in (\mathbb Z/43\mathbb Z)^\times} x^j \pmod{43}.
+  \]
+- modulo \(47\), each nonzero residue appears \(42\) times, so
+  \[
+  S(j)\equiv 42\sum_{y\in (\mathbb Z/47\mathbb Z)^\times} y^j \pmod{47}.
+  \]
+
+Now for a prime \(p\),
+\[
+\sum_{u\in (\mathbb Z/p\mathbb Z)^\times} u^j =
+\begin{cases}
+0 \pmod p,& (p-1)\nmid j,\\
+-1 \pmod p,& (p-1)\mid j.
+\end{cases}
+\]
+So:
+- \(43\mid S(j)\) iff \(42\nmid j\),
+- \(47\mid S(j)\) iff \(46\nmid j\),
+
+since \(46\not\equiv 0\pmod{43}\) and \(42\not\equiv 0\pmod{47}\).
+
+Therefore
+\[
+2021\mid S(j)\iff 43\mid S(j)\text{ and }47\mid S(j)
+\iff (42\nmid j)\land(46\nmid j).
+\]
+
+So the answer set is exactly all natural numbers divisible by neither \(42\) nor \(46\).
+
+<<<{j : ℕ | ¬ ((42 : ℕ) ∣ j) ∧ ¬ ((46 : ℕ) ∣ j)}>>>

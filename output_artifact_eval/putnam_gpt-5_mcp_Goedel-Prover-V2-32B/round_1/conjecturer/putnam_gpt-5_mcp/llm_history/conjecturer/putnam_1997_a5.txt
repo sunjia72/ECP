@@ -1,0 +1,114 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_1997_a5 : ∃ (putnam_1997_a5_solution : Prop), ∀ (N : (n : ℕ+) → Set (Fin (↑n : ℕ) → ℕ+)), ((N = fun (n : ℕ+) => {t : Fin (↑n : ℕ) → ℕ+ | ∑ i : Fin (↑n : ℕ), (1 : ℝ) / (↑(↑(t i) : ℕ) : ℝ) = (1 : ℝ)})) → (Odd (N (10 : ℕ+)).ncard ↔ putnam_1997_a5_solution) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_AclnpA0tdQUzPQkdXvMJT7mR):
+from math import factorial
+sol=[]
+for a in range(1,101):
+    for b in range(1,101):
+        if abs(8/a + 2/b - 1) < 1e-12:
+            sol.append((a,b))
+print(sol)
+# Check odd multinomial partitions of 10
+parts=[]
+def gen_parts(n,maxp=None):
+    if n==0:
+        yield []
+        return
+    if maxp is None or maxp>n: maxp=n
+    for k in range(maxp,0,-1):
+        for rest in gen_parts(n-k,k):
+            yield [k]+rest
+for p in gen_parts(10):
+    m=factorial(10)
+    for x in p: m//=factorial(x)
+    if m%2==1: parts.append((p,m))
+print(parts)
+[TOOL OUTPUT]
+[(9, 18), (10, 10), (12, 6), (16, 4), (24, 3)]
+[([10], 1), ([8, 2], 45)]
+
+=== CONJECTURER ROUND ===
+Let \(S\) be the set of ordered \(10\)-tuples \((t_1,\dots,t_{10})\in (\mathbb N_{>0})^{10}\) such that
+\[
+\sum_{i=1}^{10} \frac1{t_i}=1.
+\]
+We want the parity of \(|S|\).
+
+Consider the action of \(S_{10}\) by permuting coordinates.  
+Each multiset of denominators contributes an orbit of size
+\[
+\frac{10!}{m_1!m_2!\cdots},
+\]
+where \(m_j\) are the multiplicities of the distinct values.
+
+So mod \(2\), only those multiplicity patterns with odd multinomial coefficient matter.  
+For \(10=1010_2\), Lucas/Kummer implies this happens only for partitions
+
+- \(10\),
+- \(8+2\).
+
+So only two types can contribute oddly.
+
+### 1. Type \(10\)
+All entries equal: \(10\cdot \frac1a=1\), so \(a=10\).  
+This gives exactly one tuple:
+\[
+(10,10,\dots,10).
+\]
+
+### 2. Type \(8+2\)
+Suppose one value \(a\) occurs \(8\) times and another value \(b\) occurs \(2\) times. Then
+\[
+\frac8a+\frac2b=1.
+\]
+Rearrange:
+\[
+ab-2a-8b=0
+\quad\Longrightarrow\quad
+(a-8)(b-2)=16.
+\]
+Positive divisor pairs of \(16\) give:
+\[
+(a,b)=(9,18),(10,10),(12,6),(16,4),(24,3).
+\]
+Exclude \((10,10)\) since that is actually type \(10\). So there are \(4\) valid \((a,b)\) pairs.
+
+For each such pair, the number of ordered tuples is
+\[
+\binom{10}{2}=45,
+\]
+which is odd. Hence these contribute \(4\) odd-sized orbits.
+
+Thus total parity is
+\[
+1+4=5 \equiv 1 \pmod 2.
+\]
+So \(|S|\) is odd.
+
+Therefore the proposition is **True**.
+
+<<<True>>>

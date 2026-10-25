@@ -1,0 +1,7 @@
+# Admissibility Coverage Validation
+dataset: data/dataset/putnam.json
+checked_formalized_entries: 346
+constant_extraction_failures: 0
+constant_coverage_failures: 0
+
+All formalized entries have admissible_vocabulary covering used_constants_in_ground_truth.

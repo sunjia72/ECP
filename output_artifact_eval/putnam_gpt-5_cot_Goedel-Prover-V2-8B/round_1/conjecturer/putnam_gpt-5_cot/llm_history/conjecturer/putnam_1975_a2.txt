@@ -1,0 +1,34 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Polynomial
+theorem putnam_1975_a2 : ∃ (putnam_1975_a2_solution : (ℝ × ℝ) → Prop), (∀ (b c : ℝ), (∀ (z : ℂ), eval z (X ^ (2 : ℕ) + (C : ℂ → ℂ[X]) (↑b : ℂ) * X + (C : ℂ → ℂ[X]) (↑c : ℂ)) = (0 : ℂ) → ‖z‖ < (1 : ℝ)) ↔ putnam_1975_a2_solution (b, c)) := by sorry. Answer Type: (ℝ × ℝ) → Prop. 
+Let the roots be \(r,s\). Then
+\[
+r+s=-b,\qquad rs=c.
+\]
+For a quadratic with real coefficients, all roots lie strictly inside the unit disk iff the degree-2 Schur/Jury conditions hold:
+\[
+1+b+c>0,\qquad 1-b+c>0,\qquad 1-c>0.
+\]
+These are equivalent to \(|c|<1\) and \(|b|<1+c\), but the linear-inequality form is especially clean in Lean.
+
+So a correct solution predicate is:
+<<<fun p : ℝ × ℝ => 0 < 1 + p.1 + p.2 ∧ 0 < 1 - p.1 + p.2 ∧ p.2 < 1>>>

@@ -1,0 +1,29 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Filter Topology
+theorem putnam_1988_a6 : ∃ (putnam_1988_a6_solution : Prop), ((∀ (F : Type u_1) (V : Type u_2) (x : Field F) (x_1 : AddCommGroup V) (x_2 : Module F V), FiniteDimensional F V → ∀ (n : ℕ) (A : Module.End F V) (evecs : Set V), (n = Module.finrank F V ∧ evecs ⊆ {v : V | ∃ (f : F), A.HasEigenvector f v} ∧ evecs.encard = (↑n : ℕ∞) + (1 : ℕ∞) ∧ ∀ (sevecs : Fin n → V), range sevecs ⊆ evecs ∧ (range sevecs).encard = (↑n : ℕ∞) → LinearIndependent F sevecs) → ∃ (c : F), A = c • LinearMap.id) ↔ putnam_1988_a6_solution) := by sorry. Answer Type: Prop. 
+The quantified statement is **true**.
+
+Reason: if an \(n\)-dimensional space contains \(n+1\) eigenvectors such that **every** \(n\) of them are linearly independent, then among those \(n+1\) vectors there is a unique linear dependence up to scale, and all coefficients in that dependence are nonzero. Applying \(A\) to that dependence shows the corresponding eigenvalues must all be equal. Since any \(n\) of the vectors are independent, they form a basis, so \(A\) acts by the same scalar on a basis, hence \(A = c \cdot \mathrm{id}\).
+
+So the proposition inside the theorem is always true, and the answer can be taken to be `True`.
+
+<<<True>>>

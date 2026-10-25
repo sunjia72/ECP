@@ -1,0 +1,52 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology Nat
+theorem putnam_1990_a2 : ∃ (putnam_1990_a2_solution : Prop), ∀ (numform : ℝ → Prop), ((∀ (x : ℝ), numform x ↔ ∃ (n : ℕ) (m : ℕ), x = (↑n : ℝ) ^ (1 / 3 : ℝ) - (↑m : ℝ) ^ (1 / 3 : ℝ))) → (putnam_1990_a2_solution ↔ ∃ (s : ℕ → ℝ), (∀ (i : ℕ), numform (s i)) ∧ Tendsto s atTop (𝓝 √(2 : ℝ))) := by sorry. Answer Type: Prop. 
+Let  
+\[
+S=\{\sqrt[3]{n}-\sqrt[3]{m} : n,m\in \mathbb N\}.
+\]
+The theorem asks whether there is a sequence in \(S\) converging to \(\sqrt2\).
+
+Take \(m=k^3\). Then \(\sqrt[3]{m}=k\), and we want
+\[
+\sqrt[3]{n}\approx k+\sqrt2,
+\]
+so we want \(n\) to be an integer very close to
+\[
+(k+\sqrt2)^3
+= k^3 + 3\sqrt2\,k^2 + 6k + 2\sqrt2.
+\]
+Thus it is enough to choose infinitely many \(k\) such that
+\[
+3\sqrt2\,k^2 + 2\sqrt2
+\]
+is very close to an integer. Since this is a polynomial in \(k\) with irrational leading coefficient, its values mod \(1\) are dense (indeed equidistributed) in \([0,1]\). So we can find \(k\) making \((k+\sqrt2)^3\) arbitrarily close to an integer \(n\).
+
+Then \(n-(k+\sqrt2)^3\to 0\), hence by continuity of cube root,
+\[
+\sqrt[3]{n}-k \to \sqrt2.
+\]
+Since \(k=\sqrt[3]{k^3}\), each term is of the required form \(\sqrt[3]{n}-\sqrt[3]{m}\).
+
+Therefore such a sequence exists, so the desired proposition is simply `True`.
+
+<<<True>>>

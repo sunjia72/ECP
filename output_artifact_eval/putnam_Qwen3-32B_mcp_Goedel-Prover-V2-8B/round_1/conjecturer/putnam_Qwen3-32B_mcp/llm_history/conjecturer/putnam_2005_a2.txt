@@ -1,0 +1,37 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Set
+theorem putnam_2005_a2 : ∃ (putnam_2005_a2_solution : ℕ → ℕ), ∀ (n : ℕ), ∀ (S : Set (ℤ × ℤ)), ∀ (unit : ℤ × ℤ → ℤ × ℤ → Prop), ∀ (rooktour : (ℕ → ℤ × ℤ) → Prop), ((n > (0 : ℕ)) ∧ (S = (Icc (1 : ℤ) (↑n : ℤ)).prod (Icc (1 : ℤ) (3 : ℤ))) ∧ (unit = fun (x x_1 : ℤ × ℤ) => match x with | (a, b) => match x_1 with | (c, d) => a = c ∧ |d - b| = (1 : ℤ) ∨ b = d ∧ |c - a| = (1 : ℤ)) ∧ (rooktour = fun (p : ℕ → ℤ × ℤ) => (∀ P ∈ S, ∃! i : ℕ, i ∈ Icc (1 : ℕ) ((3 : ℕ) * n) ∧ p i = P) ∧ (∀ i ∈ Icc (1 : ℕ) ((3 : ℕ) * n - (1 : ℕ)), unit (p i) (p (i + (1 : ℕ)))) ∧ p (0 : ℕ) = (0 : ℤ × ℤ) ∧ ∀ i > (3 : ℕ) * n, p i = (0 : ℤ × ℤ))) → ({p : ℕ → ℤ × ℤ | rooktour p ∧ p (1 : ℕ) = ((1 : ℤ), (1 : ℤ)) ∧ p ((3 : ℕ) * n) = ((↑n : ℤ), (1 : ℤ))}.encard = (↑(putnam_2005_a2_solution n) : ℕ∞)) := by sorry. Answer Type: ℕ → ℕ. 
+
+=== CONJECTURER ROUND ===
+
+
+The problem requires determining the number of rook tours on an $ n \times 3 $ grid starting at $ (1,1) $ and ending at $ (n,1) $, visiting each cell exactly once. By analyzing small cases and identifying a recurrence pattern, we observe that the count doubles for each additional row beyond $ n=2 $. This leads to the closed-form solution $ 2^{n-2} $.
+
+**Lean Answer:**
+<<<fun n => 2^(n - 2)>>>
+
+**Mathematical Reasoning:**
+- **Base Case ($ n=2 $)**: The only valid path is a "snake" through the $ 2 \times 3 $ grid.  
+- **Recursive Step**: For $ n \geq 3 $, each new row adds two distinct configurations to extend the tour, doubling the count from $ f(n-1) $.  
+- **General Formula**: The recurrence $ f(n) = 2 \cdot f(n-1) $ with $ f(2) = 1 $ yields $ f(n) = 2^{n-2} $.

@@ -1,0 +1,64 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Polynomial
+theorem putnam_1967_a3 : ∃ (putnam_1967_a3_solution : ℕ), (IsLeast {a : ℤ | ∃ (P : ℤ[X]), P.degree = (2 : WithBot ℕ) ∧ (∃ (z1 : (↑(Set.Ioo (0 : ℝ) (1 : ℝ)) : Type)) (z2 : (↑(Set.Ioo (0 : ℝ) (1 : ℝ)) : Type)), z1 ≠ z2 ∧ (aeval (↑z1 : ℝ) : ℤ[X] → ℝ) P = (0 : ℝ) ∧ (aeval (↑z2 : ℝ) : ℤ[X] → ℝ) P = (0 : ℝ)) ∧ P.coeff (2 : ℕ) = a ∧ a > (0 : ℤ)} (↑putnam_1967_a3_solution : ℤ)) := by sorry. Answer Type: ℕ. 
+Let
+\[
+P(x)=ax^2+bx+c \in \mathbb Z[x],
+\]
+with \(a>0\), \(\deg P=2\), and suppose it has distinct roots \(r,s\in(0,1)\).
+
+By Vieta:
+- \(r+s = -\frac ba\), so \(p:=-b=a(r+s)\in \mathbb Z\),
+- \(rs = \frac ca\), so \(q:=c=ars\in \mathbb Z\).
+
+Since \(0<r,s<1\), we get:
+- \(0<q<a\),
+- \(P(1)=a+b+c=a-p+q>0\), hence \(p<a+q\),
+- distinct real roots imply discriminant \(p^2-4aq>0\), so \(p^2>4aq\).
+
+Now check small \(a\):
+
+- \(a=1\): impossible since \(0<q<1\).
+- \(a=2\): then \(q=1\). Need \(p^2>8\Rightarrow p\ge 3\), but \(p<a+q=3\), impossible.
+- \(a=3\): \(q=1,2\).
+  - \(q=1\): \(p^2>12\Rightarrow p\ge4\), but \(p<4\), impossible.
+  - \(q=2\): \(p^2>24\Rightarrow p\ge5\), but \(p<5\), impossible.
+- \(a=4\): \(q=1,2,3\).
+  - \(q=1\): \(p^2>16\Rightarrow p\ge5\), but \(p<5\).
+  - \(q=2\): \(p^2>32\Rightarrow p\ge6\), but \(p<6\).
+  - \(q=3\): \(p^2>48\Rightarrow p\ge7\), but \(p<7\).
+
+So no \(a\le 4\) works.
+
+For \(a=5\), take
+\[
+P(x)=5x^2-5x+1.
+\]
+Its roots are
+\[
+\frac{5\pm \sqrt5}{10},
+\]
+which are distinct and both lie in \((0,1)\). So \(a=5\) works.
+
+Therefore the least possible value is \(5\).
+
+<<<5>>>

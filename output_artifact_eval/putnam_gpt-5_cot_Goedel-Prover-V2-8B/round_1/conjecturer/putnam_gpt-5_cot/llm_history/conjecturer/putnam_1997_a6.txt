@@ -1,0 +1,65 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_1997_a6 : ∃ (putnam_1997_a6_solution : ℤ → ℤ → ℝ), ∀ (n : ℤ), ∀ (x : ℝ → ℤ → ℝ), ∀ (S : Set ℝ), ((n > (0 : ℤ)) ∧ (∀ (c : ℝ), x c (0 : ℤ) = (0 : ℝ)) ∧ (∀ (c : ℝ), x c (1 : ℤ) = (1 : ℝ)) ∧ (∀ (c : ℝ), ∀ k ≥ (0 : ℤ), x c (k + (2 : ℤ)) = (c * x c (k + (1 : ℤ)) - ((↑n : ℝ) - (↑k : ℝ)) * x c k) / ((↑k : ℝ) + (1 : ℝ))) ∧ (S = {c : ℝ | x c (n + (1 : ℤ)) = (0 : ℝ)})) → (∀ (k : (↑(Set.Icc (1 : ℤ) n) : Type)), x (sSup S) (↑k : ℤ) = putnam_1997_a6_solution n (↑k : ℤ)) := by sorry. Answer Type: ℤ → ℤ → ℝ. 
+Let  
+\[
+q_k(c):=x(c,k+1).
+\]
+Then the recurrence becomes
+\[
+(k+1)q_{k+1}=c\,q_k-(n-k)q_{k-1},\qquad q_{-1}=0,\ q_0=1.
+\]
+
+A standard generating-function calculation with \(G(t)=\sum_{k\ge 0} q_k t^k\) gives
+\[
+(1-t^2)G'(t)+(n-1)t\,G(t)=c\,G(t),
+\]
+so
+\[
+G(t)=(1+t)^{(n-1+c)/2}(1-t)^{(n-1-c)/2}.
+\]
+
+Hence if \(c=n-1-2r\) for \(r=0,1,\dots,n-1\), then \(G\) is a polynomial of degree \(n-1\), so the coefficient of \(t^n\) vanishes, i.e. \(x(c,n+1)=0\). These are \(n\) distinct roots of the degree-\(n\) polynomial \(x(c,n+1)\), so
+\[
+S=\{n-1,n-3,\dots,-(n-1)\},
+\]
+and therefore
+\[
+\sup S=n-1.
+\]
+
+At this extremal value \(c=n-1\),
+\[
+G(t)=(1+t)^{n-1},
+\]
+so
+\[
+q_k=\binom{n-1}{k}.
+\]
+Since \(q_k=x(c,k+1)\), we get
+\[
+x(n-1,k)=\binom{n-1}{k-1}\qquad (1\le k\le n).
+\]
+
+Thus the Lean solution function should be the binomial-coefficient expression (with `Int.toNat` to handle the theorem’s `ℤ` inputs):
+
+<<<fun n k => (Nat.choose (Int.toNat (n - 1)) (Int.toNat (k - 1)) : ℝ)>>>

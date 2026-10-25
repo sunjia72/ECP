@@ -1,0 +1,80 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Real Filter Topology Polynomial
+theorem putnam_1978_b5 : ∃ (putnam_1978_b5_solution : Polynomial ℝ), ∀ (S : Set ℝ[X]), ((S = {p : ℝ[X] | p.degree = (4 : WithBot ℕ) ∧ ∀ x ∈ Icc (-1 : ℝ) (1 : ℝ), eval x p ∈ Icc (0 : ℝ) (1 : ℝ)})) → (putnam_1978_b5_solution ∈ S ∧ ∀ p ∈ S, p.coeff (4 : ℕ) ≤ putnam_1978_b5_solution.coeff (4 : ℕ)) := by sorry. Answer Type: Polynomial ℝ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_HhTMkmP4wu6x23I8yDVExabY):
+import sympy as sp
+x=sp.symbols('x', real=True)
+p=4*x**4-4*x**2+1
+print(sp.expand(p))
+# critical points and values on [-1,1]
+dp=sp.diff(p,x)
+print('dp=', sp.factor(dp))
+crit=[-1, -sp.sqrt(sp.Rational(1,2)), 0, sp.sqrt(sp.Rational(1,2)), 1]
+for c in crit:
+    print(c, sp.simplify(p.subs(x,c)))
+[TOOL OUTPUT]
+4*x**4 - 4*x**2 + 1
+dp= 8*x*(2*x**2 - 1)
+-1 1
+-sqrt(2)/2 0
+0 1
+sqrt(2)/2 0
+1 1
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+q(x)=2p(x)-1.
+\]
+Then \(q\) is also degree \(4\), and the condition
+\[
+0\le p(x)\le 1 \qquad (-1\le x\le 1)
+\]
+becomes
+\[
+-1\le q(x)\le 1 \qquad (-1\le x\le 1).
+\]
+
+So we need the degree-4 polynomial bounded by \(1\) in absolute value on \([-1,1]\) with largest leading coefficient. This is the extremal property of the Chebyshev polynomial \(T_4\), namely
+\[
+T_4(x)=8x^4-8x^2+1.
+\]
+Hence any such \(q\) has leading coefficient \(\le 8\), with equality for \(q=T_4\).
+
+Therefore
+\[
+p(x)=\frac{T_4(x)+1}{2}
+= \frac{8x^4-8x^2+1+1}{2}
+=4x^4-4x^2+1.
+\]
+This satisfies \(0\le p(x)\le 1\) on \([-1,1]\), and its \(x^4\)-coefficient is \(4\), which is maximal.
+
+Python check confirms:
+- \(p(x)=4x^4-4x^2+1\),
+- on critical points \(x=\pm1,\ 0,\ \pm1/\sqrt2\), values are \(1,1,0,0,1\), so indeed \(p([-1,1])\subseteq[0,1]\).
+
+Final Lean expression:
+<<<4 * X^4 - 4 * X^2 + 1>>>

@@ -1,0 +1,33 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set
+theorem putnam_1979_a4 : ∃ (putnam_1979_a4_solution : Prop), ∀ (A : Finset (Fin (2 : ℕ) → ℝ) × Finset (Fin (2 : ℕ) → ℝ) → Prop), ∀ (w : (Fin (2 : ℕ) → ℝ) × (Fin (2 : ℕ) → ℝ) → ℝ → Fin (2 : ℕ) → ℝ), ((A = fun (x : Finset (Fin (2 : ℕ) → ℝ) × Finset (Fin (2 : ℕ) → ℝ)) => match x with | (R, B) => R.card = B.card ∧ R ∩ B = ∅ ∧ ∀ u ⊆ R ∪ B, u.card = (3 : ℕ) → ¬Collinear ℝ (↑u : Set (Fin (2 : ℕ) → ℝ))) ∧ (w = fun (x : (Fin (2 : ℕ) → ℝ) × (Fin (2 : ℕ) → ℝ)) => match (motive := (Fin (2 : ℕ) → ℝ) × (Fin (2 : ℕ) → ℝ) → ℝ → Fin (2 : ℕ) → ℝ) x with | (P, Q) => fun (x : ℝ) (i : Fin (2 : ℕ)) => x * P i + ((1 : ℝ) - x) * Q i)) → (putnam_1979_a4_solution ↔ ∀ (R B : Finset (Fin (2 : ℕ) → ℝ)), A (R, B) → ∃ (v : Finset ((Fin (2 : ℕ) → ℝ) × (Fin (2 : ℕ) → ℝ))), (∀ L ∈ v, ∀ M ∈ v, L ≠ M → ∀ x ∈ Icc (0 : ℝ) (1 : ℝ), ∀ y ∈ Icc (0 : ℝ) (1 : ℝ), √((w (L.1, L.2) x (0 : Fin (2 : ℕ)) - w (M.1, M.2) y (0 : Fin (2 : ℕ))) ^ (2 : ℕ) + (w (L.1, L.2) x (1 : Fin (2 : ℕ)) - w (M.1, M.2) y (1 : Fin (2 : ℕ))) ^ (2 : ℕ)) ≠ (0 : ℝ)) ∧ v.card = R.card ∧ ∀ L ∈ v, L.1 ∈ R ∧ L.2 ∈ B) := by sorry. Answer Type: Prop. 
+The statement encoded here is the classical geometric fact:
+
+- We have equally many red and blue points in the plane.
+- No three points of the total set are collinear.
+- Then there exists a perfect matching between red and blue points by straight line segments such that no two segments intersect.
+
+This is a standard theorem on noncrossing bichromatic matchings in general position, so the quantified statement is **true**.
+
+Thus the `Prop` witnessing the solution should simply be `True`.
+
+<<<True>>>

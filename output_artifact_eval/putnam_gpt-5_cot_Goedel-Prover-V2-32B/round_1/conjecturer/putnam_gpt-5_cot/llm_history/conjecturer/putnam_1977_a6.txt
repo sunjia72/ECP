@@ -1,0 +1,49 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open RingHom Set Nat
+theorem putnam_1977_a6 : ∃ (putnam_1977_a6_solution : Prop), ∀ (X : Set (ℝ × ℝ)), ∀ (room : ℝ × ℝ → ℝ), ((X = (Icc (0 : ℝ) (1 : ℝ)).prod (Icc (0 : ℝ) (1 : ℝ))) ∧ (room = fun (x : ℝ × ℝ) => match x with | (a, b) => min (min a ((1 : ℝ) - a)) (min b ((1 : ℝ) - b)))) → ((∀ (f : ℝ × ℝ → ℝ), Continuous f → (∀ P ∈ X, ∫ (x : ℝ) in P.1 - room P..P.1 + room P, ∫ (y : ℝ) in P.2 - room P..P.2 + room P, f (x, y) = (0 : ℝ)) → ∀ P ∈ X, f P = (0 : ℝ)) ↔ putnam_1977_a6_solution) := by sorry. Answer Type: Prop. 
+Let  
+\[
+H(u,v)=\int_0^u\int_0^v f(x,y)\,dy\,dx.
+\]
+If the given square-integral condition holds for every point, then in particular it holds for every square of the form \([0,s]\times[t,t+s]\) and every square of the form \([t,t+s]\times[0,s]\).
+
+From \([0,s]\times[t,t+s]\), we get
+\[
+0=\int_0^s\int_t^{t+s} f
+  = H(s,t+s)-H(s,t),
+\]
+so \(H(s,y)=H(s,y-s)\) whenever \(y\ge s\).
+
+From \([t,t+s]\times[0,s]\), we get
+\[
+0=\int_t^{t+s}\int_0^s f
+  = H(t+s,s)-H(t,s),
+\]
+so \(H(x,s)=H(x-s,s)\) whenever \(x\ge s\).
+
+Thus for any \((x,y)\in[0,1]^2\), \(H(x,y)\) is unchanged by replacing the larger of \(x,y\) by the difference of the two. Iterating this is exactly the Euclidean algorithm: for rational ratios it reaches an axis in finitely many steps, and for irrational ratios it approaches \((0,0)\). Since \(H(x,0)=H(0,y)=0\) and \(H\) is continuous, we get \(H(x,y)=0\) for all \((x,y)\).
+
+So every rectangle integral of \(f\) is zero, hence by continuity \(f=0\) on the square. Therefore the proposition in the theorem is true.
+
+So the answer Prop is:
+
+<<<True>>>

@@ -1,0 +1,48 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+theorem putnam_2006_a1 : ∃ (putnam_2006_a1_solution : ℝ), (((MeasureTheory.volume : Set (ℝ × ℝ × ℝ) → ENNReal) {(x, y, z) : ℝ × ℝ × ℝ | (x ^ (2 : ℕ) + y ^ (2 : ℕ) + z ^ (2 : ℕ) + (8 : ℝ)) ^ (2 : ℕ) ≤ (36 : ℝ) * (x ^ (2 : ℕ) + y ^ (2 : ℕ))}).toReal = putnam_2006_a1_solution) := by sorry. Answer Type: ℝ. 
+Let \(r^2 = x^2 + y^2\). Then the defining inequality becomes
+\[
+(r^2 + z^2 + 8)^2 \le 36r^2.
+\]
+Since \(r \ge 0\) and \(r^2+z^2+8 > 0\), this is equivalent to
+\[
+r^2 + z^2 + 8 \le 6r,
+\]
+i.e.
+\[
+(r-3)^2 + z^2 \le 1.
+\]
+
+So the solid is exactly the standard torus obtained by revolving the disk of radius \(1\) centered at \((r,z)=(3,0)\) around the \(z\)-axis. Its major radius is \(R=3\) and minor radius is \(a=1\).
+
+Using the torus volume formula
+\[
+V = 2\pi^2 R a^2,
+\]
+we get
+\[
+V = 2\pi^2 \cdot 3 \cdot 1^2 = 6\pi^2.
+\]
+
+Thus the Lean expression for the solution is:
+
+<<<6 * Real.pi ^ (2 : ℕ)>>>

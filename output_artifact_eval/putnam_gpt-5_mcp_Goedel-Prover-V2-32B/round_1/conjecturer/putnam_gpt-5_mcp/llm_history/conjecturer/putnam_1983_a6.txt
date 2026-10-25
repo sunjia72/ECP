@@ -1,0 +1,125 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Filter Topology Real
+theorem putnam_1983_a6 : ∃ (putnam_1983_a6_solution : ℝ), ∀ (F : ℝ → ℝ), ((F = fun (a : ℝ) => a ^ (4 : ℕ) / rexp (a ^ (3 : ℕ)) * ∫ (x : ℝ) in (0 : ℝ)..a, ∫ (y : ℝ) in (0 : ℝ)..a - x, rexp (x ^ (3 : ℕ) + y ^ (3 : ℕ)))) → (Tendsto F atTop (𝓝 putnam_1983_a6_solution)) := by sorry. Answer Type: ℝ. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_wJiXPl65yp5VDZmSLKNEjByt):
+import mpmath as mp
+mp.mp.dps = 50
+
+def F(a):
+    f = lambda x,y: mp.e**(x**3+y**3)
+    inner = lambda x: mp.quad(lambda y: mp.e**(x**3+y**3), [0, a-x])
+    I = mp.quad(lambda x: inner(x), [0, a])
+    return a**4/mp.e**(a**3) * I
+
+for a in [1,1.5,2,2.5,3,4,5,6]:
+    print(a, F(a))
+print('2/9=', mp.mpf(2)/9)
+[TOOL OUTPUT]
+1 0.22897792380876051573575486012363395184740780119889
+1.5 0.49743386652088346877351683731874941683778802260904
+2 0.32659884203986182601280577215697392881586578361687
+2.5 0.25845423139050714204173216132352297950843838829207
+3 0.24085872310594514502202600556073989108788798847723
+4 0.22951477508177657017694154295290386113623053356221
+5 0.22586601384044413089931264470705970876932923437308
+6 0.22430896569633049171793838764063088936419944796465
+2/9= 0.22222222222222222222222222222222222222222222222222
+
+===== ENUMERATOR ROUND 2 =====
+[TOOL CALL] code_exec (call_id=call_dAV0ctjiqblSmjAI8U1ApYuK):
+import mpmath as mp
+mp.mp.dps = 50
+
+def F(a):
+    inner = lambda x: mp.quad(lambda y: mp.e**(x**3+y**3), [0, a-x])
+    I = mp.quad(lambda x: inner(x), [0, a])
+    return a**4/mp.e**(a**3) * I
+
+for a in [7,8,10]:
+    print(a, F(a), F(a)-mp.mpf(2)/9)
+[TOOL OUTPUT]
+7 0.22352944845074707075469991165612262709307785274726 0.0013072262285248485324776894339004048708556305250341
+8 0.22309540492782551801160487801044787043227689277471 0.00087318270560329578938265578822564821005467055248423
+10 0.22266800546042603169856407023985647159652648904347 0.0004457832382038094763418480176342493743042668212443
+
+=== CONJECTURER ROUND ===
+Let  
+\[
+I(a)=\int_0^a\int_0^{a-x} e^{x^3+y^3}\,dy\,dx,
+\qquad
+F(a)=\frac{a^4}{e^{a^3}}I(a).
+\]
+
+We claim
+\[
+\lim_{a\to\infty} F(a)=\frac29.
+\]
+
+### Numerical check
+I numerically evaluated \(F(a)\) for several \(a\), getting values approaching \(0.22222\ldots = 2/9\).
+
+### Asymptotic reasoning
+The exponent \(x^3+y^3\) on the triangle \(x,y\ge 0,\ x+y\le a\) is maximized at the two corners \((a,0)\) and \((0,a)\), with value \(a^3\). So only small neighborhoods of those corners contribute after multiplying by \(e^{-a^3}\).
+
+By symmetry, twice the contribution near \((a,0)\) suffices. On the half-triangle \(x\ge y\), set
+\[
+u=a-x,\qquad v=y.
+\]
+Then near the corner \((a,0)\), we have \(0\le v\le u\), and
+\[
+x^3+y^3=(a-u)^3+v^3.
+\]
+The significant scale is \(u,v\sim a^{-2}\), so write
+\[
+u=\frac{s}{a^2},\qquad v=\frac{t}{a^2},
+\qquad 0\le t\le s.
+\]
+Then
+\[
+(a-u)^3+v^3-a^3
+=
+\left(a-\frac{s}{a^2}\right)^3+\left(\frac{t}{a^2}\right)^3-a^3
+=
+-3s+o(1),
+\]
+and \(du\,dv=a^{-4}\,ds\,dt\), so the factor \(a^4\) cancels the Jacobian.
+
+Hence one corner contributes
+\[
+\int_0^\infty\int_0^s e^{-3s}\,dt\,ds
+=
+\int_0^\infty s e^{-3s}\,ds
+=
+\frac19.
+\]
+There are two symmetric corners, so
+\[
+\lim_{a\to\infty} F(a)=2\cdot \frac19=\frac29.
+\]
+
+So the required real number is:
+
+<<<((2 : ℝ) / 9)>>>

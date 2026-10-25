@@ -1,0 +1,160 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set Filter Topology
+theorem putnam_1988_a6 : ∃ (putnam_1988_a6_solution : Prop), ((∀ (F : Type u_1) (V : Type u_2) (x : Field F) (x_1 : AddCommGroup V) (x_2 : Module F V), FiniteDimensional F V → ∀ (n : ℕ) (A : Module.End F V) (evecs : Set V), (n = Module.finrank F V ∧ evecs ⊆ {v : V | ∃ (f : F), A.HasEigenvector f v} ∧ evecs.encard = (↑n : ℕ∞) + (1 : ℕ∞) ∧ ∀ (sevecs : Fin n → V), range sevecs ⊆ evecs ∧ (range sevecs).encard = (↑n : ℕ∞) → LinearIndependent F sevecs) → ∃ (c : F), A = c • LinearMap.id) ↔ putnam_1988_a6_solution) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_gc6aIBXlWDbatgbOCNnGXhwN):
+import itertools
+
+def vec_add(a,b,p): return tuple((x+y)%p for x,y in zip(a,b))
+def scalar_mul(c,v,p): return tuple((c*x)%p for x in v)
+def mat_vec(A,v,p):
+    n=len(v)
+    return tuple(sum(A[i][j]*v[j] for j in range(n))%p for i in range(n))
+
+def all_vecs(n,p):
+    return [tuple(v) for v in itertools.product(range(p), repeat=n)]
+
+def nonzero_vecs(n,p):
+    return [v for v in all_vecs(n,p) if any(v)]
+
+def rank(vs,p):
+    if not vs: return 0
+    m=[list(v) for v in vs]
+    rows=len(m); cols=len(m[0])
+    r=0; c=0
+    while r<rows and c<cols:
+        piv=None
+        for i in range(r,rows):
+            if m[i][c]%p!=0:
+                piv=i; break
+        if piv is None:
+            c+=1; continue
+        m[r],m[piv]=m[piv],m[r]
+        inv=pow(m[r][c], -1, p)
+        m[r]=[(inv*x)%p for x in m[r]]
+        for i in range(rows):
+            if i!=r and m[i][c]%p!=0:
+                factor=m[i][c]%p
+                m[i]=[(m[i][j]-factor*m[r][j])%p for j in range(cols)]
+        r+=1; c+=1
+    return r
+
+def independent(vs,p):
+    return rank(vs,p)==len(vs)
+
+def all_mats(n,p):
+    entries=list(itertools.product(range(p), repeat=n*n))
+    for e in entries:
+        A=[list(e[i*n:(i+1)*n]) for i in range(n)]
+        yield A
+
+def is_eigenvector(A,v,p):
+    Av=mat_vec(A,v,p)
+    for lam in range(p):
+        if Av==scalar_mul(lam,v,p):
+            return True,lam
+    return False,None
+
+def scalar_matrix(A,p):
+    n=len(A)
+    c=A[0][0]
+    for i in range(n):
+        for j in range(n):
+            if A[i][j]%p != ((c if i==j else 0)%p):
+                return False
+    return True
+
+def check(n,p):
+    vecs=nonzero_vecs(n,p)
+    bad=[]
+    for A in all_mats(n,p):
+        evecs=[]
+        eiglam={}
+        for v in vecs:
+            ok,lam=is_eigenvector(A,v,p)
+            if ok:
+                evecs.append(v); eiglam[v]=lam
+        # look for subset size n+1 where every n are independent
+        for S in itertools.combinations(evecs,n+1):
+            good=True
+            for T in itertools.combinations(S,n):
+                if not independent(T,p):
+                    good=False; break
+            if good:
+                if not scalar_matrix(A,p):
+                    bad.append((A,S,[eiglam[v] for v in S]))
+                    return bad[0]
+                break
+    return None
+
+for p in [2,3]:
+    for n in [1,2,3]:
+        ans=check(n,p)
+        print('p',p,'n',n,'counterexample',ans is not None)
+        if ans:
+            print(ans)
+[TOOL OUTPUT]
+p 2 n 1 counterexample False
+p 2 n 2 counterexample False
+p 2 n 3 counterexample False
+p 3 n 1 counterexample False
+p 3 n 2 counterexample False
+p 3 n 3 counterexample False
+
+=== CONJECTURER ROUND ===
+The statement is **true**, so the answer proposition can be taken to be `True`.
+
+Reasoning: let `dim V = n`, and suppose `evecs` contains `n+1` eigenvectors such that every `n` of them are linearly independent. Choose distinct
+\[
+v_0,\dots,v_n \in evecs,
+\]
+with \(A v_i = \lambda_i v_i\).
+
+Since \(V\) has dimension \(n\), the \(n+1\) vectors are linearly dependent, so
+\[
+a_0v_0+\cdots+a_nv_n=0
+\]
+for some coefficients not all zero. In fact every \(a_i\neq 0\): if some \(a_k=0\), then the other \(n\) vectors would be dependent, contradicting the hypothesis that any \(n\) are independent.
+
+Apply \(A\):
+\[
+a_0\lambda_0v_0+\cdots+a_n\lambda_nv_n=0.
+\]
+Subtract \(\lambda_0(a_0v_0+\cdots+a_nv_n)=0\), obtaining
+\[
+\sum_{i=1}^n a_i(\lambda_i-\lambda_0)v_i=0.
+\]
+But \(v_1,\dots,v_n\) are linearly independent, and each \(a_i\neq 0\), so \(\lambda_i=\lambda_0\) for all \(i\). Thus all \(v_i\) have the same eigenvalue \(\lambda\).
+
+Now any \(n\) of the \(v_i\) are linearly independent, hence form a basis of \(V\). On that basis, \(A\) acts as multiplication by \(\lambda\), so
+\[
+A=\lambda\,\mathrm{id}.
+\]
+
+So the proposition holds for all such \(F,V,A\).
+
+I also checked small finite-field cases by brute force in Python (`p=2,3`, `n=1,2,3`), and found no counterexample.
+
+<<<True>>>

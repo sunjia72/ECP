@@ -1,0 +1,61 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Topology Filter
+theorem putnam_2004_b4 : ∃ (putnam_2004_b4_solution : ℕ → ℂ → ℂ), ∀ (n : ℕ), ∀ (R Rk : ℕ → ℂ → ℂ), ((n ≥ (2 : ℕ)) ∧ (R (0 : ℕ) = id ∧ ∀ (k : ℕ), R (k + (1 : ℕ)) = Rk (k + (1 : ℕ)) ∘ R k) ∧ (Rk = fun (k : ℕ) (Q : ℂ) => (↑k : ℂ) + Complex.exp (Complex.I * (2 : ℂ) * (↑Real.pi : ℂ) / (↑n : ℂ)) * (Q - (↑k : ℂ)))) → (R n = putnam_2004_b4_solution n) := by sorry. Answer Type: ℕ → ℂ → ℂ. 
+Let  
+\[
+\omega=\exp\!\left(\frac{2\pi i}{n}\right).
+\]
+Then each step map is
+\[
+T_k(Q)=k+\omega(Q-k)=\omega Q+(1-\omega)k.
+\]
+
+So after composing \(T_1,T_2,\dots,T_n\), the coefficient of \(Q\) is \(\omega^n=1\), hence the result must be a translation:
+\[
+R_n(Q)=Q+c.
+\]
+
+Compute \(c\). Writing out the affine recurrence gives
+\[
+c=(1-\omega)\sum_{j=1}^n j\,\omega^{\,n-j}.
+\]
+Now
+\[
+(1-\omega)\sum_{j=1}^n j\omega^{n-j}
+= \sum_{j=1}^n j\omega^{n-j}-\sum_{j=1}^n j\omega^{n-j+1}.
+\]
+This telescopes to
+\[
+n-\sum_{m=0}^{n-1}\omega^m.
+\]
+Since \(n\ge2\) and \(\omega\) is an \(n\)-th root of unity with \(\omega\neq1\),
+\[
+\sum_{m=0}^{n-1}\omega^m=0.
+\]
+Hence \(c=n\), so
+\[
+R_n(Q)=Q+n.
+\]
+
+Therefore the required Lean expression is
+
+<<<fun n Q => Q + (↑n : ℂ)>>>

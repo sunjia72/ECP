@@ -1,0 +1,77 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Topology
+theorem putnam_1997_a3 : ∃ (putnam_1997_a3_solution : ℝ), ∀ (series1 series2 : ℝ → ℝ), ((series1 = fun (x : ℝ) => ∑' (n : ℕ), (-1 : ℝ) ^ n * x ^ ((2 : ℕ) * n + (1 : ℕ)) / ∏ i : { x : ℕ // x ∈ Finset.range n }, (2 : ℝ) * ((↑(↑i : ℕ) : ℝ) + (1 : ℝ))) ∧ (series2 = fun (x : ℝ) => ∑' (n : ℕ), x ^ ((2 : ℕ) * n) / ∏ i : { x : ℕ // x ∈ Finset.range n }, ((2 : ℝ) * ((↑(↑i : ℕ) : ℝ) + (1 : ℝ))) ^ (2 : ℕ))) → (Tendsto (fun (t : ℝ) => ∫ (x : ℝ) in Set.Icc (0 : ℝ) t, series1 x * series2 x) atTop (𝓝 putnam_1997_a3_solution)) := by sorry. Answer Type: ℝ. 
+Let  
+\[
+a_n(x)=\frac{(-1)^n x^{2n+1}}{\prod_{k=0}^{n-1} 2(k+1)},\qquad
+b_n(x)=\frac{x^{2n}}{\prod_{k=0}^{n-1} (2(k+1))^2}.
+\]
+
+Then
+\[
+\prod_{k=0}^{n-1}2(k+1)=2^n n!,
+\]
+so
+\[
+\sum_{n=0}^\infty a_n(x)
+= \sum_{n=0}^\infty \frac{(-1)^n x^{2n+1}}{2^n n!}
+= x \sum_{n=0}^\infty \frac{(-x^2/2)^n}{n!}
+= x e^{-x^2/2}.
+\]
+
+Also
+\[
+\sum_{n=0}^\infty b_n(x)
+= \sum_{n=0}^\infty \frac{x^{2n}}{4^n (n!)^2}.
+\]
+
+So the integrand is
+\[
+x e^{-x^2/2}\sum_{n=0}^\infty \frac{x^{2n}}{4^n (n!)^2}.
+\]
+
+For \(x\ge 0\), all terms in the second series are nonnegative, so we may integrate termwise:
+\[
+\int_0^\infty x e^{-x^2/2}\sum_{n=0}^\infty \frac{x^{2n}}{4^n (n!)^2}\,dx
+=
+\sum_{n=0}^\infty \frac{1}{4^n (n!)^2}\int_0^\infty x^{2n+1}e^{-x^2/2}\,dx.
+\]
+
+Now set \(u=x^2/2\). Then \(x\,dx=du\), \(x^{2n}=(2u)^n\), hence
+\[
+\int_0^\infty x^{2n+1}e^{-x^2/2}\,dx
+=2^n\int_0^\infty u^n e^{-u}\,du
+=2^n n!.
+\]
+
+Therefore the sum becomes
+\[
+\sum_{n=0}^\infty \frac{2^n n!}{4^n (n!)^2}
+=
+\sum_{n=0}^\infty \frac{1}{2^n n!}
+=
+e^{1/2}.
+\]
+
+So the constant is \(e^{1/2}\).
+
+<<<Real.exp ((1 : ℝ) / 2)>>>

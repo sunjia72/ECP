@@ -1,0 +1,61 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Set
+theorem putnam_1971_a2 : ∃ (putnam_1971_a2_solution : Set (Polynomial ℝ)), ∀ (P : Polynomial ℝ), ((Polynomial.eval (0 : ℝ) P = (0 : ℝ) ∧ ∀ (x : ℝ), Polynomial.eval (x ^ (2 : ℕ) + (1 : ℝ)) P = Polynomial.eval x P ^ (2 : ℕ) + (1 : ℝ)) ↔ P ∈ putnam_1971_a2_solution) := by sorry. Answer Type: Set (Polynomial ℝ). 
+Let  
+\[
+P(x^2+1)=P(x)^2+1,\qquad P(0)=0.
+\]
+
+We look for all real polynomials satisfying this.
+
+Key idea: show \(P\) has infinitely many fixed points.
+
+- Since \(P(0)=0\), we have \(0\) as a fixed point.
+- If \(a\) is a fixed point, i.e. \(P(a)=a\), then
+  \[
+  P(a^2+1)=P(a)^2+1=a^2+1,
+  \]
+  so \(a^2+1\) is also a fixed point.
+
+Starting from \(a_0=0\), define
+\[
+a_{n+1}=a_n^2+1.
+\]
+Then every \(a_n\) is a fixed point of \(P\). The sequence is
+\[
+0,1,2,5,26,\dots
+\]
+and is strictly increasing, hence gives infinitely many distinct real fixed points.
+
+Therefore the polynomial \(P(x)-x\) has infinitely many roots, so it must be the zero polynomial. Hence
+\[
+P(x)=x.
+\]
+
+Check: \(P(x)=x\) indeed satisfies
+\[
+P(0)=0,\qquad P(x^2+1)=x^2+1=P(x)^2+1.
+\]
+
+So the solution set is exactly the singleton containing `Polynomial.X`.
+
+<<<({Polynomial.X} : Set (Polynomial ℝ))>>>

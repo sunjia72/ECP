@@ -1,0 +1,25 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Classical Polynomial Filter Topology Real Set Nat List
+theorem putnam_2016_b2 : ∃ (putnam_2016_b2_solution : ℝ × ℝ), ∀ (squarish : ℤ → Prop), ∀ (S : ℤ → ℕ), ∀ (p : ℝ → ℝ → Prop), ((∀ (n : ℤ), squarish n ↔ IsSquare n ∨ ∃ (w : ℤ), IsSquare |n - w ^ (2 : ℕ)| ∧ ∀ (v : ℕ), |n - w ^ (2 : ℕ)| ≤ |n - (↑v : ℤ) ^ (2 : ℕ)|) ∧ (S = fun (n : ℤ) => {i ∈ Finset.Icc (1 : ℤ) n | squarish i}.card) ∧ (∀ (α β : ℝ), p α β ↔ α > (0 : ℝ) ∧ β > (0 : ℝ) ∧ Tendsto (fun (N : ℤ) => (↑(S N) : ℝ) / (↑N : ℝ) ^ α) atTop (𝓝 β))) → ((∀ (α β : ℝ), (α, β) = putnam_2016_b2_solution ↔ p α β) ∨ ¬∃ (α : ℝ) (β : ℝ), p α β) := by sorry. Answer Type: ℝ × ℝ. 
+
+
+<<<(3/4, 4/3)>>>

@@ -1,0 +1,81 @@
+[conjecture_answer_mcp]
+I have a difficult high-school competition-level math problem in Lean, which asks to find an answer with informal mathematical reasoning.
+
+Your task is to attempt to the problem and state the final answer in lean expression, along with the help of python function calls.
+
+You are encouraged to use the tool code_exec write the code to enumerate the answer and get output, reason about the problem, and in case your reasoning and code result disagree, keep doing the code / reasoning refinements until you
+are confident with your reasoning step and come up with the proposed answer and enumerations agreed. Be sure to use print command to obtain the answer in python. 
+
+Nevertheless, do not solely rely on the program enumeration. You should also provide solution for the answer with mathematical reasoning.
+
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+
+For example, if i gave you 
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+the answers in delimiter can be
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open MeasureTheory Metric Topology Filter
+theorem putnam_2019_a4 : ∃ (putnam_2019_a4_solution : Prop), ∀ (P : (EuclideanSpace ℝ (Fin (3 : ℕ)) → ℝ) → Prop), ((∀ (f : EuclideanSpace ℝ (Fin (3 : ℕ)) → ℝ), P f ↔ ∀ (C : EuclideanSpace ℝ (Fin (3 : ℕ))), ∫ (x : EuclideanSpace ℝ (Fin (3 : ℕ))) in sphere C (1 : ℝ), f x ∂μH[(2 : ℝ)] = (0 : ℝ))) → ((∀ (f : EuclideanSpace ℝ (Fin (3 : ℕ)) → ℝ), Continuous f → P f → f = (0 : EuclideanSpace ℝ (Fin (3 : ℕ)) → ℝ)) ↔ putnam_2019_a4_solution) := by sorry. Answer Type: Prop. 
+
+===== ENUMERATOR ROUND 1 =====
+[TOOL CALL] code_exec (call_id=call_T81HV8FeTylvl0g57GyeArDN):
+import mpmath as mp
+
+def sphere_integral(center=(0.2,-0.4,0.7), lam=mp.pi):
+    c1,c2,c3=center
+    f=lambda th,ph: mp.cos(lam*(c1+mp.sin(th)*mp.cos(ph))) * mp.sin(th)  # choose xi=(lam,0,0), x on sphere around center
+    # integral over sphere radius 1 of cos(lam x1) dS
+    g=lambda th: mp.quad(lambda ph: f(th,ph), [0, 2*mp.pi])
+    return mp.quad(lambda th: g(th), [0, mp.pi])
+
+for ctr in [(0,0,0),(0.2,-0.4,0.7),(1.3,2.1,-0.9)]:
+    print(ctr, sphere_integral(ctr))
+[TOOL OUTPUT]
+(0, 0, 0) -5.354229293863e-22
+(0.2, -0.4, 0.7) -6.83543320427467e-22
+(1.3, 2.1, -0.9) 5.76139122574772e-22
+
+=== CONJECTURER ROUND ===
+Take
+\[
+f(x)=\cos(\pi x_1),
+\]
+where \(x_1\) is any fixed coordinate of \(x\in \mathbb R^3\). This \(f\) is continuous and not identically zero.
+
+For a sphere of radius \(1\) centered at \(C\), write points as \(x=C+u\) with \(|u|=1\). Then
+\[
+\int_{|x-C|=1} f(x)\,dS
+=
+\int_{|u|=1} \cos(\pi(C_1+u_1))\,dS.
+\]
+Using angle-addition and symmetry,
+\[
+\int_{|u|=1}\sin(\pi u_1)\,dS=0,
+\]
+so this becomes
+\[
+\cos(\pi C_1)\int_{|u|=1}\cos(\pi u_1)\,dS.
+\]
+Now
+\[
+\int_{|u|=1}\cos(a u_1)\,dS = 4\pi \frac{\sin a}{a},
+\]
+hence at \(a=\pi\) this is \(0\). Therefore the integral over every unit sphere is \(0\), yet \(f\neq 0\).
+
+So the implication
+\[
+(\forall f,\ \text{Continuous }f \to P f \to f=0)
+\]
+is **false**.
+
+Python numerics also confirm this example gives essentially zero for several centers.
+
+Thus the required proposition is:
+
+<<<False>>>

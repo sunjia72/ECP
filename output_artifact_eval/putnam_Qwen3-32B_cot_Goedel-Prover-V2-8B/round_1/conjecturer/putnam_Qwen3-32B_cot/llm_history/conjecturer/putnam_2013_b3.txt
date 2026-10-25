@@ -1,0 +1,27 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Function Set
+theorem putnam_2013_b3 : ∃ (putnam_2013_b3_solution : Prop), ((∀ (n : ℕ) (P : Finset (Finset (Fin n))) (f : Finset (Fin n) → ℝ), P ≠ ⊥ → (∀ S ∈ P, ∀ S' ∈ P, S ∪ S' ∈ P ∧ S ∩ S' ∈ P) → (∀ S ∈ P, S ≠ ⊥ → ∃ T ∈ P, T ⊂ S ∧ T.card + (1 : ℕ) = S.card) → f ⊥ = (0 : ℝ) → (∀ S ∈ P, ∀ S' ∈ P, f (S ∪ S') = f S + f S' - f (S ∩ S')) → ∃ (r : Fin n → ℝ), ∀ S ∈ P, f S = ∑ i ∈ S, r i) ↔ putnam_2013_b3_solution) := by sorry. Answer Type: Prop. 
+
+
+The problem requires proving that under certain conditions on a family of sets $ P \subseteq \mathcal{P}(\text{Fin } n) $, a function $ f: P \to \mathbb{R} $ satisfying a modularity condition is linear, i.e., there exists a weight function $ r: \text{Fin } n \to \mathbb{R} $ such that $ f(S) = \sum_{i \in S} r(i) $. The key insight is that the closure and descending conditions on $ P $ force it to be the full power set of some subset $ M \subseteq \text{Fin } n $. Since $ P $ is closed under unions and intersections, and every non-empty set in $ P $ has a proper subset of size one less, $ P $ must include all subsets of its maximal elements. This ensures $ P $ is a Boolean algebra (the full power set of $ M $), and standard linear algebra results apply: any function $ f $ satisfying the given modularity condition must be linear. Thus, the proposition is universally true.
+
+<<<True>>>

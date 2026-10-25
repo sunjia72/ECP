@@ -1,0 +1,43 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Filter Polynomial Topology Nat
+theorem putnam_1990_b5 : ∃ (putnam_1990_b5_solution : Prop), ((∃ (a : ℕ → ℝ), (∀ (i : ℕ), a i ≠ (0 : ℝ)) ∧ ∀ n ≥ (1 : ℕ), (∑ i ∈ Finset.Iic n, a i • X ^ i).roots.toFinset.card = n) ↔ putnam_1990_b5_solution) := by sorry. Answer Type: Prop. 
+Let  
+\[
+P_n(x)=\sum_{i=0}^n a_i x^i.
+\]
+The condition says: for every \(n\ge 1\), \(P_n\) has exactly \(n\) distinct roots, so since \(\deg P_n=n\), all roots are simple and real.
+
+This is **possible**. An inductive construction works:
+
+- Start with \(P_1(x)=1+x\), which has one real root.
+- Suppose \(P_n\) has \(n\) distinct real roots.
+- Because those roots are simple, a sufficiently small perturbation preserves \(n\) nearby real simple roots. So for sufficiently small nonzero \(a_{n+1}\), the polynomial
+  \[
+  P_{n+1}(x)=P_n(x)+a_{n+1}x^{n+1}
+  \]
+  still has \(n\) distinct real roots near the old ones.
+- Since \(P_{n+1}\) has real coefficients and degree \(n+1\), the remaining root must also be real.
+- Thus \(P_{n+1}\) has \(n+1\) distinct roots.
+
+So such a sequence \((a_i)\) exists. Therefore the existential statement in the theorem is true, and the required proposition can be taken to be `True`.
+
+<<<True>>>

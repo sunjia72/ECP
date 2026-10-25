@@ -1,0 +1,58 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Nat Set
+theorem putnam_2005_b3 : ∃ (putnam_2005_b3_solution : Set (ℝ → ℝ)), ∀ (f : ℝ → ℝ), ((∀ x > (0 : ℝ), (0 : ℝ) < f x) ∧ (DifferentiableOn ℝ f (Ioi (0 : ℝ)))) → ((∃ a > (0 : ℝ), ∀ x > (0 : ℝ), deriv f (a / x) = x / f x) ↔ f ∈ putnam_2005_b3_solution) := by sorry. Answer Type: Set (ℝ → ℝ). 
+Let
+\[
+\forall x>0,\quad f'(a/x)=\frac{x}{f(x)}.
+\]
+We want all positive differentiable functions on \((0,\infty)\) for which this holds for some \(a>0\).
+
+Set \(y=a/x\), so \(x=a/y\). Then the equation becomes
+\[
+f'(y)=\frac{a}{y\,f(a/y)} \qquad (y>0).
+\]
+Replacing \(y\) by \(a/y\) also gives
+\[
+f'(a/y)=\frac{1}{f(y)}\cdot \frac{y}{1}.
+\]
+A natural guess is a power function \(f(x)=c x^r\). Then
+\[
+f'(a/x)=cr(a/x)^{r-1},\qquad \frac{x}{f(x)}=\frac{x^{1-r}}{c}.
+\]
+Matching powers works automatically, and matching constants gives
+\[
+cr\,a^{r-1}=\frac1c \quad\Longrightarrow\quad c^2 r a^{r-1}=1.
+\]
+So for any \(r>0\), choosing \(c>0\) and then
+\[
+a=(c^2 r)^{1/(1-r)} \quad (r\neq 1),
+\]
+or for \(r=1\), requiring \(c=1\), works. Rewriting in a cleaner parameterization: if
+\[
+f(x)=b x^c
+\]
+with \(b>0,c>0\), then the condition is solvable iff either \(c\neq 1\), or \(c=1\) and \(b=1\).
+
+Thus the solution set is exactly the positive power functions, excluding non-unit multiples of \(x\).
+
+Lean expression for that set:
+<<<{f : ℝ → ℝ | ∃ b c : ℝ, 0 < b ∧ 0 < c ∧ (c ≠ 1 ∨ b = 1) ∧ ∀ x > 0, f x = b * x ^ c}>>>

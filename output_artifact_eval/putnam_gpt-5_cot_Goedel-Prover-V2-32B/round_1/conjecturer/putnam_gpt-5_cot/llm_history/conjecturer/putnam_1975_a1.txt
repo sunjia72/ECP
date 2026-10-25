@@ -1,0 +1,57 @@
+[conjecture_answer]
+I have a difficult high-school competition-level math problem in Lean, which asks to find a answer set with a mathematical proof.
+Your task is to clearly state the final answer in Lean exprssion.
+I may have enumerated the answer(s) via program as a hint for you, and in case this happens, you may look at the pattern in it to help propose the final answer.
+Nevertheless, you should truth your own logic rather than purely rely on the enumeration.
+Requirements:
+
+Write reasoning steps and explanation prior to your conjectured formal Lean answer. 
+Your final answer should be closed form in Lean and generalized from enumerated answer that meets problem statement.
+In the end, you should provide an lean answer and enclose your answer within delimiter <<< >>> so i can parse it. You should only include proposed answer in the delimiter (such as <<<1>>>), and you should never include complete headers in the delimiter (such as `abbrev <answer_name> : <type> := 1`). You should not put proofs or justifications inside <<< >>>. It should only include final answer. 
+Example Input:
+import Mathlib
+
+abbrev putnam_1962_a5_solution : ℕ → ℕ := sorry
+
+theorem putnam_1962_a5
+: ∀ n ≥ 2, putnam_1962_a5_solution n = ∑ k ∈ Finset.Icc 1 n, Nat.choose n k * k^2 := by sorry
+Your answer: 
+<<<fun n : ℕ => n * (n + 1) * 2^(n - 2)>>>
+Formal Problem Statement: import Mathlib
+open Polynomial
+theorem putnam_1975_a1 : ∃ (putnam_1975_a1_solution : ((ℤ × ℤ) → ℤ) × ((ℤ × ℤ) → ℤ)), ∀ (nab nxy : ℤ × ℤ × ℤ → Prop), ((nab = fun (x : ℤ × ℤ × ℤ) => match x with | (n, a, b) => (↑n : ℚ) = ((↑a : ℚ) ^ (2 : ℕ) + (↑a : ℚ)) / (2 : ℚ) + ((↑b : ℚ) ^ (2 : ℕ) + (↑b : ℚ)) / (2 : ℚ)) ∧ (nxy = fun (x : ℤ × ℤ × ℤ) => match x with | (n, x, y) => (4 : ℤ) * n + (1 : ℤ) = x ^ (2 : ℕ) + y ^ (2 : ℕ))) → ((∀ (n a b : ℤ), nab (n, a, b) → nxy (n, putnam_1975_a1_solution.1 (a, b), putnam_1975_a1_solution.2 (a, b))) ∧ ∀ (n : ℤ), (∃ (x : ℤ) (y : ℤ), nxy (n, x, y)) → ∃ (a : ℤ) (b : ℤ), nab (n, a, b)) := by sorry. Answer Type: ((ℤ × ℤ) → ℤ) × ((ℤ × ℤ) → ℤ). 
+Let \(T_k = \frac{k^2+k}{2}\). The condition `nab (n,a,b)` is exactly
+\[
+n=T_a+T_b.
+\]
+
+A standard identity is
+\[
+4(T_a+T_b)+1=(a+b+1)^2+(a-b)^2.
+\]
+Indeed,
+\[
+(a+b+1)^2+(a-b)^2
+=2a^2+2a+2b^2+2b+1
+=4\left(\frac{a^2+a}{2}+\frac{b^2+b}{2}\right)+1.
+\]
+So the forward map should be
+\[
+x=a+b+1,\qquad y=a-b.
+\]
+
+Conversely, if
+\[
+x^2+y^2=4n+1,
+\]
+then the RHS is odd, so \(x,y\) have opposite parity. Hence
+\[
+a=\frac{x+y-1}{2},\qquad b=\frac{x-y-1}{2}
+\]
+are integers, and reversing the above identity gives \(n=T_a+T_b\).
+
+So the required pair of functions is:
+- first component: \((a,b)\mapsto a+b+1\),
+- second component: \((a,b)\mapsto a-b\).
+
+<<<((fun ab : ℤ × ℤ => ab.1 + ab.2 + 1), (fun ab : ℤ × ℤ => ab.1 - ab.2))>>>

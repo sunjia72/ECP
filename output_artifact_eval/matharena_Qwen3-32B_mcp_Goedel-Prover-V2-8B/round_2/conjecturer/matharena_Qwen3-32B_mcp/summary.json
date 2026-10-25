@@ -1,0 +1,47 @@
+[
+  {
+    "name": "P2026HMMT_2",
+    "round": 2,
+    "actual_answer": "420261",
+    "proposed_answer": "606202",
+    "answer_ok": "True",
+    "answer_error": "",
+    "is_equivalent": "False",
+    "explanation": "answer passed Lean syntax and canonical admissibility checks",
+    "answer_construction_runtime_sec": 543.650564,
+    "answer_construction_output_tokens": 14239,
+    "answer_construction_tool_calls": 2,
+    "answer_construction_api_calls": 3,
+    "answer_construction_llm_calls": 1
+  },
+  {
+    "name": "P2026HMMT_5",
+    "round": 2,
+    "actual_answer": "1230",
+    "proposed_answer": "450",
+    "answer_ok": "True",
+    "answer_error": "",
+    "is_equivalent": "False",
+    "explanation": "answer passed Lean syntax and canonical admissibility checks",
+    "answer_construction_runtime_sec": 1141.910291,
+    "answer_construction_output_tokens": 14783,
+    "answer_construction_tool_calls": 1,
+    "answer_construction_api_calls": 2,
+    "answer_construction_llm_calls": 1
+  },
+  {
+    "name": "P2026HMMT_7",
+    "round": 2,
+    "actual_answer": "(3 + Real.sqrt 6) ^ ((-1 : ℝ) / 3)",
+    "proposed_answer": "(3 - 10 * √6) / 3",
+    "answer_ok": "True",
+    "answer_error": "",
+    "is_equivalent": "False",
+    "explanation": "answer passed Lean syntax and canonical admissibility checks",
+    "answer_construction_runtime_sec": 1002.032689,
+    "answer_construction_output_tokens": 26711,
+    "answer_construction_tool_calls": 2,
+    "answer_construction_api_calls": 5,
+    "answer_construction_llm_calls": 3
+  }
+]

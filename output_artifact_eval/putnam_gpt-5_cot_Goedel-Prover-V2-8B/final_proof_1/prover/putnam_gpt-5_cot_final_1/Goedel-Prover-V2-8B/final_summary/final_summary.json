@@ -1,0 +1,1386 @@
+[
+  {
+    "name": "putnam_1962_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1962_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1963_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1963_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1963_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1963_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1964_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1964_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1965_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1965_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1965_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1965_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1967_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1967_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1968_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1968_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1968_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1968_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1969_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1969_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1970_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1970_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1971_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1971_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1971_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1972_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1972_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1973_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1973_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1973_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1974_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1974_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1974_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1974_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1974_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1974_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1975_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1975_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1975_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1975_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1975_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1975_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1975_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1976_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1976_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1976_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1976_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1976_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1977_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1977_a2",
+    "is_solved": "True"
+  },
+  {
+    "name": "putnam_1977_a3",
+    "is_solved": "True"
+  },
+  {
+    "name": "putnam_1977_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1977_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1977_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1977_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1978_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1978_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1978_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1979_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1979_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1979_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1979_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1979_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1979_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1980_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1980_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1980_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1980_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1980_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1980_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1981_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1981_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1981_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1981_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1981_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1981_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1981_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1982_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1982_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1982_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1982_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1982_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1982_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1983_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1983_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1983_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1983_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1983_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1984_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1984_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1984_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1984_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1984_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1984_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1984_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1984_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1985_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1985_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1985_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1985_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1985_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1985_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1985_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1985_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1986_a1",
+    "is_solved": "True"
+  },
+  {
+    "name": "putnam_1986_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1986_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1986_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1986_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1986_b1",
+    "is_solved": "True"
+  },
+  {
+    "name": "putnam_1986_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1986_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1986_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1987_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1987_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1987_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1987_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1987_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1987_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1988_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1988_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1988_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1988_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1988_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1988_b2",
+    "is_solved": "True"
+  },
+  {
+    "name": "putnam_1988_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1988_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1989_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1989_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1989_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1989_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1989_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1989_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1990_a1",
+    "is_solved": "True"
+  },
+  {
+    "name": "putnam_1990_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1990_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1990_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1990_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1990_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1990_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1990_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1991_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1991_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1991_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1991_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1991_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1991_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1991_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1992_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1992_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1992_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1992_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1992_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1992_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1992_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1993_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1993_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1993_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1994_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1994_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1994_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1995_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1995_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1995_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1995_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1996_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1996_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1996_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1996_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1996_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1996_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1996_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1997_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1997_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1997_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1997_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1997_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1998_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1998_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1998_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1998_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1998_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1999_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1999_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1999_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_1999_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2000_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2001_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2001_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2001_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2001_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2001_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2002_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2002_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2003_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2003_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2003_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2003_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2004_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2004_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2004_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2005_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2005_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2005_b1",
+    "is_solved": "True"
+  },
+  {
+    "name": "putnam_2005_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2005_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2006_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2006_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2006_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2006_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2006_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2006_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2006_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2006_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2007_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2007_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2007_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2007_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2007_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2007_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2008_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2008_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2008_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2008_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2008_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2009_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2009_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2009_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2009_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2009_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2009_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2009_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2009_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2010_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2010_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2010_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2010_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2010_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2010_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2010_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2011_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2011_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2011_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2011_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2011_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2011_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2012_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2012_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2012_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2012_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2012_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2013_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2013_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2013_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2014_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2014_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2014_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2014_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2014_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2014_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2015_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2015_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2015_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2015_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2015_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2015_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2015_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2015_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2016_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2017_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2017_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2017_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2017_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2018_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2018_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2018_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2018_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2018_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2019_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2020_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2020_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2020_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2020_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2020_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2020_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2020_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2021_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2021_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2021_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2021_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2021_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2021_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2021_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2021_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2022_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_b2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_b5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2023_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_a1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_a6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_b1",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_b4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2024_b6",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2025_a2",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2025_a3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2025_a4",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2025_a5",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2025_b3",
+    "is_solved": "False"
+  },
+  {
+    "name": "putnam_2025_b6",
+    "is_solved": "False"
+  }
+]
